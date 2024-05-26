@@ -3,98 +3,34 @@
 <head>
     <title>Iniciar sesión</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('pregunta2.1.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
     <link rel="stylesheet" href="../public/css/style.css">
     <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
 </head>
-<body class="d-flex align-items-center" >
+<body class="d-flex align-items-center">
 <div class="container">
     <div class="row justify-content-center">
+        <form class="form" action="/login/ingresarlogin" method="POST">
+            <span class="text-center h1 py-2 iniciarSesion">INICIAR SESIÓN</span>
 
-            <form class="form" action="/login/ingresarlogin" method="POST">
-                <span class=" text-center h1 py-2 iniciarSesion"  >INICIAR SESIÓN</span>
+            <label for="username" class="label" id="username" name="username" required>Correo electrónico</label>
+            <input type="text" id="username" name="username" required="" class="input" placeholder="usuario123@gmail.com">
+            <label for="password" class="label">Contraseña</label>
+            <input type="password" id="password" name="password" required="" class="input" placeholder="*****">
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="long" name="long">
 
-                <label for="username" class="label" id="username"  name="username" required >Correo electronico</label>
-                <input type="text"  id="username" name="username" required="" class="input" placeholder="usuario123@gmail.com">
-                <label for="password" class="label" >Contraseña</label>
-                <input type="password" id="password" name="password" required="" class="input" placeholder="*****">
-                <input type="hidden" id="lat" name="lat">
-                <input type="hidden" id="long" name="long">
-
-                <button type="submit" class="btn btn-light btn-outline-secondary">Iniciar sesion</button>
-                <p class="mt-3 text-center text-secondary" >¿No tenés una cuenta? <a href="/register/register" style="text-decoration:none;">Registrate</a></p>
-            </form>
-        </div>
+            <button type="submit" class="btn btn-light btn-outline-secondary">Iniciar sesión</button>
+            <p class="mt-3 text-center text-secondary">¿No tenés una cuenta? <a href="/register/register" style="text-decoration:none;">Registrate</a></p>
+        </form>
     </div>
 </div>
-
-<style>
-
-    html, body {
-        width: 100%;
-        height: 100%;
-
-    }
-
-    body {
-        background-image: url('./pregunta2.1.jpg');
-        background-repeat: no-repeat; /* Evita la repetición de la imagen */
-        background-size: cover; /* Hace que la imagen de fondo cubra todo el contenedor */
-    }
-
-
-    .errorcontainer{
-        max-width: 320px
-    }
-
-    .form {
-        max-width: 320px;
-        width: 100%;
-        background-color: #fff;
-        padding: 20px;
-        box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
-        display: flex;
-        flex-direction: column;
-        border-radius: 10px;
-    }
-
-    .title {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: #1a202c;
-    }
-
-    .iniciarSesion{
-        font-size: 1.5em;
-    }
-
-
-    .input {
-        padding: 10px;
-        margin-bottom: 20px;
-        width: 100%;
-        font-size: 1rem;
-        color: #4a5568;
-        outline: none;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .input:focus {
-        background-color: #fff;
-        box-shadow: 0 0 0 2px #cbd5e0;
-    }
-
-    .input:valid {
-        border: 1px solid #007bff;
-    }
-
-    .input:invalid {
-        border: 1px solid rgba(14, 14, 14, 0.205);
-    }
-
-</style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
