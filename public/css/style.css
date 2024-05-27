@@ -62,9 +62,7 @@ html, body {
     box-shadow: 0 0 0 2px #cbd5e0;
 }
 
-.input:valid {
-    border: 1px solid #007bff;
-}
+
 
 .input:invalid {
     border: 1px solid rgba(14, 14, 14, 0.205);
@@ -106,4 +104,7 @@ html, body {
     text-align: center;
 }
 
-
+body {
+    background-image: url('public/img/registro.jpg');
+    background-size: cover;
+}
