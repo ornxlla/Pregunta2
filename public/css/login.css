@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    //background-image: url('public/img/pregunta2.jpg');
+    margin: 0;
+    padding: 0;
+    background-color:blue;
+}
+
+.login {
+    width: 300px;
+    margin: 100px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login .input-group {
+    margin-bottom: 15px;
+}
+
+.login .input-group label {
+    font-weight: bold;
+}
+
+.login .input-group input[type="text"],
+.login .input-group input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.login button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.login button:hover {
+    background-color: #45a049;
+}
+
+h3.necesitasCuenta{
+    font-size: 0.8em;
+    text-align: center;
+}
+.registrarse {
+
+    text-decoration: none;
+    color: blueviolet;
+    font-size: 0.1em;
+}
