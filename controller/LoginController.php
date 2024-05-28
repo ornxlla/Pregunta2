@@ -8,18 +8,22 @@ class LoginController {
         $this->model = $model;
     }
 
+    public function toLogin(){
+        $this->presenter->render("LoginView");
+    }
+
     public function procesar()
     {
         if (isset($_POST["enviar"])) {
             if (isset($_POST["username"]) && isset($_POST["password"]) && !empty($_POST["username"]) && !empty($_POST["password"])) {
                 $username = $_POST["username"];
-                $password = $_POST["pw"];
+                $password = $_POST["password"];
                 $resultado = $this->model->validarCredenciales($username, $password);
 
                 if (!empty($resultado)) {
                     $credencialesValidas = false;
                     foreach ($resultado as $fila) {
-                        if ($fila["username"] === $username && $fila["password"] === $password) {
+                        if ($fila["nombre_usuario"] === $username && $fila["contrasenia"] === $password) {
                             // Las credenciales son válidas
                             $credencialesValidas = true;
                             // Iniciar sesión
@@ -27,9 +31,9 @@ class LoginController {
                             if ($sesionIniciada === PHP_SESSION_ACTIVE) {
                                     $data["usuario"] = $this->model->getUsuario($username);
                                     $this->presenter->render("homeUserLogueado", $data);
-
                             } else {
                                 $data["error"] = "Error al iniciar sesión";
+                                $this->presenter->render("LoginView", $data);
                             }
 
                         }
@@ -37,22 +41,23 @@ class LoginController {
                     // Si las credenciales no coinciden con ningún registro en la base de datos
                     if (!$credencialesValidas) {
                         $data["error"] = "Las credenciales son incorrectas";
-                        $this->presenter->render("iniciarSesion", $data);
+                        $this->presenter->render("LoginView", $data);
                     }
                 } else {
                     // Si no se encontraron resultados en la base de datos
                     $data["error"] = "Las credenciales son incorrectas";
-                    $this->presenter->render("iniciarSesion", $data);
+                    $this->presenter->render("LoginView", $data);
                 }
             } else {
                 // Si los campos del formulario están vacíos
                 $data["error"] = "Los campos no pueden estar vacíos";
-                $this->presenter->render("iniciarSesion", $data);
+                $this->presenter->render("LoginView", $data);
             }
         }
     }
     public function iniciarSesion($username, $password)
     {
+        session_start();
         $_SESSION["nombreUser"] = $username;
         $_SESSION["pw"] = $password;
         return session_status();

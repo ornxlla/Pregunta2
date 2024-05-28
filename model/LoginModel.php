@@ -11,7 +11,7 @@ class LoginModel
 
     public function validarCredenciales($username, $password)
     {
-        $query = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND contrasena = '$password'";
+        $query = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND contrasenia = '$password'";
         return $this->database->query($query);
     }
 

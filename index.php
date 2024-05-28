@@ -6,7 +6,7 @@ $configuration = new Configuration();
 $router = $configuration->getRouter();
 
 $module = $_GET['module'] ?? 'preguntados';
-$method = $_GET['action'] ?? 'getUsuario';
+$method = $_GET['action'] ?? 'toLogin';
 $username = $_GET['username'] ?? null;
 
 if ($username) {

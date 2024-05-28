@@ -1,14 +1,14 @@
 <?php
 
 use controller\RegistroController;
-use controller\UserController;
-use model\UserModel;
+use model\RegistroModel;
+//use controller\LoginController;
+//use model\LoginModel;
 
 include_once("controller/LoginController.php");
 include_once("controller/RegistroController.php");
 include_once("model/LoginModel.php");
 include_once("model/RegistroModel.php");
-
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");

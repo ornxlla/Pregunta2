@@ -41,6 +41,14 @@ CREATE TABLE `usuario` (
   `ciudad` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `país`, `ciudad`) VALUES
+    (1, 'test1', 0, 'test1@gmail.com', '1234', 'Señor Testing', '2024-05-28', 'M', '', 'Argentina', 'Buenos Aires');
+
 --
 -- Índices para tablas volcadas
 --

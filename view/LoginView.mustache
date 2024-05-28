@@ -6,6 +6,11 @@
 </head>
 <body class="d-flex align-items-center" >
 <div class="container">
+{{#error}}
+    <div class="errorcontainer">
+        <h1>{{error}}</h1>
+    </div>
+{{/error}}
     <div class="row justify-content-center">
 
         <form class="form" action="index.php?action=procesar" method="POST">
