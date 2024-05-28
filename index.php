@@ -1,30 +1,16 @@
 <?php
-session_start();
-include 'configuration.php';
+session_status();
+include_once('Configuration.php');
 
-$controller = isset($_GET['controller']) ? $_GET['controller'] : 'login';
-$action = isset($_GET['action']) ? $_GET['action'] : 'index';
+$configuration = new Configuration();
+$router = $configuration->getRouter();
 
-$controllerFile = "controller/{$controller}Controller.php";
+$module = $_GET['module'] ?? 'preguntados';
+$method = $_GET['action'] ?? 'getUsuario';
+$username = $_GET['username'] ?? null;
 
-if (file_exists($controllerFile)) {
-
-    include_once $controllerFile;
-
-    $controllerClass = ucfirst($controller) . 'Controller';
-
-    if (class_exists($controllerClass)) {
-        $controllerObj = new $controllerClass();
-
-        if (method_exists($controllerObj, $action)) {
-            $controllerObj->$action();
-        } else {
-            echo "Error: Acción no encontrada.";
-        }
-    } else {
-        echo "Error: Clase del controlador no encontrada.";
-    }
+if ($username) {
+    $router->route($module, $method, $username);
 } else {
-    echo "Error: Controlador no encontrado.";
+    $router->route($module, $method);
 }
-?>

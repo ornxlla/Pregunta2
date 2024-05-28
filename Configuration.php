@@ -1,10 +1,13 @@
 <?php
 
+use controller\RegistroController;
 use controller\UserController;
 use model\UserModel;
 
-include_once("controller/UserController.php");
-include_once("model/UserModel.php");
+include_once("controller/LoginController.php");
+include_once("controller/RegistroController.php");
+include_once("model/LoginModel.php");
+include_once("model/RegistroModel.php");
 
 
 include_once("helper/Database.php");
@@ -18,17 +21,26 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 class Configuration
 {
     // CONTROLLERS
-    public static function getUserController()
+    public static function getLoginController()
     {
-        return new UserController(self::getPresenter(), self::getUserModel());
+        return new LoginController(self::getPresenter(), self::getLoginModel());
+    }
+    public static function getRegisterController()
+    {
+        return new RegistroController(self::getPresenter(), self::getRegistroModel());
     }
 
 
     // MODELS
-    private static function getUserModel()
+    private static function getLoginModel()
     {
-        return new UserModel(self::getDatabase());
+        return new LoginModel(self::getDatabase());
     }
+    private static function getRegistroModel()
+    {
+        return new RegistroModel(self::getDatabase());
+    }
+
 
 
     // HELPERS
@@ -45,7 +57,7 @@ class Configuration
 
     public static function getRouter()
     {
-        return new Router("getUserController", "getUsuario");
+        return new Router("getLoginController", "getRouter");
     }
 
     private static function getPresenter()
