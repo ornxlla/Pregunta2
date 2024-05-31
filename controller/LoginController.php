@@ -40,12 +40,12 @@ class LoginController {
                     }
                     // Si las credenciales no coinciden con ningún registro en la base de datos
                     if (!$credencialesValidas) {
-                        $data["error"] = "Las credenciales son incorrectas";
+                        $data["error"] = "Las credenciales son incorrectas!";
                         $this->presenter->render("LoginView", $data);
                     }
                 } else {
                     // Si no se encontraron resultados en la base de datos
-                    $data["error"] = "Las credenciales son incorrectas";
+                    $data["error"] = "Las credenciales son incorrectas!";
                     $this->presenter->render("LoginView", $data);
                 }
             } else {

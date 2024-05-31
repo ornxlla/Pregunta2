@@ -6,11 +6,19 @@ $configuration = new Configuration();
 $router = $configuration->getRouter();
 
 $module = $_GET['module'] ?? 'preguntados';
-$method = $_GET['action'] ?? 'toLogin';
+$action = $_GET['action'] ?? 'toLogin'; // Acción predeterminada
+
+if ($action === 'toRegistro') {
+    // Si la acción es 'toRegistro', redirige a la página de registro
+    header('Location: registroView.mustache');
+    exit();
+}
+
 $username = $_GET['username'] ?? null;
 
 if ($username) {
-    $router->route($module, $method, $username);
+    $router->route($module, $action, $username);
 } else {
-    $router->route($module, $method);
+    $router->route($module, $action);
 }
+?>

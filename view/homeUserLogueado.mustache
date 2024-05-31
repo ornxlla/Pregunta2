@@ -1,6 +1,203 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/home.css">
+    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('public/img/fondo.png');
+        }
+
+        header {
+            background-color: white;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+            text-align: center;
+        }
+
+        .probando {
+            color: black;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #343434;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-align: end;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 200px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        button {
+            background-color: #00b4d8;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0077b6;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .puntaje {
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        .buttons-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .buttons-container button {
+            margin: 0 10px;
+        }
+
+
+        footer {
+            background-color: white;
+            width: 100%;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+
+        .acomodarFooter {
+            margin: 1rem;
+            align-items: center;
+        }
+
+        .drev {
+            color:#343434;
+            font-family: "Poppins", sans-serif;
+            text-align: center;
+        }
+
+        .puntaje{
+            color: white;
+            font-size: 1.5em;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            margin: 1em;
+        }
+
+        .btn-custom {
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: black;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            text-decoration: none;
+        }
+
+
+        header {
+            background-color: #f8f9fa;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .header-content img {
+            margin-right: 20px;
+        }
+
+        .probando {
+            margin: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <div>
+            <img src="public/img/logo.png" alt="Logo">
+        </div>
+        {{#usuario}}
+            <h1 class="probando">¡Bienvenido {{nombre_usuario }} !</h1>
+        {{/usuario}}
+    </div>
+</header>
+
+<main>
     {{#usuario}}
-    <h1>Bienvenido, {{nombre_usuario}}</h1>
-    <p>Este es tu panel de usuario.</p>
+        <h1 class="puntaje">MI PUNTAJE: {{puntaje}}</h1>
     {{/usuario}}
-</div>
+    <div class="buttons-container">
+        <a href="crear_partida.php" class="btn-custom">Nueva Partida</a>
+        <a href="ranking.php" class="btn-custom">Ranking</a>
+    </div>
+
+    <h2 class="puntaje">Tus partidas</h2>
+    <ul>
+        {{# partidas }}
+            <li>{{ resultado }}</li>
+        {{/ partidas }}
+    </ul>
+</main>
+<footer>
+    <div class="acomodarFooter">
+        <div class="seccion1Footer">
+
+        </div>
+        <div class="drev">
+            <p>Derechos Reservados ©2024 Preguntados. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
+
