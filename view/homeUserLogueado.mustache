@@ -156,6 +156,10 @@
             margin: 0;
         }
 
+        .imagenPerfil{
+            width: 70px;
+            border-radius: 50%;
+        }
 
     </style>
 </head>
@@ -166,7 +170,11 @@
             <img src="public/img/logo.png" alt="Logo">
         </div>
         {{#usuario}}
-            <h1 class="probando">¡Bienvenido {{nombre_usuario }} !</h1>
+            <img class="imagenPerfil" src="./public/img/{{imagen_perfil}}">
+            <a href="./index.php?action=perfil-usuario&id_usuario={{id_usuario}}">
+            <h1 class="probando">Mi perfil</h1>
+            </a>
+
         {{/usuario}}
     </div>
 </header>

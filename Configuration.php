@@ -30,7 +30,10 @@ class Configuration
         return new RegistroController(self::getPresenter(), self::getRegistroModel());
     }
 
-
+    public static function getPerfilUsuarioController()
+    {
+        return new PerfilUsuarioController(self::getPresenter(), self::getPerfilUsuarioModel());
+    }
     // MODELS
     private static function getLoginModel()
     {
@@ -41,6 +44,10 @@ class Configuration
         return new RegistroModel(self::getDatabase());
     }
 
+    private static function getPerfilUsuarioModel()
+    {
+        return new PerfilUsuarioModel(self::getDatabase());
+    }
 
 
     // HELPERS
