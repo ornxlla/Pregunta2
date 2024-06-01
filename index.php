@@ -5,15 +5,19 @@ include_once('Configuration.php');
 $configuration = new Configuration();
 $router = $configuration->getRouter();
 
-$module = $_GET['module'] ?? 'preguntados';
+$module = $_GET['module'] ?? 'login';
 $action = $_GET['action'] ?? 'toLogin'; // Acción predeterminada
 
-if ($action === 'toRegistro') {
-    // Si la acción es 'toRegistro', redirige a la página de registro
-    header('Location: registroView.mustache');
-    exit();
+switch ($action) {
+    case 'registro':
+        $module = "registro";
+        $action = "get";
+        break;
+    case 'procesarAlta':
+        $module = "registro";
+        $action = "procesarAlta";
+        break;
 }
-
 $username = $_GET['username'] ?? null;
 
 if ($username) {

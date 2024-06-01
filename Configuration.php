@@ -25,7 +25,7 @@ class Configuration
     {
         return new LoginController(self::getPresenter(), self::getLoginModel());
     }
-    public static function getRegisterController()
+    public static function getRegistroController()
     {
         return new RegistroController(self::getPresenter(), self::getRegistroModel());
     }
