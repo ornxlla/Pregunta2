@@ -18,12 +18,14 @@ class RegistroModel
     {
         //ARREGLAR SQL
         $sql = 'INSERT INTO USUARIO
-        ( nombre_completo, nombre_usuario, anio_nacimiento, genero, mail, contrasenia, imagen_perfil, país, ciudad)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        ( nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, país, ciudad)
+        VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $stmt = $this->database->prepare($sql);
 
+        $rol = 0;
+
         if ($stmt) {
-            $stmt->bind_param( $nombre, $username, $year, $genero, $email, $password, $nombreImagen, $pais, $ciudad );
+            $stmt->bind_param("sissssssss", $username, $rol , $email, $password, $nombre, $year, $genero, $nombreImagen, $pais, $ciudad);
             return $stmt->execute();
         } else {
             return false;

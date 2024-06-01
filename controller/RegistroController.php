@@ -36,11 +36,11 @@ class RegistroController
                 $genero = $_POST["genero"];
                 $email = $_POST["email"];
                 $password = $_POST["password"];
-                $pais = $_POST["pais"];
-                $ciudad = $_POST["ciudad"];
+                //$pais = $_POST["pais"];
+                //$ciudad = $_POST["ciudad"];
                 //PARA TESTING
-                //$pais = "Argentina";
-                //$ciudad = "Buenos Aires";
+                $pais = "Argentina";
+                $ciudad = "Buenos Aires";
                 $estadoImagen = $this->subirArchivo();
 
                 if ($estadoImagen != 2) {
@@ -48,19 +48,36 @@ class RegistroController
                     $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen);
                     if ($resultado) {
                         $data["altaOk"] = "Los datos fueron ingresados correctamente";
+                        $data["numVal"] = $this->getNumeroValidacion($username);
+                        $this->presenter->render("usuarioRegistradoView", $data);
                     } else {
                         $data["error"] = "Los datos no pudieron ser ingresados";
+                        $this->presenter->render("registroView", $data);
                     }
                 } else {
                     $data["error"] = "Error al subir la imagen";
+                    $this->presenter->render("registroView", $data);
                 }
             } else {
                 $data["error"] = "Los campos no pueden estar vacíos - " . $_POST["nombre"] . " - " . $_POST["username"] . " - " . $_POST["year"] . " - " . $_POST["genero"] . " - " . $_POST["email"] . " - " . $_POST["password"] . " - " . $_POST["imagen"];
+                $this->presenter->render("registroView", $data);
             }
 
-            $this->presenter->render("registroView", $data);
-
         }
+    }
+
+    public function getNumeroValidacion($username){
+        return $username;
+    }
+
+    public function validacion(){
+        if(isset($_GET["code"])){
+            //TO-DO - Toda la logica de validacion
+            $code = $_GET["code"];
+            $data["validar"] = $code;
+            $this->presenter->render("usuarioRegistradoView", $data);
+        }
+
     }
 
     public function subirArchivo(){

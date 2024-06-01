@@ -17,6 +17,10 @@ switch ($action) {
         $module = "registro";
         $action = "procesarAlta";
         break;
+    case 'validacion':
+        $module = "registro";
+        $action = "validacion";
+        break;
 }
 $username = $_GET['username'] ?? null;
 
