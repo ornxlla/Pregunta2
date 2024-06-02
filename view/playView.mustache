@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/home.css">
+    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
+    <title>Home</title>
+</head>
+
+    <div class="container">
+        <div class="text-center">
+            <div class="text-center card">
+                <h1 class="mb-2 mt-3 py-4 text-center border rounded contesta"  >CATEGORIA</h1>
+                <h4 class="tiempo">Tiempo restante: <span id="temporizador" class="text-danger">  {{!{{tiempoRestante}}</span> segundos</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{! {{#preguntas}}
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h3 class="card-title">Pregunta</h3>
+                            <p class="card-text">  {{!{{Pregunta_texto}}</p>
+                            <p class="card-text">Dificultad de la pregunta:   {{!{{Dificultad}}</p>
+                            <form action="/play/enviarPreguntaReportada?preguntaID=  {{!{{Pregunta_ID}}" method="POST">
+                            <button type="submit" class="btn btn-danger mt-3">Reportar Pregunta</button>
+                            </form>
+                        </div>
+                    </div>
+
+                <div class="card mt-3">
+                <div class="card-body">
+                    <h3 class="resp">Respuesta correcta</h3>
+                    <form action="/play/validarRespuesta?preguntaID=  {{!{{Pregunta_ID}}&puntos=  {{!{{Puntos}}" method="POST" id="formularioPlay"">
+                    {{! {{/preguntas}}
+{{! {{#respuestas}}
+                    <div class="radio-container">
+                        <label class="radio-button py-2" for="respuesta  {{!{{Respuesta_ID}}">
+                            <input name="respuestaID" value="  {{!{{Respuesta_ID}}" id="respuesta  {{!{{Respuesta_ID}}" type="radio">
+                            <span class="radio-checkmark"></span>
+                            <span class="radio-label">  {{!{{Respuesta_texto}}</span>
+                        </label>
+                    </div>
+                    {{!{{/respuestas}}
+                <input type="submit" class="btn btn-light mt-3 btn-outline-secondary" value="Enviar" style="padding: 8px 20px;">
+                </form>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            iniciarTemporizador();
+        });
+    </script>
+
+    <script src="../public/js/AjaxPartida.js"></script>
+
+    <style>
+
+
+
+
+    .radio-container {
+        color: black;
+    }
+
+    .radio-wrapper {
+        margin-bottom: 20px;
+    }
+
+    .radio-button {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .radio-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .radio-button input[type="radio"] {
+        display: none;
+    }
+
+    .radio-checkmark {
+        display: inline-block;
+        position: relative;
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+        border: 2px solid #6c757d;
+        border-radius: 50%;
+    }
+
+    .radio-checkmark:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #6c757d;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .radio-button input[type="radio"]:checked ~ .radio-checkmark:before {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .radio-label {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+
+     body {
+         font-family: Arial, sans-serif;
+         margin: 0;
+         padding: 0;
+         background-image: url('../public/img/fondo.png');
+     }
+        .contesta{
+            background-color: white;
+            color:black;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+
+        .tiempo{
+            color: white;
+        }
+
+    h3.card-title {
+        text-align: center;
+    }
+
+        .resp{
+            text-align: center;
+        }
+
+    .card{
+        border-radius: 1.5em;
+    }
+
+</style>
+
+</html>
+{{> footer}}
