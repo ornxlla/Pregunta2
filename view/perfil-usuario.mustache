@@ -1,0 +1,20 @@
+{{#usuario}}
+    <div class="datos">
+        <div class="nombrePrincipales">
+            <h1>¡Hola {{nombre_usuario}}</h1>
+            <h3>Mail: {{mail}}</h3>
+            <h3>Nombre completo: {{nombre_completo}}</h3>
+            <h3>Calendario: {{anio_nacimiento}}</h3>
+            <h3>Contraseña: ********</h3>
+            <h3>Genero: {{genero}}</h3>
+            <h3>Pais: {{pais}}</h3>
+            <h3>Ciudad: {{ciudad}}</h3>
+        </div>
+        <div>
+            <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil">
+        </div>
+        <div class="botonEditar">
+            <a href="#">Editar datos</a>
+        </div>
+    </div>
+{{/usuario}}
