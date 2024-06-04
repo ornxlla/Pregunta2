@@ -1,13 +1,14 @@
 <?php
-session_status();
+session_start();
 include_once('Configuration.php');
 
 $configuration = new Configuration();
 $router = $configuration->getRouter();
 
-$module = $_GET['module'] ?? 'login';
-$action = $_GET['action'] ?? 'toLogin'; // Acción predeterminada
+$module = $_GET['controller'] ?? 'login';
+$action = $_GET['method'] ?? 'get'; // Acción predeterminada
 
+/*
 switch ($action) {
     case 'registro':
         $module = "registro";
@@ -21,17 +22,10 @@ switch ($action) {
         $module = "registro";
         $action = "validacion";
         break;
-    case 'play':
-        $module = "play";
-        $action = "get";
-        break;
+}*/
 
-}
 $username = $_GET['username'] ?? null;
 
-if ($username) {
-    $router->route($module, $action, $username);
-} else {
-    $router->route($module, $action);
-}
+$router->route($module, $action);
+
 ?>

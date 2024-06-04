@@ -9,6 +9,7 @@ class PerfilUsuarioModel
     }
     public function getUsuarioLogueado($id_usuario)
     {
-        return $this->database->query('SELECT * FROM usuario WHERE id_usuario = $id_usuario');
+        $sql = "SELECT * FROM usuario WHERE id_usuario = $id_usuario";
+        return $this->database->query($sql);
     }
 }

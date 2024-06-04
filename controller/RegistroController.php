@@ -16,6 +16,9 @@ class RegistroController
         $this->presenter->render("registroView");
     }
 
+    public function saluda(){
+        echo "hola";
+    }
     public function getRegistros(){
         $data["usuario"] = $this->model->getUsuarioRegistrados();
         $this->presenter->render("usuario", $data);

@@ -7,9 +7,12 @@ use model\RegistroModel;
 
 include_once("controller/LoginController.php");
 include_once("controller/RegistroController.php");
+include_once("controller/PerfilUsuarioController.php");
 include_once("model/LoginModel.php");
 include_once("model/RegistroModel.php");
-
+include_once("model/PerfilUsuarioModel.php");
+include_once("model/PlayModel.php");
+include_once("controller/PlayController.php");
 include_once("helper/Database.php");
 include_once("helper/Router.php");
 include_once("helper/Redirect.php");
@@ -25,6 +28,7 @@ class Configuration
     {
         return new LoginController(self::getPresenter(), self::getLoginModel());
     }
+
     public static function getRegistroController()
     {
         return new RegistroController(self::getPresenter(), self::getRegistroModel());
@@ -34,11 +38,18 @@ class Configuration
     {
         return new PerfilUsuarioController(self::getPresenter(), self::getPerfilUsuarioModel());
     }
+
+    public static function getPlayController()
+    {
+        return new PerfilUsuarioController(self::getPresenter(), self::getPlayModel());
+    }
+
     // MODELS
     private static function getLoginModel()
     {
         return new LoginModel(self::getDatabase());
     }
+
     private static function getRegistroModel()
     {
         return new RegistroModel(self::getDatabase());
@@ -49,6 +60,10 @@ class Configuration
         return new PerfilUsuarioModel(self::getDatabase());
     }
 
+    private static function getPlayModel()
+    {
+        return new PerfilUsuarioModel(self::getDatabase());
+    }
 
     // HELPERS
     public static function getDatabase()
@@ -67,8 +82,11 @@ class Configuration
         return new Router("getLoginController", "getRouter");
     }
 
+
+
     private static function getPresenter()
     {
         return new MustachePresenter("view/template");
     }
+
 }

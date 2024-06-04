@@ -10,8 +10,9 @@ class PerfilUsuarioController
     public function toPerfilUsuario(){
         $this->presenter->render("perfil-usuario");
     }
-    public function getUsuario($id_usuario)
+    public function getUsuario()
     {
-        this->model->getUsuarioLogueado($id_usuario);
+        $id_usuario = $_GET["id_usuario"];
+        $this->model->getUsuarioLogueado($id_usuario);
     }
 }

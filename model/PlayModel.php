@@ -10,6 +10,7 @@ class playModel
         $this->database = $database;
     }
 
+    // Obtiene una pregunta aleatoria de la base de datos
     public function getPreguntaRandom($dificultad)
     {
         if ($dificultad != NULL) {
@@ -36,12 +37,14 @@ class playModel
 
     }
 
+    // Obtiene las respuestas asociadas a una pregunta
     public function getRespuestas($pregunta)
     {
         $sql = "SELECT * FROM Respuesta WHERE Pregunta_ID = $pregunta ORDER BY RAND()";
         return $this->database->query($sql);
     }
 
+    // Marca una pregunta como utilizada
     public function marcarPreguntaUtilizada($preguntaID)
     {
         $sql = "UPDATE Preguntas SET Utilizada = 1 WHERE Pregunta_ID = $preguntaID";
@@ -67,12 +70,15 @@ class playModel
         return $puntaje[0]['puntuacion_actual'];
     }
 
+
+    // Actualiza el puntaje de un usuario
     public function guardarPuntaje($userID, $puntaje)
     {
         $sql = "UPDATE usuarios SET puntuacion_actual = $puntaje WHERE id = $userID";
         return $this->database->update($sql);
     }
 
+    // Obtiene el puntaje más alto de un usuario
     public function getPuntajeMasAlto($userID)
     {
         $sql = "SELECT puntuacion_masalta FROM usuarios WHERE id = $userID";
