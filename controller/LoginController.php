@@ -12,6 +12,10 @@ class LoginController {
         $this->presenter->render("LoginView");
     }
 
+    public function saludaHome(){
+        echo "hola home";
+    }
+
     public function procesar()
     {
         if (isset($_POST["enviar"])) {
@@ -55,9 +59,11 @@ class LoginController {
             }
         }
     }
+
+
     public function iniciarSesion($username, $password)
     {
-        session_start();
+
         $_SESSION["nombreUser"] = $username;
         $_SESSION["pw"] = $password;
         return session_status();

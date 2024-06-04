@@ -2,17 +2,23 @@
 
 class PlayController
 {
-    private $playModel;
-    private $renderer;
 
-    public function __construct($playModel, $renderer)
-    {
-        $this->playModel = $playModel;
-        $this->renderer = $renderer;
+    private $model;
+    private $presenter;
+
+    public function __construct($presenter, $model){
+        $this->presenter = $presenter;
+        $this->model = $model;
     }
+
 
     public function get(){
         $this->presenter->render("playView");
+
+    }
+
+    public function saludaPlay(){
+       echo "hola play";
 
     }
 

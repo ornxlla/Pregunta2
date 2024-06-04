@@ -13,18 +13,18 @@
         <div class="text-center">
             <div class="text-center card">
                 <h1 class="mb-2 mt-3 py-4 text-center border rounded contesta"  >CATEGORIA</h1>
-                <h4 class="tiempo">Tiempo restante: <span id="temporizador" class="text-danger">{{tiempoRestante}}</span> segundos</h4>
+                <h4 class="tiempo">Tiempo restante: <span id="temporizador" class="text-danger"> {{!{{tiempoRestante}}</span> segundos</h4>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                {{#preguntas}}
+               {{! {{#preguntas}}
                     <div class="card mt-3">
                         <div class="card-body">
                             <h3 class="card-title">Pregunta</h3>
-                            <p class="card-text">{{Pregunta_texto}}</p>
-                            <p class="card-text">Dificultad de la pregunta:{{Dificultad}}</p>
-                            <form action="/play/enviarPreguntaReportada?preguntaID={{Pregunta_ID}}" method="POST">
+                            <p class="card-text"> {{!{{Pregunta_texto}}</p>
+                            <p class="card-text">Dificultad de la pregunta:{{!{{Dificultad}}</p>
+                            <form action="/play/enviarPreguntaReportada?preguntaID={{!{{Pregunta_ID}}" method="POST">
                             <button type="submit" class="btn btn-danger mt-3">Reportar Pregunta</button>
                             </form>
                         </div>
@@ -33,17 +33,17 @@
                 <div class="card mt-3">
                 <div class="card-body">
                     <h3 class="resp">Respuesta correcta</h3>
-                    <form action="/play/validarRespuesta?preguntaID= {{Pregunta_ID}}&puntos={{Puntos}}" method="POST" id="formularioPlay"">
-                    {{/preguntas}}
-{{#respuestas}}
+                    <form action="/play/validarRespuesta?preguntaID= {{!{{Pregunta_ID}}&puntos={{Puntos}}" method="POST" id="formularioPlay"">
+                    {{!{{/preguntas}}
+{{!{{#respuestas}}
                     <div class="radio-container">
-                        <label class="radio-button py-2" for="respuesta{{Respuesta_ID}}">
-                            <input name="respuestaID" value="{{Respuesta_ID}}" id="respuesta{{Respuesta_ID}}" type="radio">
+                        <label class="radio-button py-2" for="respuesta{{!{{Respuesta_ID}}">
+                            <input name="respuestaID" value="{{!{{Respuesta_ID}}" id="respuesta{{Respuesta_ID}}" type="radio">
                             <span class="radio-checkmark"></span>
-                            <span class="radio-label"> {{Respuesta_texto}}</span>
+                            <span class="radio-label"> {{!{{Respuesta_texto}}</span>
                         </label>
                     </div>
-                    {{/respuestas}}
+                    {{!  {{/respuestas}}
                 <input type="submit" class="btn btn-light mt-3 btn-outline-secondary" value="Enviar" style="padding: 8px 20px;">
                 </form>
             </div>

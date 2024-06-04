@@ -1,8 +1,7 @@
 <?php
 
-class playModel
+class PlayModel{
 
-{
     private $database;
 
     public function __construct($database)

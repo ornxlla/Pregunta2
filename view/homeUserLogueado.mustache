@@ -12,7 +12,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('public/img/fondo.png');
+            background-image: url('/public/img/fondo.png');
         }
 
         header {
@@ -167,7 +167,7 @@
 <header>
     <div class="header-content">
         <div>
-            <img src="public/img/logo.png" alt="Logo">
+            <img src="/public/img/logo.png" alt="Logo">
         </div>
         {{#usuario}}
             <img class="imagenPerfil" src="./public/img/users/{{imagen_perfil}}">
@@ -184,7 +184,7 @@
         <h1 class="puntaje">MI PUNTAJE: {{puntaje}}</h1>
     {{/usuario}}
     <div class="buttons-container">
-        <a href="index.php/play" class="btn-custom">Nueva Partida</a>
+        <a href="/Play/get" class="btn-custom">Nueva Partida</a>
         <a href="ranking.php" class="btn-custom">Ranking</a>
     </div>
 

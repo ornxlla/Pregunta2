@@ -5,14 +5,20 @@ use model\RegistroModel;
 //use controller\LoginController;
 //use model\LoginModel;
 
+//use controller\PlayController;
+//use model\PlayModel;
+
 include_once("controller/LoginController.php");
 include_once("controller/RegistroController.php");
 include_once("controller/PerfilUsuarioController.php");
+include_once ("controller/PlayController.php");
+
+
 include_once("model/LoginModel.php");
 include_once("model/RegistroModel.php");
 include_once("model/PerfilUsuarioModel.php");
 include_once("model/PlayModel.php");
-include_once("controller/PlayController.php");
+
 include_once("helper/Database.php");
 include_once("helper/Router.php");
 include_once("helper/Redirect.php");
@@ -41,7 +47,7 @@ class Configuration
 
     public static function getPlayController()
     {
-        return new PerfilUsuarioController(self::getPresenter(), self::getPlayModel());
+        return new PlayController(self::getPresenter(), self::getPlayModel());
     }
 
     // MODELS
@@ -62,7 +68,7 @@ class Configuration
 
     private static function getPlayModel()
     {
-        return new PerfilUsuarioModel(self::getDatabase());
+        return new PlayModel(self::getDatabase());
     }
 
     // HELPERS
