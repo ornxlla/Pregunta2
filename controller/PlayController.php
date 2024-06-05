@@ -36,18 +36,20 @@ class PlayController
 
         if (!isset($_SESSION['preguntaActual'])) {
             // Obtiene el usuario actual de la sesión.
-            $usuario = $_SESSION['actualUser'];
+            $usuario = $_SESSION['Session_id'];
             // Calcula la dificultad para el usuario actual
-            $dificultadParaElUsuario = $this->playModel->calcularDificultadUsuario($usuario);
-
+            //$dificultadParaElUsuario = $this->model->calcularDificultadUsuario($usuario);
+            $dificultadParaElUsuario = "Facil";
             // Intenta obtener una pregunta aleatoria de la dificultad calculada.
             try {
-                $pregunta = $this->playModel->getPreguntaRandom($dificultadParaElUsuario);
+                $pregunta = $this->model->getPreguntaRandom($dificultadParaElUsuario);
                 $_SESSION['preguntaActual'] = $pregunta; // Guarda la pregunta actual en la sesión.
             } catch (Exception $e) {
                 // Si no puede obtener la pregunta, llama a terminarPartidaConMensaje() con u
-                $mensaje = $e->getMessage();
+                /*$mensaje = $e->getMessage();
                 $this->terminarPartidaConMensaje($mensaje);
+                return;*/
+                echo $e->getMessage();
                 return;
             }
         }
@@ -55,8 +57,10 @@ class PlayController
         //Obtiene la pregunta actual de la sesión y obtiene las respuestas posibles para esa pregunta de la base de datos.
         $pregunta = $_SESSION['preguntaActual'];
         $tematica = $pregunta['Pregunta_ID'];
-        $respuestas = $this->playModel->getRespuestas($tematica);
+        $respuestas = $this->model->getRespuestas($tematica);
         shuffle($respuestas);
+
+
 
         $data = [
             'pregunta' => $pregunta, // La pregunta actual obtenida de la sesión.
@@ -67,7 +71,7 @@ class PlayController
             'esEditor' => $_SESSION['esEditor'] ?? "",
             'esAdmin' => $_SESSION['esAdmin'] ?? "",
         ];
-        $this->renderer->render('play', $data);
+        $this->presenter->render('playView', $data);
 
     }
 
@@ -80,7 +84,7 @@ class PlayController
         }
 
         if (!isset($_POST['respuestaID'])) {
-            $this->renderer->render('perdiste', ['error_msg' => 'Tienes que seleccionar una respuesta.', 'puntaje' => $this->playModel->getPuntajeActual($_SESSION['actualUser']), 'puntajeMasAlto' => $this->playModel->getPuntajeMasAlto($_SESSION['actualUser'])]);
+            $this->presenter->render('perdiste', ['error_msg' => 'Tienes que seleccionar una respuesta.', 'puntaje' => $this->model->getPuntajeActual($_SESSION['actualUser']), 'puntajeMasAlto' => $this->model->getPuntajeMasAlto($_SESSION['actualUser'])]);
             return;
         }
 
@@ -94,27 +98,27 @@ class PlayController
         $usuario = $_SESSION['actualUser'];
         $respuestaID = $_POST['respuestaID'];
         $preguntaID = $_GET['preguntaID'];
-        $model = $this->playModel;
+        $model = $this->model;
 
         $model->marcarPreguntaUtilizada($preguntaID);
 
         $respuestaCorrecta = $model->validarRespuesta($respuestaID);
 
         if ($respuestaCorrecta) {
-            $this->playModel->incrementarContadorRespuestasCorrectas($usuario, $preguntaID);
-            $this->playModel->calcularDificultadPregunta($preguntaID);
-            $this->playModel->calcularDificultadUsuario($usuario);
+            $this->model->incrementarContadorRespuestasCorrectas($usuario, $preguntaID);
+            $this->model->calcularDificultadPregunta($preguntaID);
+            $this->model->calcularDificultadUsuario($usuario);
             if (!isset($_SESSION['puntaje'])) {
                 $_SESSION['puntaje'] = 0;
             }
             $_SESSION['puntaje']++;
             $puntajeEnPartida = $_SESSION['puntaje'];
-            $this->playModel->guardarPuntaje($_SESSION['actualUser'], $puntajeEnPartida);
+            $this->model->guardarPuntaje($_SESSION['actualUser'], $puntajeEnPartida);
             $this->jugar();
         } else {
-            $this->playModel->incrementarContadorRespuestasIncorrectas($usuario, $preguntaID);
-            $this->playModel->calcularDificultadPregunta($preguntaID);
-            $this->playModel->calcularDificultadUsuario($usuario);
+            $this->model->incrementarContadorRespuestasIncorrectas($usuario, $preguntaID);
+            $this->model->calcularDificultadPregunta($preguntaID);
+            $this->model->calcularDificultadUsuario($usuario);
             $this->terminarPartida();
         }
     }
@@ -131,67 +135,68 @@ class PlayController
 
     public function terminarPartida()
     {
-        $puntajeActual = $this->playModel->getPuntajeActual($_SESSION['actualUser']);
-        $puntajeMasAlto = $this->playModel->getPuntajeMasAlto($_SESSION['actualUser']);
+        $puntajeActual = $this->model->getPuntajeActual($_SESSION['actualUser']);
+        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
 
         if ($puntajeActual > $puntajeMasAlto) {
-            $this->playModel->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
+            $this->model->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
         }
 
-        $this->playModel->guardarPuntaje($_SESSION['actualUser'], 0);
+        $this->model->guardarPuntaje($_SESSION['actualUser'], 0);
         $_SESSION['puntaje'] = 0;
-        $puntajeMasAlto = $this->playModel->getPuntajeMasAlto($_SESSION['actualUser']);
+        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
         $_SESSION['puntajeMasAlto'] = $puntajeMasAlto;
 
-        $this->playModel->marcarPreguntasUtilizadas();
+        $this->model->marcarPreguntasUtilizadas();
 
-        $this->renderer->render('perdiste', ['puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
+        $this->presenter->render('perdiste', ['puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
     }
 
     public function terminarPartidaConMensaje($mensaje)
     {
-        $puntajeActual = $this->playModel->getPuntajeActual($_SESSION['actualUser']);
-        $puntajeMasAlto = $this->playModel->getPuntajeMasAlto($_SESSION['actualUser']);
+
+        $puntajeActual = $this->model->getPuntajeActual($_SESSION['Session_id']);
+        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['Session_id']);
 
         if ($puntajeActual > $puntajeMasAlto) {
-            $this->playModel->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
+            $this->model->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
         }
 
-        $this->playModel->guardarPuntaje($_SESSION['actualUser'], 0);
+        $this->model->guardarPuntaje($_SESSION['actualUser'], 0);
         $_SESSION['puntaje'] = 0;
-        $puntajeMasAlto = $this->playModel->getPuntajeMasAlto($_SESSION['actualUser']);
+        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
         $_SESSION['puntajeMasAlto'] = $puntajeMasAlto;
 
-        $this->playModel->marcarPreguntasUtilizadas();
+        $this->model->marcarPreguntasUtilizadas();
 
-        $this->renderer->render('perdiste', ['error_msg' => $mensaje, 'puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
+        $this->presenter->render('perdiste', ['error_msg' => $mensaje, 'puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
     }
 
     public function enviarPreguntaReportada()
     {
         $preguntaID = isset($_GET['preguntaID']) ? $_GET['preguntaID'] : 0;
 
-        $this->playModel->reportQuestion($preguntaID);
-        $this->renderer->render('reportedQuestion');
+        $this->model->reportQuestion($preguntaID);
+        $this->presenter->render('reportedQuestion');
     }
 
     public function mostrarPuntuacion()
     {
-        $puntajeActual = $this->playModel->getPuntajeActual($_SESSION['actualUser']);
-        $puntajeMasAlto = $this->playModel->getPuntajeMasAlto($_SESSION['actualUser']);
+        $puntajeActual = $this->model->getPuntajeActual($_SESSION['actualUser']);
+        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
 
         if ($puntajeActual > $puntajeMasAlto) {
-            $this->playModel->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
+            $this->model->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
         }
 
-        $this->playModel->guardarPuntaje($_SESSION['actualUser'], 0);
+        $this->model->guardarPuntaje($_SESSION['actualUser'], 0);
         $_SESSION['puntaje'] = 0;
-        $puntajeMasAlto = $this->playModel->getPuntajeMasAlto($_SESSION['actualUser']);
+        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['Session_id']);
         $_SESSION['puntajeMasAlto'] = $puntajeMasAlto;
 
-        $this->playModel->marcarPreguntasUtilizadas();
+        $this->model->marcarPreguntasUtilizadas();
 
-        $this->renderer->render('perdiste', ['puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
+        $this->model->render('perdiste', ['puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
     }
 
     public function validarTiempoPregunta($horaDeArranque){

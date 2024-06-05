@@ -8,12 +8,8 @@ class LoginController {
         $this->model = $model;
     }
 
-    public function toLogin(){
+    public function get(){
         $this->presenter->render("LoginView");
-    }
-
-    public function saludaHome(){
-        echo "hola home";
     }
 
     public function procesar()
@@ -30,8 +26,9 @@ class LoginController {
                         if ($fila["nombre_usuario"] === $username && $fila["contrasenia"] === $password) {
                             // Las credenciales son válidas
                             $credencialesValidas = true;
+                            $id_usuario = $fila["id_usuario"];
                             // Iniciar sesión
-                            $sesionIniciada = $this->iniciarSesion($username, $password);
+                            $sesionIniciada = $this->iniciarSesion($id_usuario,$username, $password);
                             if ($sesionIniciada === PHP_SESSION_ACTIVE) {
                                     $data["usuario"] = $this->model->getUsuario($username);
                                     $this->presenter->render("homeUserLogueado", $data);
@@ -61,11 +58,11 @@ class LoginController {
     }
 
 
-    public function iniciarSesion($username, $password)
+    public function iniciarSesion($id,$username, $password)
     {
-
-        $_SESSION["nombreUser"] = $username;
-        $_SESSION["pw"] = $password;
+        $_SESSION["Session_id"] = $id;
+        $_SESSION["Session_nombre"] = $username;
+        //$_SESSION["pw"] = $password;
         return session_status();
     }
 
