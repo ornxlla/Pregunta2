@@ -1,20 +1,145 @@
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
+</head>
+<body class="d-flex align-items-center" >
+
 {{#usuario}}
-    <div class="datos">
-        <div class="nombrePrincipales">
-            <h1>¡Hola {{nombre_usuario}}</h1>
-            <h3>Mail: {{mail}}</h3>
-            <h3>Nombre completo: {{nombre_completo}}</h3>
-            <h3>Calendario: {{anio_nacimiento}}</h3>
-            <h3>Contraseña: ********</h3>
-            <h3>Genero: {{genero}}</h3>
-            <h3>Pais: {{pais}}</h3>
-            <h3>Ciudad: {{ciudad}}</h3>
-        </div>
-        <div>
-            <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil">
+    <div class="datos-container">
+        <div class="datos">
+            <div class="imagen">
+                <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil">
+            </div>
+            <div class="nombrePrincipales">
+                <h1>¡Hola {{nombre_usuario}}!</h1><br>
+                <h3>Mail: {{mail}}</h3> <br>
+                <h3>Nombre completo: {{nombre_completo}}</h3> <br>
+                <h3>Calendario: {{anio_nacimiento}}</h3> <br>
+                <h3>Contraseña: ********</h3> <br>
+                <h3>Genero: {{genero}}</h3> <br>
+                <h3>Pais: {{pais}}</h3> <br>
+                <h3>Ciudad: {{ciudad}}</h3> <br>
+            </div>
         </div>
         <div class="botonEditar">
             <a href="#">Editar datos</a>
         </div>
+
     </div>
 {{/usuario}}
+
+<footer>
+    <div class="acomodarFooter">
+        <div class="seccion1Footer">
+
+        </div>
+        <div class="drev">
+            <p>Derechos Reservados ©2024 Preguntados. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+</body>
+
+<style>
+
+
+    /* Estilo para la sección de información del usuario */
+    .datos-container {
+        margin: 20px auto; /* Esto centrará el contenedor horizontalmente */
+        max-width: 800px; /* Define un ancho máximo para el contenedor */
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+        border-radius: 10px;
+        width: 100%;
+        margin-top:3em;
+        margin-bottom:6em;
+    }
+
+    .datos {
+        display: flex;
+        flex-direction: row; /* Alinear elementos verticalmente */
+        align-items: center; /* Centrar elementos horizontalmente */
+        justify-content: space-around;
+        margin-top: 0.5em;
+    }
+
+    .imagen {
+        margin-bottom: 20px; /* Espacio entre la imagen y el botón */
+    }
+
+    .imagen img {
+        width: 270px;
+        height: 270px;
+        border-radius: 50%;
+    }
+
+    .botonEditar {
+        margin-bottom: 20px; /* Espacio entre el botón y la información */
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        margin-top: 1em;
+    }
+
+    .botonEditar a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 1em;
+        padding: 1em;
+        background-color: black;
+    }
+
+    .botonEditar a:hover {
+        color: black;
+        background-color: white;
+        border: 1px solid black;
+    }
+
+    .datos h1 {
+        font-size: 2rem;
+        color: #1a202c;
+    }
+
+    .datos h3 {
+        font-size: 1rem;
+        color: #4a5568;
+        margin-bottom: 5px;
+        border: 1px solid;
+        padding:0.4em;
+    }
+
+
+
+    body{
+        background-image: url("/public/img/fondo.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    footer {
+        background-color: white;
+        width: 100%;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+
+    .acomodarFooter {
+        margin: 1rem;
+        align-items: center;
+    }
+
+    .drev {
+        color:#343434;
+        font-family: "Poppins", sans-serif;
+        text-align: center;
+    }
+
+
+
+
+
+</style>
