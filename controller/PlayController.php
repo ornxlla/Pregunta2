@@ -23,9 +23,9 @@ class PlayController
             session_start();
         }
 
-        $idUsuario = isset($_SESSION["id"]) ? $_SESSION["id"] : null;
-        if (!isset($_SESSION["partida_iniciada"])) {
+        $idUsuario = isset($_SESSION["Session_id"]) ? $_SESSION["Session_id"] : null;
 
+        if (!isset($_SESSION["partida_iniciada"])) {
             $_SESSION ["partida_iniciada"] = true;
             $horaInicio = date('Y-m-d H:i:s');
             $idPartidaIniciada = $this->model->iniciarPartida($idUsuario, $horaInicio);
@@ -55,10 +55,12 @@ class PlayController
 
             $data["habilitar_reporte"] = true;
         } else {
+            unset($_SESSION["pregunta_enviada"]);
             if (!isset($_SESSION["pregunta_enviada"])) {
                 $data["preguntas"] = $this->model->obtenerUnaPregunta($idPartidaIniciada, $idUsuario);
-                $data["respuesta"] = $this->model->obtenerRespuestasDeUnaPregunta($data["pregunta"]["id"]);
-                shuffle($data["respuestas"]);
+                $data["respuesta"] = $this->model->obtenerRespuestasDeUnaPregunta($data["preguntas"]["id_pregunta"]);
+                shuffle($data["respuesta"]);
+
                 $_SESSION["pregunta_enviada"] = $data["preguntas"]["id_pregunta"];
             } else {
                 $idPregunta = $_SESSION["pregunta_enviada"];
@@ -122,6 +124,7 @@ class PlayController
         // Si llegue aca significa que le erraron, asi que me guardo el id de la pregunta fallida y redirigo a partida
         $_SESSION["pregunta_erronea"] = $idPregunta;
         $_SESSION["error"] = "Respuesta incorrecta!";
+        var_dump($_SESSION);
     }
     public function finalizar_partida()
     {
@@ -132,7 +135,7 @@ class PlayController
         unset($_SESSION["tiempo_inicial"]);
 
         $this->model->actualizarPartida($idPartida);
-        $this->model->calcularDificultadDelUsuario($_SESSION["id"]);
+        $this->model->calcularDificultadDelUsuario($_SESSION["Session_id"]);
         $this->model->actualizarDificultadPreguntas();
 
         Redirect::to("homeUserLogueado");

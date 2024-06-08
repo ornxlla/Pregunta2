@@ -12,14 +12,22 @@ class PlayModel
 
     public function iniciarPartida($idUsuario, $horaInicio)
     {
-        $sql = "insert into 
-                partida (id_jugador_1, hora_inicio)
-                values
-                ($idUsuario, $horaInicio)";
-
-        $this->database->query($sql);
-
+        /*
+        $sql = "insert into partida (id_jugador_1, hora_inicio) values ($idUsuario, '$horaInicio')";
+        echo $sql;
+        $resultado = $this->database->query($sql);
+        echo $resultado;
         return $this->database->last_insert();
+        */
+        $sql = "insert into partida (id_jugador_1, hora_inicio) values (?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("is", $idUsuario, $horaInicio);
+            $stmt->execute();
+            return $stmt->insert_id;
+        } else {
+            return null;
+        }
     }
 
     public function obtenerUnaPregunta($idPartida, $idUsuario)
@@ -38,7 +46,7 @@ class PlayModel
             $sql = $this->obtenerPreguntasSegunDificultadDelUsuario($idPartida, $dificultadUsuario);
 
         }
-
+        //echo $sql;
         $resultado = $this->database->query($sql);
 
         if (empty($resultado)) {
@@ -51,23 +59,49 @@ class PlayModel
 
     public function guardarRespuestaPorPartida($idPartida, $respuesta)
     {
-        $sql = "insert into respuestas_partida (id_partida, id_respuesta) values ($idPartida, $respuesta)";
+        $sql = "insert into respuestas_partida (id_partida, id_respuesta) values (?, ?)";
 
-        $this->database->query($sql);
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $idPartida, $respuesta);
+            $stmt->execute();
+            return $stmt->insert_id;
+        }else{
+            return null;
+        }
     }
 
     public function guardarPreguntaPorPartida($idPartida, $pregunta)
     {
+        /*
         $sql = "insert into preguntas_partida (id_partida, id_pregunta) values ($idPartida, $pregunta)";
 
         $this->database->query($sql);
+        */
+        $sql = "insert into preguntas_partida (id_partida, id_pregunta) values (?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("is", $idPartida, $pregunta);
+            $stmt->execute();
+            return $stmt->insert_id;
+        }else{
+            return null;
+        }
     }
 
     public function aumentarContadorApariciones($idPregunta)
     {
+        /*
         $sql = "update preguntas set apariciones = apariciones + 1 where id = $idPregunta";
 
         $this->database->query($sql);
+        */
+        $sql = "update preguntas set apariciones = apariciones + 1 where id_pregunta = ?";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("i", $idPregunta);
+            return $stmt->execute();
+        }
     }
 
     public function aumentarCantidadDeAciertosDeLaPregunta($idPregunta)

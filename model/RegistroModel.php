@@ -16,7 +16,7 @@ class RegistroModel
     }
     public function darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password , $nombreImagen, $pais, $ciudad)
     {
-        //ARREGLAR SQL
+
         $sql = 'INSERT INTO USUARIO
         ( nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, país, ciudad)
         VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
