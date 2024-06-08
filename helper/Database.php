@@ -15,9 +15,16 @@ class Database
     public function query($sql): array
     {
         $result = mysqli_query($this->conn, $sql);
+
+        if ($result === false) {
+            // La consulta falló, retornar un array vacío o lanzar una excepción, según lo que prefieras
+            return [];
+            // O puedes lanzar una excepción para notificar sobre el error
+            // throw new Exception("Error executing query: " . mysqli_error($this->conn));
+        }
+
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
-
     public function execute($sql)
     {
         mysqli_query($this->conn, $sql);
@@ -32,4 +39,5 @@ class Database
     {
         return $this->conn->prepare($query);
     }
+
 }

@@ -1,158 +1,90 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/home.css">
-    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
-    <title>Home</title>
-</head>
+<main class="row flex-grow-1 justify-content-center mt-5 mb-5">
 
-    <div class="container">
-        <div class="text-center">
-            <div class="text-center card">
-                <h1 class="mb-2 mt-3 py-4 text-center border rounded contesta"  >CATEGORIA</h1>
-                <h4 class="tiempo">Tiempo restante: <span id="temporizador" class="text-danger"> {{!{{tiempoRestante}}</span> segundos</h4>
-            </div>
+    <div class="col-12 col-lg-8 card d-flex flex-column text-center p-0 bg-dark {{#preguntas}}categoria{{tematicas}}{{/preguntas}}">
+        <div class="card-header mb-3">
+            {{#preguntas}}
+                <h2 class="pregunta">{{pregunta_texto}}</h2>
+                <p class="categoria">
+                    {{tematicas}}
+                </p>
+            {{/preguntas}}
         </div>
-        <div class="row">
-            <div class="col-md-12">
-               {{#pregunta}}
-                    <div class="card mt-3">
-                        <div class="card-body">
-                            <h3 class="card-title">Pregunta</h3>
-                            <p class="card-text"> {{Pregunta_texto}}</p>
-                            <p class="card-text">Dificultad de la pregunta:{{Dificultad}}</p>
-                            <form action="/play/enviarPreguntaReportada?preguntaID={{Pregunta_ID}}" method="POST">
-                            <button type="submit" class="btn btn-danger mt-3">Reportar Pregunta</button>
-                            </form>
-                        </div>
-                    </div>
 
-                <div class="card mt-3">
-                <div class="card-body">
-                    <h3 class="resp">Respuesta correcta</h3>
-                    <form action="/play/validarRespuesta?preguntaID={{Pregunta_ID}}&puntos={{Puntos}}" method="POST" id="formularioPlay"">
-                    {{/pregunta}}
-{{#respuestas}}
-                    <div class="radio-container">
-                        <label class="radio-button py-2" for="respuesta{{Respuesta_ID}}">
-                            <input name="respuestaID" value="{{Respuesta_ID}}" id="respuesta{{Respuesta_ID}}" type="radio">
-                            <span class="radio-checkmark"></span>
-                            <span class="radio-label"> {{Respuesta_texto}}</span>
+        <form class="card-body d-flex flex-column align-items-center" method="post" enctype="multipart/form-data"
+              action="
+              {{^error}}
+                /Play/validar_respuesta
+              {{/error}}
+                  {{#error}}
+                  /Play/reportarPregunta
+              {{/error}}
+        ">
+            {{#preguntas}}
+                <input type="hidden" name="id_pregunta" id="id_pregunta" value="{{id_pregunta}}">
+            {{/preguntas}}
+            <div class=" col-10 btn-group-vertical align-self-center" role="group">
+                {{#respuesta}}
+                    {{^error}}
+                        <input class="btn-check" type="radio" name="id_respuesta" id="{{id_respuesta}}"
+                               value="{{correcta}}-{{id_respuesta}}">
+                        <label class=" btn btn-outline-success text-light respuesta" for="{{id_respuesta}}">
+                            {{respuesta_texto}}
                         </label>
-                    </div>
-                    {{/respuestas}}
-                <input type="submit" class="btn btn-light mt-3 btn-outline-secondary" value="Enviar" style="padding: 8px 20px;">
-                </form>
+                    {{/error}}
+                    {{#error}}
+                        <label class="col-12 text-center alert border-dark correcta-{{correcta}} text-dark fw-bold"
+                               for="{{id_respuesta}}">
+                            {{descripcion}}
+                        </label>
+                    {{/error}}
+                {{/respuesta}}
             </div>
-            </div>
-            </div>
-        </div>
+            {{#error}}
+                <div class="col-10 col-lg-4 mt-3 mb-3 text-center align-self-center" id="error_activado">
+                    <p class="alert alert-danger text-center"> {{.}} </p>
+                    <a href="/Play/finalizar_partida" class="btn btn-lg btn-warning btn-11">Volver al lobby</a>
+                </div>
+            {{/error}}
+
+            {{^error}}
+                <button type="submit" class="btn btn-lg btn-success mt-3 btn-11 w-50">Responder</button>
+            {{/error}}
+        </form>
+
+
+
+        {{^error}}
+            <a class="btn btn-sm btn-dark text-light btn-11 w-50 align-self-center" href="/playView/finalizar_partida">Finalizar partida</a>
+
+
+        {{/error}}
     </div>
-    </div>
+</main>
 
-    <script>
+<script>
+    function move() {
+        var elem = document.getElementById("myBar");
+        var countdown = document.getElementById("countdown");
+        var width = 100; // Ancho inicial
+        var duration = 30000; // Duración en milisegundos (5 segundos)
+        var frameRate = 10; // Intervalo de actualización (ms)
+        var frames = duration / frameRate;
+        var step = width / frames;
+        var i = 0;
 
-        document.addEventListener("DOMContentLoaded", function () {
-            iniciarTemporizador();
-        });
-    </script>
-
-    <script src="../public/js/AjaxPartida.js"></script>
-
-    <style>
-
-
-
-
-    .radio-container {
-        color: black;
-    }
-
-    .radio-wrapper {
-        margin-bottom: 20px;
-    }
-
-    .radio-button {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .radio-button:hover {
-        transform: translateY(-2px);
-    }
-
-    .radio-button input[type="radio"] {
-        display: none;
-    }
-
-    .radio-checkmark {
-        display: inline-block;
-        position: relative;
-        width: 16px;
-        height: 16px;
-        margin-right: 10px;
-        border: 2px solid #6c757d;
-        border-radius: 50%;
-    }
-
-    .radio-checkmark:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #6c757d;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .radio-button input[type="radio"]:checked ~ .radio-checkmark:before {
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    .radio-label {
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-
-     body {
-         font-family: Arial, sans-serif;
-         margin: 0;
-         padding: 0;
-         background-image: url('../public/img/fondo.png');
-     }
-        .contesta{
-            background-color: white;
-            color:black;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        function frame() {
+            if (i < frames) {
+                i++;
+                width -= step;
+                elem.style.width = width + "%";
+                var remainingTime = (frames - i) * frameRate / 1000;
+            } else {
+                clearInterval(id);
+            }
         }
-
-        .tiempo{
-            color: white;
-        }
-
-    h3.card-title {
-        text-align: center;
+        var id = setInterval(frame, frameRate);
     }
 
-        .resp{
-            text-align: center;
-        }
+    move();
+</script>
 
-    .card{
-        border-radius: 1.5em;
-    }
-
-</style>
-
-</html>
-{{> footer}}

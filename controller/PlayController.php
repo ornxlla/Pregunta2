@@ -6,221 +6,139 @@ class PlayController
     private $model;
     private $presenter;
 
-    public function __construct($presenter, $model){
+    public function __construct($presenter, $model)
+    {
         $this->presenter = $presenter;
         $this->model = $model;
     }
 
 
-    public function get(){
+    public function toPlayView() {
         $this->presenter->render("playView");
-
     }
 
-    public function saludaPlay(){
-       echo "hola play";
-
-    }
-
-    public function jugar()
+    public function getPartida()
     {
-       //Comprueba si hay un tiempo restante en la sesión. Si no está definido, establece un valor predeterminado de 10 segundos.
-        $tiempoRestante = isset($_SESSION['tiempoRestante']) ? $_SESSION['tiempoRestante'] : 10;
-
-        if ($tiempoRestante <= 0) {
-            $this->terminarPartida();
-            return;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
 
-        // Si no hay una pregunta actual en la sesión, procede a obtener una.
+        $idUsuario = isset($_SESSION["id"]) ? $_SESSION["id"] : null;
+        if (!isset($_SESSION["partida_iniciada"])) {
 
-        if (!isset($_SESSION['preguntaActual'])) {
-            // Obtiene el usuario actual de la sesión.
-            $usuario = $_SESSION['Session_id'];
-            // Calcula la dificultad para el usuario actual
-            //$dificultadParaElUsuario = $this->model->calcularDificultadUsuario($usuario);
-            $dificultadParaElUsuario = "Facil";
-            // Intenta obtener una pregunta aleatoria de la dificultad calculada.
-            try {
-                $pregunta = $this->model->getPreguntaRandom($dificultadParaElUsuario);
-                $_SESSION['preguntaActual'] = $pregunta; // Guarda la pregunta actual en la sesión.
-            } catch (Exception $e) {
-                // Si no puede obtener la pregunta, llama a terminarPartidaConMensaje() con u
-                /*$mensaje = $e->getMessage();
-                $this->terminarPartidaConMensaje($mensaje);
-                return;*/
-                echo $e->getMessage();
-                return;
+            $_SESSION ["partida_iniciada"] = true;
+            $horaInicio = date('Y-m-d H:i:s');
+            $idPartidaIniciada = $this->model->iniciarPartida($idUsuario, $horaInicio);
+            $_SESSION["idPartidaIniciada"] = $idPartidaIniciada;
+
+        } else {
+            //En el caso de que este en curso, solo guardamos el id en la variable
+            $idPartidaIniciada = isset($_SESSION["idPartidaIniciada"]) ? $_SESSION["idPartidaIniciada"] : null;
+        }
+
+        //Lo utilizamos para validar el tiempo de respuesta
+        if (!isset($_SESSION["tiempo_inicial"])) {
+            $_SESSION["tiempo_inicial"] = time();
+        }
+
+        //Validamos a ver si le erraron para mostrar la pantalla de error en respuesta
+        if (isset($_SESSION["error"])) {
+            $idPregunta = $_SESSION["pregunta_enviada"] ?? $_SESSION["pregunta_erronea"];
+            unset($_SESSION["pregunta_enviada"]);
+            unset($_SESSION["pregunta_erronea"]);
+
+            $data["preguntas"] = $this->model->obtenerUnaPreguntaPorId($idPregunta);
+            $data["respuesta"] = $this->model->obtenerRespuestasDeUnaPregunta($idPregunta);
+
+            $data["error"] = $_SESSION["error"];
+            unset($_SESSION["error"]);
+
+            $data["habilitar_reporte"] = true;
+        } else {
+            if (!isset($_SESSION["pregunta_enviada"])) {
+                $data["preguntas"] = $this->model->obtenerUnaPregunta($idPartidaIniciada, $idUsuario);
+                $data["respuesta"] = $this->model->obtenerRespuestasDeUnaPregunta($data["pregunta"]["id"]);
+                shuffle($data["respuestas"]);
+                $_SESSION["pregunta_enviada"] = $data["preguntas"]["id_pregunta"];
+            } else {
+                $idPregunta = $_SESSION["pregunta_enviada"];
+                $data["preguntas"] = $this->model->obtenerUnaPreguntaPorId($idPregunta);
+                $data["respuesta"] = $this->model->obtenerRespuestasDeUnaPregunta($idPregunta);
             }
         }
 
-        //Obtiene la pregunta actual de la sesión y obtiene las respuestas posibles para esa pregunta de la base de datos.
-        $pregunta = $_SESSION['preguntaActual'];
-        $tematica = $pregunta['Pregunta_ID'];
-        $respuestas = $this->model->getRespuestas($tematica);
-        shuffle($respuestas);
 
-
-
-        $data = [
-            'pregunta' => $pregunta, // La pregunta actual obtenida de la sesión.
-            'respuestas' => $respuestas, // Las respuestas posibles para esa pregunta.
-            'puntaje' => $_SESSION['puntaje'] ?? 0,// El puntaje actual del usuario, o 0 si no está definido.
-            'puntajeMasAlto' => isset($_SESSION['puntajeMasAlto']),
-            'tiempoRestante' => $tiempoRestante,
-            'esEditor' => $_SESSION['esEditor'] ?? "",
-            'esAdmin' => $_SESSION['esAdmin'] ?? "",
-        ];
-        $this->presenter->render('playView', $data);
-
+        if (!empty($data["error"])) {
+            unset($_SESSION["tiempo_inicial"]);
+        }
+        $this->presenter->render("playView", $data);
     }
 
-    public function validarRespuesta()
+    public function validar_respuesta()
     {
 
-        if(!$this->validarTiempoPregunta($_SESSION['horaDeArranque'])){
-            $this->terminarPartida();
-            return;
+        // Esto lo voy a necesitar casi siempre
+        $idPartida = $_SESSION["idPartidaIniciada"];
+
+        //------------------------------------------------------------//
+        // Si se termino el tiempo, solo voy a mostrar un error, no que respuesta era la correcta, ya que en si el usuario no le erro, solo se quedo sin tiempo
+
+        $tiempo_transcurrido = time() - $_SESSION["tiempo_inicial"];
+        unset($_SESSION["tiempo_inicial"]);
+
+        if ($tiempo_transcurrido >= 30) {
+            $idPregunta = $_SESSION["pregunta_enviada"];
+            /*unset($_SESSION["pregunta_enviada"]);*/
+
+            $this->model->guardarPreguntaPorPartida($idPartida, $idPregunta);
+            $this->model->aumentarContadorApariciones($idPregunta);
+            $_SESSION["error"] = "Se acabó el tiempo";
+
         }
 
-        if (!isset($_POST['respuestaID'])) {
-            $this->presenter->render('perdiste', ['error_msg' => 'Tienes que seleccionar una respuesta.', 'puntaje' => $this->model->getPuntajeActual($_SESSION['actualUser']), 'puntajeMasAlto' => $this->model->getPuntajeMasAlto($_SESSION['actualUser'])]);
-            return;
-        }
+        //------------------------------------------------------------//
+        // Si no falsearon la pregunta y el tiempo no se le termino, entonces seguimos -->
+        $idPregunta = $_POST["id_pregunta"];
+        unset($_SESSION["pregunta_enviada"]);
+        //------------------------------------------------------------//
 
-        if (!isset($_SESSION['preguntaActual']) || $_SESSION['preguntaActual']['Pregunta_ID'] !=$_GET['preguntaID']) {
-            $this->terminarPartida();
-            return;
-        }
+        $this->model->guardarPreguntaPorPartida($idPartida, $idPregunta);
+        $this->model->aumentarContadorApariciones($idPregunta);
 
-        unset($_SESSION['preguntaActual']);
+        if (isset($_POST["id_respuesta"])) {
+            $valorRespuesta = $_POST["id_respuesta"];
+            $posicionGuion = strpos($valorRespuesta, '-');
+            $idRespuesta = substr($valorRespuesta, $posicionGuion + 1);
+            $this->model->guardarRespuestaPorPartida($idPartida, $idRespuesta);
 
-        $usuario = $_SESSION['actualUser'];
-        $respuestaID = $_POST['respuestaID'];
-        $preguntaID = $_GET['preguntaID'];
-        $model = $this->model;
-
-        $model->marcarPreguntaUtilizada($preguntaID);
-
-        $respuestaCorrecta = $model->validarRespuesta($respuestaID);
-
-        if ($respuestaCorrecta) {
-            $this->model->incrementarContadorRespuestasCorrectas($usuario, $preguntaID);
-            $this->model->calcularDificultadPregunta($preguntaID);
-            $this->model->calcularDificultadUsuario($usuario);
-            if (!isset($_SESSION['puntaje'])) {
-                $_SESSION['puntaje'] = 0;
+            // Si la variable valor respuesta contiene un 1- significa que es la correcta, asi que procesamos y vamos a partida denuevo
+            if (str_contains($valorRespuesta, "1-")) {
+                $this->model->aumentarCantidadDeAciertosDeLaPregunta($idPregunta);
+                $this->model->sumarUnPunto($idPartida);
             }
-            $_SESSION['puntaje']++;
-            $puntajeEnPartida = $_SESSION['puntaje'];
-            $this->model->guardarPuntaje($_SESSION['actualUser'], $puntajeEnPartida);
-            $this->jugar();
-        } else {
-            $this->model->incrementarContadorRespuestasIncorrectas($usuario, $preguntaID);
-            $this->model->calcularDificultadPregunta($preguntaID);
-            $this->model->calcularDificultadUsuario($usuario);
-            $this->terminarPartida();
-        }
-    }
-
-    public function setTiempoRestante()
-    {
-        $tiempoRestante = isset($_POST['tiempoRestante']) ? $_POST['tiempoRestante'] : 10;
-
-        $_SESSION['tiempoRestante'] = $tiempoRestante;
-
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
-    }
-
-    public function terminarPartida()
-    {
-        $puntajeActual = $this->model->getPuntajeActual($_SESSION['actualUser']);
-        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
-
-        if ($puntajeActual > $puntajeMasAlto) {
-            $this->model->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
         }
 
-        $this->model->guardarPuntaje($_SESSION['actualUser'], 0);
-        $_SESSION['puntaje'] = 0;
-        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
-        $_SESSION['puntajeMasAlto'] = $puntajeMasAlto;
-
-        $this->model->marcarPreguntasUtilizadas();
-
-        $this->presenter->render('perdiste', ['puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
+        //------------------------------------------------------------//
+        // Si llegue aca significa que le erraron, asi que me guardo el id de la pregunta fallida y redirigo a partida
+        $_SESSION["pregunta_erronea"] = $idPregunta;
+        $_SESSION["error"] = "Respuesta incorrecta!";
     }
-
-    public function terminarPartidaConMensaje($mensaje)
+    public function finalizar_partida()
     {
+        $idPartida = $_SESSION["idPartidaIniciada"];
+        unset($_SESSION["idPartidaIniciada"]);
+        unset($_SESSION["partida_iniciada"]);
+        unset($_SESSION["pregunta_enviada"]);
+        unset($_SESSION["tiempo_inicial"]);
 
-        $puntajeActual = $this->model->getPuntajeActual($_SESSION['Session_id']);
-        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['Session_id']);
+        $this->model->actualizarPartida($idPartida);
+        $this->model->calcularDificultadDelUsuario($_SESSION["id"]);
+        $this->model->actualizarDificultadPreguntas();
 
-        if ($puntajeActual > $puntajeMasAlto) {
-            $this->model->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
-        }
+        Redirect::to("homeUserLogueado");
 
-        $this->model->guardarPuntaje($_SESSION['actualUser'], 0);
-        $_SESSION['puntaje'] = 0;
-        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
-        $_SESSION['puntajeMasAlto'] = $puntajeMasAlto;
-
-        $this->model->marcarPreguntasUtilizadas();
-
-        $this->presenter->render('perdiste', ['error_msg' => $mensaje, 'puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
     }
 
-    public function enviarPreguntaReportada()
-    {
-        $preguntaID = isset($_GET['preguntaID']) ? $_GET['preguntaID'] : 0;
-
-        $this->model->reportQuestion($preguntaID);
-        $this->presenter->render('reportedQuestion');
-    }
-
-    public function mostrarPuntuacion()
-    {
-        $puntajeActual = $this->model->getPuntajeActual($_SESSION['actualUser']);
-        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['actualUser']);
-
-        if ($puntajeActual > $puntajeMasAlto) {
-            $this->model->actualizarPuntajeMasAlto($_SESSION['actualUser'], $puntajeActual);
-        }
-
-        $this->model->guardarPuntaje($_SESSION['actualUser'], 0);
-        $_SESSION['puntaje'] = 0;
-        $puntajeMasAlto = $this->model->getPuntajeMasAlto($_SESSION['Session_id']);
-        $_SESSION['puntajeMasAlto'] = $puntajeMasAlto;
-
-        $this->model->marcarPreguntasUtilizadas();
-
-        $this->model->render('perdiste', ['puntaje' => $puntajeActual, 'puntajeMasAlto' => $puntajeMasAlto]);
-    }
-
-    public function validarTiempoPregunta($horaDeArranque){
-
-
-        date_default_timezone_set('America/Argentina/Buenos_Aires');
-        $horaActual = date("Y-m-d H:i:s");
-
-        $startTimestamp = strtotime($horaDeArranque);
-        $currentTimestamp = strtotime($horaActual);
-
-        $diferenciaEnSegundos = $currentTimestamp - $startTimestamp;
-
-        if ($diferenciaEnSegundos > 10) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public function guardarTiempoDeArranque(){
-        $horaDeArranque = $_POST['startTime'];
-        $_SESSION['horaDeArranque'] = $horaDeArranque;
-    }
 }
 
 /*

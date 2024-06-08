@@ -1,6 +1,7 @@
 <?php
 
-class PlayModel{
+class PlayModel
+{
 
     private $database;
 
@@ -9,229 +10,283 @@ class PlayModel{
         $this->database = $database;
     }
 
-    // Obtiene una pregunta aleatoria de la base de datos
-    public function getPreguntaRandom($dificultad)
+    public function iniciarPartida($idUsuario, $horaInicio)
     {
-        if ($dificultad != NULL) {
-            $sql = "SELECT * FROM Preguntas WHERE Utilizada = '0' AND Dificultad = '$dificultad' ORDER BY RAND() LIMIT 1";
-            $pregunta = $this->database->query($sql);
+        $sql = "insert into 
+                partida (id_jugador_1, hora_inicio)
+                values
+                ($idUsuario, $horaInicio)";
 
-            if (!empty($pregunta)) {
+        $this->database->query($sql);
 
-                return $pregunta[0];
-            }else{
-                throw new Exception("No hay mas preguntas para tu nivel.");
-            }
-        } else {
-            $sql = "SELECT * FROM Preguntas WHERE Utilizada = '0' ORDER BY RAND() LIMIT 1";
-            $pregunta = $this->database->query($sql);
-
-            if (!empty($pregunta)) {
-
-                return $pregunta[0];
-            }else{
-                throw new Exception("No hay mas preguntas disponibles.");
-            }
-        }
-
+        return $this->database->last_insert();
     }
 
-    // Obtiene las respuestas asociadas a una pregunta
-    public function getRespuestas($pregunta)
+    public function obtenerUnaPregunta($idPartida, $idUsuario)
     {
-        $sql = "SELECT * FROM Respuesta WHERE Pregunta_ID = $pregunta ORDER BY RAND()";
+        $cantidadDePartidas = intval($this->obtenerCantidadDePartidasDelJugador($idUsuario));
+        $cantidadRespuestasCorrectas = intval($this->obtenerCantidadDeRespuestasCorrectasDelJugador($idUsuario));
+
+
+        if ($cantidadDePartidas < 10 || $cantidadRespuestasCorrectas < 30) {
+
+            $sql = $this->obtenerPreguntaSinDificultad($idPartida);
+
+        } else {
+
+            $dificultadUsuario = intval($this->obtenerDificultadDelUsuario($idUsuario));
+            $sql = $this->obtenerPreguntasSegunDificultadDelUsuario($idPartida, $dificultadUsuario);
+
+        }
+
+        $resultado = $this->database->query($sql);
+
+        if (empty($resultado)) {
+            $queryEmergencia = $this->obtenerPreguntaSinDificultad($idPartida);
+            $resultado = $this->database->query($queryEmergencia);
+        }
+
+        return $resultado[0];
+    }
+
+    public function guardarRespuestaPorPartida($idPartida, $respuesta)
+    {
+        $sql = "insert into respuestas_partida (id_partida, id_respuesta) values ($idPartida, $respuesta)";
+
+        $this->database->query($sql);
+    }
+
+    public function guardarPreguntaPorPartida($idPartida, $pregunta)
+    {
+        $sql = "insert into preguntas_partida (id_partida, id_pregunta) values ($idPartida, $pregunta)";
+
+        $this->database->query($sql);
+    }
+
+    public function aumentarContadorApariciones($idPregunta)
+    {
+        $sql = "update preguntas set apariciones = apariciones + 1 where id = $idPregunta";
+
+        $this->database->query($sql);
+    }
+
+    public function aumentarCantidadDeAciertosDeLaPregunta($idPregunta)
+    {
+        $sql = "update preguntas set aciertos = aciertos + 1 where id = $idPregunta";
+
+        $this->database->query($sql);
+    }
+
+    public function sumarUnPunto($idPartida)
+    {
+        $sql = "update partida set puntos_jugador_1 = puntos_jugador_1 + 1 where id = $idPartida";
+
+        $this->database->query($sql);
+    }
+
+    public function obtenerUnaPreguntaPorId($filter)
+    {
+        $sql = "select preguntas.*, tematicas.nombre as tematicas from preguntas
+                JOIN tematicas on preguntas.id_categoria = tematicas.id_tematica
+                where preguntas.id_pregunta = $filter
+                order by rand() limit 1";
+
+        $resultado = $this->database->query($sql);
+
+        return $resultado[0];
+    }
+
+    public function obtenerRespuestasDeUnaPregunta($idPregunta)
+    {
+        $sql = "SELECT * FROM respuesta WHERE id_pregunta = $idPregunta";
+
         return $this->database->query($sql);
     }
 
-    // Marca una pregunta como utilizada
-    public function marcarPreguntaUtilizada($preguntaID)
+    public function obtenerHistorialPartida($idFilter)
     {
-        $sql = "UPDATE Preguntas SET Utilizada = 1 WHERE Pregunta_ID = $preguntaID";
+        $sql = "SELECT * from partida where id_jugador_1 = $idFilter";
+
+        return $this->database->query($sql);
+    }
+
+    private function obtenerCantidadDePartidasDelJugador($idUsuario)
+    {
+        $sql = "select count(*) as cantidad_partidas from partida where id_jugador_1 = $idUsuario";
+
+        $resultado = $this->database->query($sql);
+
+        return $resultado[0]["cantidad_partidas"];
+    }
+
+    private function obtenerCantidadDeRespuestasCorrectasDelJugador($idUsuario)
+    {
+        $sql = "select 
+                    count(*) as cantidad_respuestas_correctas
+                from 
+                    respuestas_partida
+                JOIN
+                    partida
+                ON
+                    respuestas_partida.id_partida = partida.id
+                join
+                    respuesta
+                ON
+                    respuestas_partida.id_respuesta = respuesta.id_respuesta
+                where 
+                    partida.id_jugador_1 = $idUsuario
+                and 
+                    respuesta.correcta = 1";
+
+        $resultado = $this->database->query($sql);
+
+        return $resultado[0]["cantidad_respuestas_correctas"];
+    }
+
+    public function actualizarPartida($idPartida)
+    {
+        $horaFinal = date('Y-m-d H:i:s');
+
+        $sql = "update partida set hora_final = '$horaFinal' where id = $idPartida";
+
         $this->database->query($sql);
     }
 
-    public function validarRespuesta($respuestaID)
+    private function obtenerPreguntaSinDificultad($idPartida)
     {
-        $sql = "SELECT * FROM respuesta WHERE Respuesta_ID = $respuestaID AND Correcta = 1";
-        $respuesta = $this->database->query($sql);
+        return "SELECT 
+                    preguntas.*, tematicas.nombre AS tematicas
+                FROM 
+                    preguntas
+                JOIN 
+                    tematicas 
+                ON 
+                    preguntas.id_tematica = tematicas.id_tematica
+                WHERE 
+                    preguntas.id_pregunta not in (
+                                        select 
+                                            id_pregunta 
+                                        from 
+                                            preguntas_partida 
+                                        where
+                                            id_partida = $idPartida)
+                AND 
+                    preguntas.estado = 1
+                ORDER BY 
+                    RAND() LIMIT 1";
+    }
 
-        if (isset($respuesta[0])) {
-            return $respuesta[0];
-        } else {
-            return false;
+    private function obtenerPreguntasSegunDificultadDelUsuario($idPartida, $id_dificultad)
+    {
+        return "SELECT 
+                    preguntas.*, tematicas.nombre AS tematicas 
+                FROM 
+                    preguntas
+                JOIN 
+                    tematicas 
+                ON 
+                    preguntas.id_categoria = tematicas.id_tematica
+                WHERE 
+                    preguntas.id_pregunta not in (
+                                        select 
+                                            id_pregunta 
+                                        from 
+                                            preguntas_partida 
+                                        where
+                                            id_partida = $idPartida)
+                AND
+                    preguntas.id_dificultad = $id_dificultad
+                AND
+                    preguntas.estado = 1
+                ORDER BY 
+                    RAND() LIMIT 1";
+    }
+
+    private function obtenerDificultadDelUsuario($idUsuario)
+    {
+        $sql = "select id_dificultad from usuario where id = $idUsuario";
+
+        $resultado = $this->database->query($sql);
+
+        return $resultado[0]["id_dificultad"];
+    }
+
+    public function calcularDificultadDelUsuario($idUsuario)
+    {
+        $cantidadRespuestasCorrectas = intval($this->obtenerCantidadAciertosDelUsuario($idUsuario));
+        $cantidadIntentos = intval($this->obtenerCantidadDeIntentosDelUsuario($idUsuario));
+
+        if ($cantidadIntentos > 0) {
+
+            $ratio = ($cantidadRespuestasCorrectas / $cantidadIntentos) * 100;
+
+            $sql = "UPDATE usuario
+                SET id_dificultad =
+                  CASE
+                    WHEN $ratio <= 20 THEN 1
+                    WHEN $ratio > 20 AND $ratio <= 50 THEN 2
+                    WHEN $ratio > 50 AND $ratio <= 85 THEN 3
+                    WHEN $ratio > 85 THEN 4
+                  END
+                WHERE
+                    id = $idUsuario";
+
+            $this->database->query($sql);
+
         }
     }
 
-    public function getPuntajeActual($actualUser)
+    private function obtenerCantidadAciertosDelUsuario($idUsuario)
     {
-        $sql = "SELECT puntuacion_actual FROM usuarios WHERE id = $actualUser";
-        $puntaje = $this->database->query($sql);
-        return $puntaje[0]['puntuacion_actual'];
+        $sql = "select
+                    count(*) as cant_aciertos
+                from
+                    respuestas_partida
+                join
+                    respuesta on respuestas_partida.id_respuesta = respuesta.id_respuesta
+                join 
+                    partida on respuestas_partida.id_partida = partida.id
+                where 
+                    partida.id_jugador_1 = $idUsuario
+                and 
+                    respuesta.correcta = 1";
+
+        $resultado = $this->database->query($sql);
+
+        return $resultado[0]["cant_aciertos"];
     }
 
-
-    // Actualiza el puntaje de un usuario
-    public function guardarPuntaje($userID, $puntaje)
+    private function obtenerCantidadDeIntentosDelUsuario($idUsuario)
     {
-        $sql = "UPDATE usuarios SET puntuacion_actual = $puntaje WHERE id = $userID";
-        return $this->database->update($sql);
+        $sql = "select
+                    count(*) as cant_intentos
+                from
+                    respuestas_partida
+                join
+                    respuesta on respuestas_partida.id_respuesta = respuesta.id_respuesta
+                join 
+                    partida on respuestas_partida.id_partida = partida.id
+                where 
+                    partida.id_jugador_1 = $idUsuario";
+
+        $resultado = $this->database->query($sql);
+
+        return $resultado[0]["cant_intentos"];
     }
 
-    // Obtiene el puntaje más alto de un usuario
-    public function getPuntajeMasAlto($userID)
+    public function actualizarDificultadPreguntas()
     {
-        $sql = "SELECT puntuacion_masalta FROM usuarios WHERE id = $userID";
-        $result = $this->database->query($sql);
 
-        if (!empty($result)) {
-            return (int)$result[0]['puntuacion_masalta'];
-        } else {
-            return 0;
-        }
-    }
+        $sql = "UPDATE preguntas
+                SET id_dificultad = 
+                    CASE
+                        WHEN (aciertos / apariciones) > 0.7 THEN 1
+                        WHEN (aciertos / apariciones) > 0.5 THEN 2
+                        WHEN (aciertos / apariciones) > 0.3 THEN 3
+                        ELSE 4
+                    END
+                WHERE apariciones > 10";
 
-    public function actualizarPuntajeMasAlto($userID, $puntaje)
-    {
-        $sql = "UPDATE usuarios SET puntuacion_masalta = $puntaje WHERE id = $userID";
-        return $this->database->update($sql);
-    }
-
-    public function marcarPreguntasUtilizadas()
-    {
-        $sql = "UPDATE Preguntas SET Utilizada = 0 WHERE Utilizada = 1";
         $this->database->query($sql);
     }
-
-    public function reportQuestion($preguntaID)
-    {
-        $query = "INSERT INTO preguntas_reportadas (id_pregunta_reportada) VALUES($preguntaID);";
-        return $this->database->insert($query);
-    }
-
-    public function getContadorRespuestasCorrectas($preguntaID)
-    {
-        $sql = "SELECT contador_respuestas_correctas FROM preguntas WHERE pregunta_ID = $preguntaID";
-        $result = $this->database->query($sql);
-
-        if (!empty($result)) {
-            return $result[0]['contador_respuestas_correctas'];
-        } else {
-            return null;
-        }
-    }
-
-    public function getContadorRespuestasCorrectasDelUsuario($idUsuario)
-    {
-        $sql = "SELECT contador_respuestas_correctas FROM usuarios WHERE id = $idUsuario";
-        $result = $this->database->query($sql);
-
-        if (!empty($result)) {
-            return $result[0]['contador_respuestas_correctas'];
-        } else {
-            return null;
-        }
-    }
-
-
-
-    public function incrementarContadorRespuestasCorrectas($idUsuario, $preguntaID)
-    {
-        $contadorRespuestasCorrectasPregunta = $this->getContadorRespuestasCorrectas($preguntaID);
-        $contadorRespuestasCorrectasUsuario = $this->getContadorRespuestasCorrectasDelUsuario($idUsuario);
-
-        // Incrementa el contador de la pregunta
-        $this->database->update("UPDATE preguntas SET contador_respuestas_correctas = $contadorRespuestasCorrectasPregunta + 1 WHERE Pregunta_ID = $preguntaID");
-
-        // Incrementa el contador del usuario
-        $this->database->update("UPDATE usuarios SET contador_respuestas_correctas = $contadorRespuestasCorrectasUsuario + 1 WHERE id = $idUsuario");
-    }
-
-    public function getContadorRespuestasIncorrectas($preguntaID)
-    {
-        $sql = "SELECT contador_respuestas_incorrectas FROM preguntas WHERE pregunta_ID = $preguntaID";
-        $result = $this->database->query($sql);
-
-        if (!empty($result)) {
-            return $result[0]['contador_respuestas_incorrectas'];
-        } else {
-            return null;
-        }
-    }
-
-    public function getContadorRespuestasIncorrectasDelUsuario($idUsuario)
-    {
-        $sql = "SELECT contador_respuestas_incorrectas FROM usuarios WHERE id = $idUsuario";
-        $result = $this->database->query($sql);
-
-        if (!empty($result)) {
-            return $result[0]['contador_respuestas_incorrectas'];
-        } else {
-            return null;
-        }
-    }
-
-    public function incrementarContadorRespuestasIncorrectas($idUsuario, $preguntaID)
-    {
-        // Incrementa el contador de la pregunta
-        $this->database->update("UPDATE preguntas SET contador_respuestas_incorrectas = contador_respuestas_incorrectas + 1 WHERE Pregunta_ID = $preguntaID");
-
-        // Incrementa el contador del usuario
-        $this->database->update("UPDATE usuarios SET contador_respuestas_incorrectas = contador_respuestas_incorrectas + 1 WHERE id = $idUsuario");
-    }
-
-    public function calcularDificultadPregunta($preguntaID)
-    {
-        $contadorRespuestasCorrectas = $this->getContadorRespuestasCorrectas($preguntaID);
-        $contadorRespuestasIncorrectas = $this->getContadorRespuestasIncorrectas($preguntaID);
-
-        if (($contadorRespuestasCorrectas + $contadorRespuestasIncorrectas) > 10) {
-            $dificultad = $contadorRespuestasCorrectas / ($contadorRespuestasCorrectas + $contadorRespuestasIncorrectas);
-
-            switch ($dificultad) {
-                case $dificultad <= 0.3:
-                    $this->database->update("UPDATE preguntas SET Dificultad = 'Dificil' WHERE Pregunta_ID = $preguntaID");
-                    break;
-                case $dificultad <= 0.6:
-                    $this->database->update("UPDATE preguntas SET Dificultad = 'Medio' WHERE Pregunta_ID = $preguntaID");
-                    break;
-                case $dificultad <= 1:
-                    $this->database->update("UPDATE preguntas SET Dificultad = 'Facil' WHERE Pregunta_ID = $preguntaID");
-                    break;
-                default:
-                    return null;
-                    break;
-            }
-        }
-    }
-
-    public function calcularDificultadUsuario($idUsuario)
-    {
-        $contadorRespuestasCorrectas = $this->getContadorRespuestasCorrectasDelUsuario($idUsuario);
-        $contadorRespuestasIncorrectas = $this->getContadorRespuestasIncorrectasDelUsuario($idUsuario);
-
-        if (($contadorRespuestasCorrectas + $contadorRespuestasIncorrectas) > 10) {
-            $dificultad = $contadorRespuestasCorrectas / ($contadorRespuestasCorrectas + $contadorRespuestasIncorrectas);
-
-            switch ($dificultad) {
-                case $dificultad <= 0.3:
-                    $this->database->update("UPDATE usuarios SET nivel = 'Principiante' WHERE id = $idUsuario");
-                    return "Facil";
-                    break;
-                case $dificultad <= 0.6:
-                    $this->database->update("UPDATE usuarios SET nivel = 'Intermedio' WHERE id = $idUsuario");
-                    return "Medio";
-                    break;
-                case $dificultad <= 1:
-                    $this->database->update("UPDATE usuarios SET nivel = 'Avanzado' WHERE id = $idUsuario");
-                    return "Dificil";
-                    break;
-                default:
-                    return null;
-                    break;
-            }
-        } else {
-            return null;
-        }
-    }
-
 }
