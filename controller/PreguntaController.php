@@ -36,12 +36,13 @@ class PreguntaController
         $this->presenter->render('revisarPreguntasReportadas', ['preguntasReportadas' => $preguntasReportadas]);
     }
 
+
     public function agregarPregunta()
     {
         // Verifica si se está accediendo al formulario de agregado de pregunta
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             // Muestra el formulario para agregar una pregunta
-            $this->presenter->render('formularioAgregarPregunta');
+            $this->presenter->render('apregarPregunta2');
             return;
         }
 

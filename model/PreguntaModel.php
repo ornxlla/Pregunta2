@@ -16,7 +16,7 @@ class PreguntaModel
         $result = $this->database->query($query);
 
         // Verificar si se encontraron resultados
-        if ($result->num_rows > 0) {
+        if (is_object($result) && $result->num_rows > 0) {
             // Crear un array para almacenar las preguntas reportadas
             $preguntasReportadas = [];
 
@@ -28,10 +28,10 @@ class PreguntaModel
             // Devolver el array de preguntas reportadas
             return $preguntasReportadas;
         } else {
-
             return [];
         }
     }
+
 
     public function getPreguntasSugeridas()
     {
