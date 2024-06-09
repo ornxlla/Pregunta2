@@ -1,0 +1,11 @@
+{{#preguntas}}
+    <div class="pregunta">
+        <p>{{pregunta}}</p>
+        <p>{{respuesta}}</p>
+        <p>{{tematica}}</p>
+        <form action="/pregunta/eliminar" method="post">
+            <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
+            <button type="submit">Eliminar</button>
+        </form>
+    </div>
+{{/preguntas}}
