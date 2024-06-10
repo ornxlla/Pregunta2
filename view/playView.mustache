@@ -1,67 +1,43 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/home.css">
-    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
-    <title>Home</title>
-</head>
-
-    <div class="container">
-        <div class="text-center">
-            <div class="text-center card">
-                <h1 class="mb-2 mt-3 py-4 text-center border rounded contesta"  >CATEGORIA</h1>
-                <h4 class="tiempo">Tiempo restante: <span id="temporizador" class="text-danger"> {{!{{tiempoRestante}}</span> segundos</h4>
-            </div>
+<div class="container">
+    <div class="text-center">
+        <div class="text-center card">
+            {{#usuario}}
+                <h1 class="mb-2 mt-3 py-4 text-center border rounded contesta">¡Hola! {{nombre_usuario}}</h1>
+            {{/usuario}}
+            {{#preguntas}}
+                <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">CATEGORIA {{nombre_tematica}}</h2>
+            {{/preguntas}}
         </div>
-        <div class="row">
-            <div class="col-md-12">
-               {{#pregunta}}
-                    <div class="card mt-3">
-                        <div class="card-body">
-                            <h3 class="card-title">Pregunta</h3>
-                            <p class="card-text"> {{Pregunta_texto}}</p>
-                            <p class="card-text">Dificultad de la pregunta:{{Dificultad}}</p>
-                            <form action="/play/enviarPreguntaReportada?preguntaID={{Pregunta_ID}}" method="POST">
-                            <button type="submit" class="btn btn-danger mt-3">Reportar Pregunta</button>
-                            </form>
-                        </div>
-                    </div>
-
-                <div class="card mt-3">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mt-3">
                 <div class="card-body">
-                    <h3 class="resp">Respuesta correcta</h3>
-                    <form action="/play/validarRespuesta?preguntaID={{Pregunta_ID}}&puntos={{Puntos}}" method="POST" id="formularioPlay"">
-                    {{/pregunta}}
-{{#respuestas}}
+                    <h3 class="card-title">Pregunta</h3>
+                    {{#preguntas}}
+                        <p class="card-text">{{pregunta_texto}}</p>
+                        <p class="card-text">Dificultad de la pregunta: {{dificultad}}</p>
+                    {{/preguntas}}
+                </div>
+            </div>
+            <form id="formularioPlay" action="/Play/validarRespuesta" method="POST">
+                <input type="hidden" name="id_pregunta" value="{{preguntas.id_pregunta}}">
+                {{#respuestas}}
                     <div class="radio-container">
-                        <label class="radio-button py-2" for="respuesta{{Respuesta_ID}}">
-                            <input name="respuestaID" value="{{Respuesta_ID}}" id="respuesta{{Respuesta_ID}}" type="radio">
+                        <label class="radio-button py-2" for="respuesta{{id_respuesta}}">
+                            <input name="id_respuesta" value="{{id_respuesta}}" id="respuesta{{id_respuesta}}" type="radio">
                             <span class="radio-checkmark"></span>
-                            <span class="radio-label"> {{Respuesta_texto}}</span>
+                            <span class="radio-label">{{respuesta_texto}}</span>
                         </label>
                     </div>
-                    {{/respuestas}}
-                <input type="submit" class="btn btn-light mt-3 btn-outline-secondary" value="Enviar" style="padding: 8px 20px;">
-                </form>
-            </div>
-            </div>
+                {{/respuestas}}
+                <input type="submit" name="Enviar" class="btn btn-light mt-3 btn-outline-secondary" value="Enviar" style="padding: 8px 20px;">
+            </form>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
-    <script>
-
-        document.addEventListener("DOMContentLoaded", function () {
-            iniciarTemporizador();
-        });
-    </script>
-
-    <script src="../public/js/AjaxPartida.js"></script>
-
+</div>
     <style>
 
 
@@ -153,6 +129,6 @@
     }
 
 </style>
-
+</body>
 </html>
 {{> footer}}

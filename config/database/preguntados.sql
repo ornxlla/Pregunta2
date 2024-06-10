@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2024 a las 02:46:10
+-- Tiempo de generación: 10-06-2024 a las 19:58:13
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -89,15 +89,15 @@ CREATE TABLE `preguntas` (
 
 INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utilizada`, `contador_respuestas_correctas`, `contador_respuestas_incorrectas`, `id_dificultad`, `estado`, `apariciones`) VALUES
 (1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 0, 0, 1, 1, 0),
-(2, '¿Quién fue el primer presidente de Estados Unidos?', 2, 0, 0, 0, 2, 1, 2),
-(3, '¿Qué es la mitosis?', 3, 0, 0, 0, 3, 1, 2),
-(4, '¿Cuál es la capital de Francia?', 4, 0, 0, 0, 1, 1, 2),
-(5, '¿Cuánto es la raíz cuadrada de 25?', 1, 0, 0, 0, 2, 1, 3),
-(6, '¿En qué año se firmó la Declaración de Independencia de Estados Unidos?', 2, 0, 0, 0, 3, 1, 2),
-(7, '¿Cuál es el símbolo químico del agua?', 3, 0, 0, 0, 1, 1, 3),
-(8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 0, 0, 2, 1, 2),
-(9, '¿Cuántos lados tiene un hexágono?', 1, 0, 0, 0, 3, 1, 2),
-(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 0, 0, 1, 1, 2);
+(2, '¿Quién fue el primer presidente de Estados Unidos?', 2, 0, 0, 0, 2, 1, 0),
+(3, '¿Qué es la mitosis?', 3, 0, 0, 0, 3, 1, 0),
+(4, '¿Cuál es la capital de Francia?', 4, 0, 0, 0, 1, 1, 0),
+(5, '¿Cuánto es la raíz cuadrada de 25?', 1, 0, 0, 0, 2, 1, 0),
+(6, '¿En qué año se firmó la Declaración de Independencia de Estados Unidos?', 2, 0, 0, 0, 3, 1, 0),
+(7, '¿Cuál es el símbolo químico del agua?', 3, 0, 3, 0, 1, 1, 0),
+(8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 0, 0, 2, 1, 0),
+(9, '¿Cuántos lados tiene un hexágono?', 1, 0, 0, 0, 3, 1, 0),
+(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 0, 0, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -357,15 +357,16 @@ CREATE TABLE `usuario` (
   `ciudad` varchar(100) NOT NULL,
   `id_dificultad` tinyint(4) DEFAULT NULL,
   `latitud` bigint(20) NOT NULL,
-  `longitud` bigint(20) NOT NULL
+  `longitud` bigint(20) NOT NULL,
+  `puntaje` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `país`, `ciudad`, `id_dificultad`, `latitud`, `longitud`) VALUES
-(1, 'test1', 0, 'test1@gmail.com', '1234', 'Señor Testing', '2024-05-28', 'M', 'test1.jpg', 'Argentina', 'Buenos Aires', 1, 0, 0);
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `país`, `ciudad`, `id_dificultad`, `latitud`, `longitud`, `puntaje`) VALUES
+(1, 'test1', 0, 'test1@gmail.com', '1234', 'Señor Testing', '2024-05-28', 'M', 'test1.jpg', 'Argentina', 'Buenos Aires', 1, 0, 0, 0);
 
 --
 -- Índices para tablas volcadas
