@@ -24,21 +24,24 @@ class RegistroController
         $this->presenter->render("usuario", $data);
     }
 
-    public function nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen) {
-        return $this->model->darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen,  $pais, $ciudad );
+    public function nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
+        return $this->model->darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen,  $pais, $ciudad, $latitud, $longitud);
     }
 
     public function procesarAlta() {
         $data = array();
         if (isset($_POST["enviar"])) {
             if (!empty($_POST["nombre"]) && !empty($_POST["username"]) && !empty($_POST["year"])
-                && !empty($_POST["genero"]) && !empty($_POST["email"]) && !empty($_POST["password"]) ) {
+                && !empty($_POST["genero"]) && !empty($_POST["email"]) && !empty($_POST["password"])
+                && !empty($_POST["latitud"]) && !empty($_POST["longitud"])) {
                 $nombre = ucfirst($_POST["nombre"]);
                 $username = strtolower($_POST["username"]);
                 $year = $_POST["year"];
                 $genero = $_POST["genero"];
                 $email = $_POST["email"];
                 $password = $_POST["password"];
+                $latitud = $_POST["latitud"];
+                $longitud = $_POST["longitud"];
                 //$pais = $_POST["pais"];
                 //$ciudad = $_POST["ciudad"];
                 //PARA TESTING
@@ -48,7 +51,7 @@ class RegistroController
 
                 if ($estadoImagen != 2) {
                     $nombreImagen = $_FILES["imagen"]["name"];
-                    $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen);
+                    $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
                         $data["altaOk"] = "Los datos fueron ingresados correctamente";
                         $data["numVal"] = $this->getNumeroValidacion($username);
@@ -62,7 +65,7 @@ class RegistroController
                     $this->presenter->render("registroView", $data);
                 }
             } else {
-                $data["error"] = "Los campos no pueden estar vacíos - " . $_POST["nombre"] . " - " . $_POST["username"] . " - " . $_POST["year"] . " - " . $_POST["genero"] . " - " . $_POST["email"] . " - " . $_POST["password"] . " - " . $_POST["imagen"];
+                $data["error"] = "Los campos no pueden estar vacíos - " . $_POST["nombre"] . " - " . $_POST["username"] . " - " . $_POST["year"] . " - " . $_POST["genero"] . " - " . $_POST["email"] . " - " . $_POST["password"] . " - " . $_POST["imagen"] . " - " . $_POST["latitud"] ." - " . $_POST["longitud"];
                 $this->presenter->render("registroView", $data);
             }
 
