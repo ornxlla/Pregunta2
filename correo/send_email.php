@@ -19,7 +19,7 @@ function enviarEmailBienvenida($correo, $hash) {
         $mail->isSMTP();
         $mail->Host       = 'outlook.office365.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'unlam.web2@outlook.comm';
+        $mail->Username   = 'unlam.web2@outlook.com';
         $mail->Password   = 'unlam2024';
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
