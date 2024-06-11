@@ -1,11 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .contesta {
+            color: black
+        ;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .radio-container {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            text-align: center;
+            background-color: white;
+        }
+        .radio-button {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 24px;
+        }
+        .radio-button input {
+            opacity: 0;
+            cursor: pointer;
+        }
+        .radio-checkmark {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+            width: 25px;
+            height: 25px;
+            background-color: #fff;
+            border: 2px solid #f39c12;
+            border-radius: 50%;
+        }
+        .radio-label {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 4px;
+        }
+        .botonEnviar{
+            display: flex;
+            justify-content: center;
+            margin-top: 1em;
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 1em;
+            background-color: #ffffff;
+            align-items: center;
+            font-size: 1.2em;
+        }
+
+        .card-text {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        .dificultad {
+            text-align: center;
+        }
+        body {
+            background-image: url("/public/img/fondo.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .respuesta-seleccionada {
+            background-color: #05c005 !important;
+        }
+
+        #formularioPlay{
+            display:flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
 <div class="container">
     <div class="text-center">
         <div class="text-center card">
-            {{#usuario}}
-                <h1 class="mb-2 mt-3 py-4 text-center border rounded contesta">¡Hola! {{nombre_usuario}}</h1>
-            {{/usuario}}
             {{#preguntas}}
-                <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">CATEGORIA {{nombre_tematica}}</h2>
+                <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">{{nombre_tematica}}</h2>
             {{/preguntas}}
         </div>
     </div>
@@ -13,122 +115,42 @@
         <div class="col-md-12">
             <div class="card mt-3">
                 <div class="card-body">
-                    <h3 class="card-title">Pregunta</h3>
                     {{#preguntas}}
                         <p class="card-text">{{pregunta_texto}}</p>
-                        <p class="card-text">Dificultad de la pregunta: {{dificultad}}</p>
+                        <p class="dificultad">Dificultad de la pregunta: {{dificultad}}</p>
                     {{/preguntas}}
                 </div>
             </div>
             <form id="formularioPlay" action="/Play/validarRespuesta" method="POST">
                 <input type="hidden" name="id_pregunta" value="{{preguntas.id_pregunta}}">
                 {{#respuestas}}
-                    <div class="radio-container">
-                        <label class="radio-button py-2" for="respuesta{{id_respuesta}}">
-                            <input name="id_respuesta" value="{{id_respuesta}}" id="respuesta{{id_respuesta}}" type="radio">
-                            <span class="radio-checkmark"></span>
+                    <div class="radio-container" id="radio-{{id_respuesta}}" onclick="seleccionarRespuesta('{{id_respuesta}}')">
+                        <label class="radio-button py-2">
+                            <input name="id_respuesta" value="{{id_respuesta}}" type="radio">
                             <span class="radio-label">{{respuesta_texto}}</span>
                         </label>
                     </div>
                 {{/respuestas}}
-                <input type="submit" name="Enviar" class="btn btn-light mt-3 btn-outline-secondary" value="Enviar" style="padding: 8px 20px;">
+                <input type="submit" name="Enviar" class="botonEnviar" value="ENVIAR">
             </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-    <style>
+<script>
+    function seleccionarRespuesta(idRespuesta) {
+        var respuestaSeleccionada = document.getElementById('radio-' + idRespuesta);
+        respuestaSeleccionada.classList.add('respuesta-seleccionada');
 
 
-
-
-    .radio-container {
-        color: black;
-    }
-
-    .radio-wrapper {
-        margin-bottom: 20px;
-    }
-
-    .radio-button {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .radio-button:hover {
-        transform: translateY(-2px);
-    }
-
-    .radio-button input[type="radio"] {
-        display: none;
-    }
-
-    .radio-checkmark {
-        display: inline-block;
-        position: relative;
-        width: 16px;
-        height: 16px;
-        margin-right: 10px;
-        border: 2px solid #6c757d;
-        border-radius: 50%;
-    }
-
-    .radio-checkmark:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #6c757d;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .radio-button input[type="radio"]:checked ~ .radio-checkmark:before {
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    .radio-label {
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-
-     body {
-         font-family: Arial, sans-serif;
-         margin: 0;
-         padding: 0;
-         background-image: url('../public/img/fondo.png');
-     }
-        .contesta{
-            background-color: white;
-            color:black;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        var respuestas = document.getElementsByClassName('radio-container');
+        for (var i = 0; i < respuestas.length; i++) {
+            if (respuestas[i].id !== 'radio-' + idRespuesta) {
+                respuestas[i].classList.remove('respuesta-seleccionada');
+            }
         }
-
-        .tiempo{
-            color: white;
-        }
-
-    h3.card-title {
-        text-align: center;
     }
 
-        .resp{
-            text-align: center;
-        }
-
-    .card{
-        border-radius: 1.5em;
-    }
-
-</style>
+</script>
 </body>
 </html>
-{{> footer}}
+

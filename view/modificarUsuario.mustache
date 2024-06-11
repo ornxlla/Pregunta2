@@ -1,44 +1,42 @@
-
 <body class="d-flex align-items-center" >
 <div class="form-container">
     <form class="form" action="/PerfilUsuario/procesarModificacion" method="POST" enctype="multipart/form-data">
-        <div class="datos-container">
-        <div class="datos">
-        <span class="title">Modificar Usuario</span>
+    <div class="datos-container">
+    <div class="datos">
         {{#usuario}}
-            <div class="nombresPrincipales">
-            <label for="nombre" class="label">Nombre completo</label>
-            <input type="text" id="nombre" name="nombre" required class="input" value="{{nombre_completo}}">
-
-            <label for="username" class="label">Nombre de usuario</label>
-            <input type="text" id="username" name="username" required class="input" value="{{nombre_usuario}}">
-
-            <label for="year" class="label">Año de nacimiento</label>
-            <input type="date" id="year" name="year" required class="input" value="{{anio_nacimiento}}">
-
-            <label for="genero" class="label">Género</label>
-            <select id="genero" name="genero" required class="input">
-                <option value="{{genero}}" selected>{{genero}}</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
-            </select>
-
-            <label for="email" class="label">Correo electrónico</label>
-            <input type="email" id="email" name="email" required class="input" value="{{mail}}">
-
-            <label for="password" class="label">Contraseña</label>
-            <input type="password" id="password" name="password" required class="input" value="{{contrasenia}}">
-            <div class="password-info" id="password-info">La contraseña debe tener al menos 6 caracteres, incluyendo al menos una letra y un número.</div>
-
-            <label for="confirm_password" class="label">Repetir Contraseña</label>
-            <input type="password" id="confirm_password" name="confirm_password" required class="input" placeholder="*****">
+            <div class="imagen">
+                <img src="/public/img/users/{{imagen_perfil}}">
+                <label for="imagen" class="label"></label>
+                <input type="file" id="imagen" name="imagen" class="input">
             </div>
-        </div>
-        <div class="imagen">
-            <img src="/public/img/users/{{imagen_perfil}}">
-            <label for="imagen" class="label">Seleccione una foto de perfil</label>
-            <input type="file" id="imagen" name="imagen" class="input">
+            <div class="nombresPrincipales">
+                <label for="nombre" class="label">Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" required class="input" value="{{nombre_completo}}">
+
+                <label for="username" class="label">Nombre de usuario</label>
+                <input type="text" id="username" name="username" required class="input" value="{{nombre_usuario}}">
+
+                <label for="year" class="label">Año de nacimiento</label>
+                <input type="date" id="year" name="year" required class="input" value="{{anio_nacimiento}}">
+
+                <label for="genero" class="label">Género</label>
+                <select id="genero" name="genero" required class="input">
+                    <option value="{{genero}}" selected>{{genero}}</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Prefiero no cargarlo">Prefiero no cargarlo</option>
+                </select>
+
+                <label for="email" class="label">Correo electrónico</label>
+                <input type="email" id="email" name="email" required class="input" value="{{mail}}">
+
+                <label for="password" class="label">Contraseña</label>
+                <input type="password" id="password" name="password" required class="input" value="{{contrasenia}}">
+                <div class="password-info" id="password-info">La contraseña debe tener al menos 6 caracteres, incluyendo al menos una letra y un número.</div>
+
+                <label for="confirm_password" class="label">Repetir Contraseña</label>
+                <input type="password" id="confirm_password" name="confirm_password" required class="input" placeholder="*****">
+            </div>
         </div>
             <div class="map-container">
                 <label for="map" class="label">País y Ciudad</label>
@@ -52,13 +50,23 @@
                 <input type="hidden" id="ciudad" name="ciudad" value="{{ciudad}}">
             </div>
         </div>
-            <div class="botonEditar">
-            <button type="submit" name="enviar">Guardar Cambios</button>
+            <div class="boton">
+                <button class="botonEditar" type="submit" name="enviar">Guardar Cambios</button>
             </div>
         {{/usuario}}
     </form>
 </div>
 
+<footer>
+    <div class="acomodarFooter">
+        <div class="seccion1Footer">
+
+        </div>
+        <div class="drev">
+            <p>Derechos Reservados ©2024 Preguntados. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
@@ -141,75 +149,88 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRMp94YG9PHRr-RSCqwmxUgEzRGxQIY10&callback=initMap" async defer></script>
 <style>
-
-
-    /* Estilo para la sección de información del usuario */
-    .datos-container {
-        margin: 20px auto; /* Esto centrará el contenedor horizontalmente */
-        max-width: 800px; /* Define un ancho máximo para el contenedor */
+    .form-container {
+        margin: 20px auto;
+        max-width: 800px;
         background-color: #fff;
         padding: 20px;
         box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
         border-radius: 10px;
         width: 100%;
-        margin-top:3em;
-        margin-bottom:6em;
+        margin-bottom: 6em;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .datos-container {
+        margin-top: 1em;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     }
 
     .datos {
-        display: flex;
-        flex-direction: row; /* Alinear elementos verticalmente */
-        align-items: center; /* Centrar elementos horizontalmente */
-        justify-content: space-around;
-        margin-top: 0.5em;
+        margin-bottom: 1em;
     }
 
     .imagen {
-        margin-bottom: 20px; /* Espacio entre la imagen y el botón */
+        text-align: center;
+        margin-bottom: 1em;
     }
 
     .imagen img {
-        width: 270px;
-        height: 270px;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
+        border: 2px solid #ccc;
+    }
+
+
+    .map-container {
+        margin-bottom: 1em;
     }
 
     .botonEditar {
-        margin-bottom: 20px; /* Espacio entre el botón y la información */
         display: flex;
-        flex-direction: column-reverse;
-        align-items: center;
+        justify-content: center;
         margin-top: 1em;
-    }
-
-    .botonEditar button {
         text-decoration: none;
         color: white;
         font-weight: bold;
         border-radius: 1em;
         padding: 1em;
         background-color: black;
+        align-items: center;
     }
 
-    .botonEditar button:hover {
-        color: black;
-        background-color: white;
-        border: 1px solid black;
+    .input {
+        width: 100%;
+        padding: 0.5em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
     }
 
-    .datos h1 {
-        font-size: 2rem;
-        color: #1a202c;
+    .label {
+        font-weight: bold;
     }
 
-    .datos h3 {
-        font-size: 1rem;
-        color: #4a5568;
-        margin-bottom: 5px;
-        border: 1px solid;
-        padding:0.4em;
+    .password-info {
+        margin-top: 0.5em;
+        font-size: 0.8rem;
+        color: #6c757d;
     }
 
+    .map-container p {
+        margin: 0.5em 0;
+    }
+
+    .map-container #map {
+        width: 100%;
+        height: 300px;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
 
 
     body{
@@ -218,6 +239,16 @@
         background-size: cover;
     }
 
+    .boton{
+        display: flex;
+        align-items: center;
+        flex-direction: column
+    }
+    .botonEditar:hover {
+        color: black;
+        background-color: white;
+        border: 1px solid black;
+    }
     footer {
         background-color: white;
         width: 100%;
@@ -237,10 +268,6 @@
         font-family: "Poppins", sans-serif;
         text-align: center;
     }
-
-
-
-
 
 </style>
 </body>
