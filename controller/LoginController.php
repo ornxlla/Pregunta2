@@ -1,14 +1,17 @@
 <?php
-class LoginController {
+class LoginController
+{
     private $model;
     private $presenter;
 
-    public function __construct($presenter, $model){
+    public function __construct($presenter, $model)
+    {
         $this->presenter = $presenter;
         $this->model = $model;
     }
 
-    public function get(){
+    public function get()
+    {
         $this->presenter->render("LoginView");
     }
 
@@ -28,15 +31,15 @@ class LoginController {
                             $credencialesValidas = true;
                             $id_usuario = $fila["id_usuario"];
                             // Iniciar sesión
-                            $sesionIniciada = $this->iniciarSesion($id_usuario,$username, $password);
+                            $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $password);
                             if ($sesionIniciada === PHP_SESSION_ACTIVE) {
-                                    $data["usuario"] = $this->model->getUsuario($username);
-                                    $this->presenter->render("homeUserLogueado", $data);
+                                $data["usuario"] = $this->model->getUsuario($username);
+                                $_SESSION["usuario"] = $data["usuario"]; // Guardar datos del usuario en la sesión
+                                $this->presenter->render("homeUserLogueado", $data);
                             } else {
                                 $data["error"] = "Error al iniciar sesión";
                                 $this->presenter->render("LoginView", $data);
                             }
-
                         }
                     }
                     // Si las credenciales no coinciden con ningún registro en la base de datos
@@ -57,18 +60,17 @@ class LoginController {
         }
     }
 
-
-    public function iniciarSesion($id,$username, $password)
+    public function iniciarSesion($id, $username, $password)
     {
         $_SESSION["Session_id"] = $id;
         $_SESSION["Session_nombre"] = $username;
-        //$_SESSION["pw"] = $password;
         return session_status();
     }
 
-    public function getUsuario($username = null){
-        if ($username) {
-            $data["usuario"] = $this->model->getUsuario($username);
+    public function getUsuario($username = null)
+    {
+        if (isset($_SESSION["usuario"])) {
+            $data["usuario"] = $_SESSION["usuario"];
             $this->presenter->render("usuario", $data);
         } else {
             // Manejo del caso en que no se recibe el nombre de usuario
@@ -76,11 +78,5 @@ class LoginController {
             $this->presenter->render("error", $data);
         }
     }
-   /* public function cerrarSesion()
-    {
-        session_destroy();
-        Redirect::root();
-    }*/
-
 }
 ?>

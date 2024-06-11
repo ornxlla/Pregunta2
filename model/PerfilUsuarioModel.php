@@ -9,10 +9,8 @@ class PerfilUsuarioModel
         $this->database = $database;
     }
 
-    public function getUsuarioLogueado($username)
-    {
+    public function getUsuarioLogueado($username) {
         $stmt = $this->database->prepare("SELECT * FROM usuario WHERE nombre_usuario = ?");
-
         if ($stmt) {
             $stmt->bind_param('s', $username);
             $stmt->execute();
@@ -27,11 +25,9 @@ class PerfilUsuarioModel
             echo "Error preparando la consulta: " . $this->database->error;
             return false;
         }
-
-
     }
-    public function modificarUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud)
-    {
+
+    public function modificarUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
         $sql = 'UPDATE USUARIO SET nombre_completo = ?, anio_nacimiento = ?, genero = ?, mail = ?, contrasenia = ?, pais = ?, ciudad = ?, latitud = ?, longitud = ?';
         if ($nombreImagen) {
             $sql .= ', imagen_perfil = ?';
@@ -39,7 +35,6 @@ class PerfilUsuarioModel
         $sql .= ' WHERE nombre_usuario = ?';
 
         $stmt = $this->database->prepare($sql);
-
         if ($stmt) {
             if ($nombreImagen) {
                 $stmt->bind_param("sssssssssss", $nombre, $year, $genero, $email, $password, $pais, $ciudad, $latitud, $longitud, $nombreImagen, $username);
@@ -52,4 +47,5 @@ class PerfilUsuarioModel
             return false;
         }
     }
+
 }

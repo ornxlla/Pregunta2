@@ -18,7 +18,7 @@ class RegistroModel
     {
         //ARREGLAR SQL
         $sql = 'INSERT INTO USUARIO
-        ( nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, país, ciudad, latitud, longitud)
+        ( nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud)
         VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $stmt = $this->database->prepare($sql);
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2024 a las 19:58:13
+-- Tiempo de generación: 11-06-2024 a las 04:22:35
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -88,16 +88,16 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utilizada`, `contador_respuestas_correctas`, `contador_respuestas_incorrectas`, `id_dificultad`, `estado`, `apariciones`) VALUES
-(1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 0, 0, 1, 1, 0),
+(1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 0, 1, 1, 1, 1),
 (2, '¿Quién fue el primer presidente de Estados Unidos?', 2, 0, 0, 0, 2, 1, 0),
 (3, '¿Qué es la mitosis?', 3, 0, 0, 0, 3, 1, 0),
-(4, '¿Cuál es la capital de Francia?', 4, 0, 0, 0, 1, 1, 0),
+(4, '¿Cuál es la capital de Francia?', 4, 0, 1, 0, 1, 1, 1),
 (5, '¿Cuánto es la raíz cuadrada de 25?', 1, 0, 0, 0, 2, 1, 0),
 (6, '¿En qué año se firmó la Declaración de Independencia de Estados Unidos?', 2, 0, 0, 0, 3, 1, 0),
-(7, '¿Cuál es el símbolo químico del agua?', 3, 0, 3, 0, 1, 1, 0),
+(7, '¿Cuál es el símbolo químico del agua?', 3, 0, 4, 0, 1, 1, 1),
 (8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 0, 0, 2, 1, 0),
 (9, '¿Cuántos lados tiene un hexágono?', 1, 0, 0, 0, 3, 1, 0),
-(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 0, 0, 1, 1, 0);
+(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 0, 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -353,7 +353,7 @@ CREATE TABLE `usuario` (
   `anio_nacimiento` date NOT NULL,
   `genero` varchar(25) NOT NULL,
   `imagen_perfil` varchar(255) NOT NULL,
-  `país` varchar(100) NOT NULL,
+  `pais` varchar(100) NOT NULL,
   `ciudad` varchar(100) NOT NULL,
   `id_dificultad` tinyint(4) DEFAULT NULL,
   `latitud` bigint(20) NOT NULL,
@@ -365,8 +365,9 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `país`, `ciudad`, `id_dificultad`, `latitud`, `longitud`, `puntaje`) VALUES
-(1, 'test1', 0, 'test1@gmail.com', '1234', 'Señor Testing', '2024-05-28', 'M', 'test1.jpg', 'Argentina', 'Buenos Aires', 1, 0, 0, 0);
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `pais`, `ciudad`, `id_dificultad`, `latitud`, `longitud`, `puntaje`) VALUES
+(1, 'test1', 0, 'test1@gmail.com', '1234', 'Ornella', '2024-05-28', 'M', 'test1.jpg', '', '', 1, -41, -66, 0),
+(2, 'ornxllita', 0, 'ornxalonso@gmail.com', 'Ornella2002', 'Ornella Alonso Reyes', '2002-12-05', 'Femenino', 'cv.jpg', 'Argentina', 'Estancia la Primavera', NULL, -42, -66, 0);
 
 --
 -- Índices para tablas volcadas
@@ -461,7 +462,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
