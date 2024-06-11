@@ -104,10 +104,13 @@
 </head>
 <body>
 <div class="container">
+    <div id="myBar">
+
+    </div>
     <div class="text-center">
         <div class="text-center card">
             {{#preguntas}}
-                <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">{{nombre_tematica}}</h2>
+                <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">{{tematicas}}</h2>
             {{/preguntas}}
         </div>
     </div>
@@ -121,18 +124,49 @@
                     {{/preguntas}}
                 </div>
             </div>
-            <form id="formularioPlay" action="/Play/validarRespuesta" method="POST">
-                <input type="hidden" name="id_pregunta" value="{{preguntas.id_pregunta}}">
-                {{#respuestas}}
-                    <div class="radio-container" id="radio-{{id_respuesta}}" onclick="seleccionarRespuesta('{{id_respuesta}}')">
-                        <label class="radio-button py-2">
-                            <input name="id_respuesta" value="{{id_respuesta}}" type="radio">
-                            <span class="radio-label">{{respuesta_texto}}</span>
-                        </label>
+
+            <form class="card-body d-flex flex-column align-items-center" method="post" enctype="multipart/form-data"
+                  action="
+              {{^error}}
+                /Play/validar_respuesta
+              {{/error}}
+        ">
+                {{#preguntas}}
+                    <input type="hidden" name="id_pregunta" id="id_pregunta" value="{{id_pregunta}}">
+                {{/preguntas}}
+                <div class=" col-10 btn-group-vertical align-self-center" role="group">
+                    {{#respuesta}}
+                        {{^error}}
+                            <input class="btn-check" type="radio" name="id_respuesta" id="radio-{{id_respuesta}}" onclick="seleccionarRespuesta('{{id_respuesta}}')"
+                                   value="{{correcta}}-{{id_respuesta}}">
+                            <label class="radio-button py-2" for="{{id_respuesta}}">
+                                {{respuesta_texto}}
+                            </label>
+                        {{/error}}
+                        {{#error}}
+                            <label class="col-12 text-center alert border-dark correcta-{{correcta}} text-dark fw-bold"
+                                   for="{{id_respuesta}}">
+                                {{respuesta_texto}}
+                            </label>
+                        {{/error}}
+                    {{/respuesta}}
+                </div>
+                {{#error}}
+                    <div class="col-10 col-lg-4 mt-3 mb-3 text-center align-self-center" id="error_activado">
+                        <p class="alert alert-danger text-center"> {{.}} </p>
+                        <a href="/Play/finalizar_partida" class="btn btn-lg btn-warning btn-11">Volver al lobby</a>
                     </div>
-                {{/respuestas}}
-                <input type="submit" name="Enviar" class="botonEnviar" value="ENVIAR">
+                {{/error}}
+
+                {{^error}}
+                    <button type="submit" class="btn btn-lg btn-success mt-3 btn-11 w-50">Responder</button>
+                {{/error}}
             </form>
+            <div id="countdown" class="countdown-timer"></div>
+
+            {{^error}}
+                <a class="btn btn-sm btn-dark text-light btn-11 w-50 align-self-center" href="/Play/finalizar_partida">Finalizar partida</a>
+            {{/error}}
         </div>
     </div>
 </div>
@@ -151,6 +185,36 @@
     }
 
 </script>
-</body>
-</html>
 
+        <script>
+            function move() {
+                var elem = document.getElementById("myBar");
+                var countdown = document.getElementById("countdown");
+                var width = 100; // Ancho inicial
+                var duration = 30000; // Duración en milisegundos (30 segundos)
+                var frameRate = 10; // Intervalo de actualización (ms)
+                var frames = duration / frameRate;
+                var step = width / frames;
+                var i = 0;
+
+                function frame() {
+                    if (i < frames) {
+                        i++;
+                        width -= step;
+                        elem.style.width = width + "%";
+                        var remainingTime = ((frames - i) * frameRate / 1000).toFixed(1);
+                        countdown.textContent = remainingTime + " segundos restantes";
+                    } else {
+                        clearInterval(id);
+                        alert("¡Tiempo agotado!");
+                        // Puedes agregar aquí cualquier otra acción que desees cuando el tiempo se agote
+                    }
+                }
+
+                var id = setInterval(frame, frameRate);
+            }
+
+            window.onload = function() {
+                move();
+            };
+        </script>

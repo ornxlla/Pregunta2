@@ -12,10 +12,13 @@ class Database
         }
     }
 
-    public function query($sql): array
-    {
+    public function query($sql) {
         $result = mysqli_query($this->conn, $sql);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        if (!is_bool($result))
+            return mysqli_fetch_all($result, MYSQLI_BOTH);
+        else
+            return [];
     }
 
     public function execute($sql)
@@ -31,5 +34,9 @@ class Database
     public function prepare($query)
     {
         return $this->conn->prepare($query);
+    }
+
+    public function last_insert(){
+        return mysqli_insert_id($this->conn);
     }
 }
