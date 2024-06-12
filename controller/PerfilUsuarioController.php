@@ -1,5 +1,5 @@
 <?php
-
+include_once("third-party/phpqrcode/qrlib.php");
 class PerfilUsuarioController
 {
     private $presenter;
@@ -14,13 +14,31 @@ class PerfilUsuarioController
 
     public function getUsuario()
     {
-        if (isset($_SESSION["usuario"])) {
-            $data["usuario"] = $_SESSION["usuario"];
+        if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
+            $data["usuario"] = $_SESSION["usuario"][0]; // Acceder al primer elemento del array
+
+            // Verificar si "id_usuario" está definido en el array usuario
+            if (!isset($data["usuario"]["id_usuario"])) {
+                echo "ID de usuario no encontrado en la sesión. Verifique la estructura de \$_SESSION[\"usuario\"]:";
+                var_dump($data["usuario"]); // Agregar esta línea para depurar
+                return;
+            }
+
+            // Generar el código QR
+            $imgQR = "http://localhost/PerfilUsuario/getUsuario?id=" . $data["usuario"]["id_usuario"];
+            $carpeta_destino = "public/images/profile_qrs/";
+            if (!file_exists($carpeta_destino)) {
+                mkdir($carpeta_destino, 0777, true);
+            }
+            QRcode::png($imgQR, $carpeta_destino . $data["usuario"]["id_usuario"] . "_qr.png", QR_ECLEVEL_L, 4);
+
             $this->presenter->render("perfil-usuario", $data);
         } else {
             echo "ID de usuario no encontrado";
         }
     }
+
+
 
     public function procesarModificacion()
     {
