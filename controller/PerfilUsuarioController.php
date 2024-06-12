@@ -15,16 +15,13 @@ class PerfilUsuarioController
     public function getUsuario()
     {
         if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
-            $data["usuario"] = $_SESSION["usuario"][0]; // Acceder al primer elemento del array
+            $data["usuario"] = $_SESSION["usuario"][0];
 
-            // Verificar si "id_usuario" está definido en el array usuario
             if (!isset($data["usuario"]["id_usuario"])) {
-                echo "ID de usuario no encontrado en la sesión. Verifique la estructura de \$_SESSION[\"usuario\"]:";
-                var_dump($data["usuario"]); // Agregar esta línea para depurar
+                error_log("ID de usuario no encontrado en la sesión.");
                 return;
             }
 
-            // Generar el código QR
             $imgQR = "http://localhost/PerfilUsuario/getUsuario?id=" . $data["usuario"]["id_usuario"];
             $carpeta_destino = "public/images/profile_qrs/";
             if (!file_exists($carpeta_destino)) {
@@ -33,7 +30,7 @@ class PerfilUsuarioController
             QRcode::png($imgQR, $carpeta_destino . $data["usuario"]["id_usuario"] . "_qr.png", QR_ECLEVEL_L, 4);
             $this->presenter->render("perfil-usuario", $data);
         } else {
-            echo "ID de usuario no encontrado";
+            error_log("ID de usuario no encontrado");
         }
     }
 
@@ -77,22 +74,21 @@ class PerfilUsuarioController
                         }
                     }
 
-
                     $resultado = $this->model->modificarUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
                         $_SESSION["usuario"][0] = $this->model->getUsuarioLogueado($username);
-                        $this->presenter->render("perfil-usuario", $data);
                         Redirect::to("/PerfilUsuario/getUsuario");
                     } else {
                         $data["error"] = "Los datos no pudieron ser ingresados";
                     }
                 }
             }
-            // Renderizar la vista de modificarUsuario con los datos y errores
             $data["usuario"] = $_SESSION["usuario"][0];
             $this->presenter->render("modificarUsuario", $data);
+
         }
     }
+
 
 
 
@@ -101,7 +97,7 @@ class PerfilUsuarioController
         if (isset($_SESSION["usuario"])) {
             $this->presenter->render("modificarUsuario", ["usuario" => $_SESSION["usuario"]]);
         } else {
-            echo "No hay usuario logueado.";
+            error_log("No hay usuario logueado.");
         }
     }
 
@@ -113,12 +109,12 @@ class PerfilUsuarioController
             $imagen = $directorioImagen . $nombreImagen;
 
             if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $imagen)) {
-                return true; // La imagen se subió correctamente
+                return true;
             } else {
                 return "Error al subir la imagen";
             }
         }
-        return true; // No se proporcionó ninguna imagen
+        return true;
     }
-
 }
+?>

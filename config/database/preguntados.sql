@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-06-2024 a las 04:22:35
+-- Tiempo de generación: 12-06-2024 a las 23:39:21
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -54,16 +54,21 @@ CREATE TABLE `partida` (
   `hora_inicio` datetime NOT NULL,
   `hora_final` datetime DEFAULT NULL,
   `puntos_jugador_1` int(11) DEFAULT NULL,
-  `puntos_jugador_2` int(11) DEFAULT NULL
+  `puntos_jugador_2` int(11) DEFAULT NULL,
+  `id_pregunta` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `partida`
 --
 
-INSERT INTO `partida` (`id`, `id_jugador_1`, `id_jugador_2`, `hora_inicio`, `hora_final`, `puntos_jugador_1`, `puntos_jugador_2`) VALUES
-(1, 1, NULL, '2024-06-08 13:21:25', '2024-06-08 13:33:09', NULL, NULL),
-(2, 1, NULL, '2024-06-08 13:33:51', NULL, NULL, NULL);
+INSERT INTO `partida` (`id`, `id_jugador_1`, `id_jugador_2`, `hora_inicio`, `hora_final`, `puntos_jugador_1`, `puntos_jugador_2`, `id_pregunta`) VALUES
+(1, 1, NULL, '2024-06-08 13:21:25', '2024-06-11 23:47:24', 21, NULL, NULL),
+(15, 2, NULL, '2024-06-11 23:35:14', '2024-06-11 23:36:41', NULL, NULL, NULL),
+(16, 1, NULL, '2024-06-11 23:36:44', NULL, NULL, NULL, NULL),
+(17, 2, NULL, '2024-06-11 23:42:22', NULL, NULL, NULL, NULL),
+(18, 1, NULL, '2024-06-11 23:47:27', NULL, NULL, NULL, NULL),
+(19, 1, NULL, '2024-06-12 17:00:40', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -88,16 +93,16 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utilizada`, `contador_respuestas_correctas`, `contador_respuestas_incorrectas`, `id_dificultad`, `estado`, `apariciones`) VALUES
-(1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 0, 1, 1, 1, 1),
-(2, '¿Quién fue el primer presidente de Estados Unidos?', 2, 0, 0, 0, 2, 1, 0),
-(3, '¿Qué es la mitosis?', 3, 0, 0, 0, 3, 1, 0),
-(4, '¿Cuál es la capital de Francia?', 4, 0, 1, 0, 1, 1, 1),
-(5, '¿Cuánto es la raíz cuadrada de 25?', 1, 0, 0, 0, 2, 1, 0),
-(6, '¿En qué año se firmó la Declaración de Independencia de Estados Unidos?', 2, 0, 0, 0, 3, 1, 0),
-(7, '¿Cuál es el símbolo químico del agua?', 3, 0, 4, 0, 1, 1, 1),
-(8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 0, 0, 2, 1, 0),
-(9, '¿Cuántos lados tiene un hexágono?', 1, 0, 0, 0, 3, 1, 0),
-(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 0, 0, 1, 1, 1);
+(1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 8, 1, 1, 1, 14),
+(2, '¿Quién fue el primer presidente de Estados Unidos?', 2, 0, 0, 0, 2, 1, 4),
+(3, '¿Qué es la mitosis?', 3, 0, 0, 0, 3, 1, 5),
+(4, '¿Cuál es la capital de Francia?', 4, 0, 8, 0, 1, 1, 11),
+(5, '¿Cuánto es la raíz cuadrada de 25?', 1, 0, 1, 0, 2, 1, 4),
+(6, '¿En qué año se firmó la Declaración de Independencia de Estados Unidos?', 2, 0, 3, 0, 3, 1, 9),
+(7, '¿Cuál es el símbolo químico del agua?', 3, 0, 11, 0, 1, 1, 7),
+(8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 2, 0, 2, 1, 6),
+(9, '¿Cuántos lados tiene un hexágono?', 1, 0, 2, 0, 3, 1, 9),
+(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 7, 0, 1, 1, 11);
 
 -- --------------------------------------------------------
 
@@ -115,6 +120,8 @@ CREATE TABLE `preguntas_partida` (
 --
 
 INSERT INTO `preguntas_partida` (`id_partida`, `id_pregunta`) VALUES
+(1, 1),
+(1, 2),
 (1, 3),
 (1, 4),
 (1, 5),
@@ -123,15 +130,7 @@ INSERT INTO `preguntas_partida` (`id_partida`, `id_pregunta`) VALUES
 (1, 8),
 (1, 9),
 (1, 10),
-(2, 2),
-(2, 3),
-(2, 4),
-(2, 5),
-(2, 6),
-(2, 7),
-(2, 8),
-(2, 9),
-(2, 10);
+(15, 9);
 
 -- --------------------------------------------------------
 
@@ -248,7 +247,6 @@ INSERT INTO `respuesta` (`id_respuesta`, `id_pregunta`, `correcta`, `respuesta_t
 (348, 5, 0, '3'),
 (349, 5, 0, '5'),
 (350, 5, 1, '4'),
-(351, 5, 0, '6'),
 (352, 6, 0, '1776'),
 (353, 6, 1, '1776'),
 (354, 6, 0, '1789'),
@@ -265,7 +263,6 @@ INSERT INTO `respuesta` (`id_respuesta`, `id_pregunta`, `correcta`, `respuesta_t
 (365, 9, 1, '6'),
 (366, 9, 0, '7'),
 (367, 9, 0, '8'),
-(368, 10, 0, 'Vladimir Lenin'),
 (369, 10, 1, 'Vladimir Lenin'),
 (370, 10, 0, 'Joseph Stalin'),
 (371, 10, 0, 'Leon Trotsky');
@@ -286,23 +283,32 @@ CREATE TABLE `respuestas_partida` (
 --
 
 INSERT INTO `respuestas_partida` (`id_partida`, `id_respuesta`) VALUES
-(1, 212),
+(1, 213),
+(1, 221),
+(1, 222),
+(1, 227),
+(1, 228),
+(1, 332),
+(1, 333),
+(1, 334),
+(1, 336),
+(1, 341),
 (1, 343),
 (1, 347),
+(1, 348),
 (1, 349),
+(1, 350),
+(1, 352),
 (1, 353),
+(1, 354),
+(1, 355),
 (1, 356),
-(1, 367),
-(1, 368),
-(2, 221),
-(2, 229),
-(2, 336),
-(2, 340),
-(2, 347),
-(2, 349),
-(2, 352),
-(2, 356),
-(2, 360);
+(1, 360),
+(1, 362),
+(1, 363),
+(1, 365),
+(1, 369),
+(15, 365);
 
 -- --------------------------------------------------------
 
@@ -356,8 +362,8 @@ CREATE TABLE `usuario` (
   `pais` varchar(100) NOT NULL,
   `ciudad` varchar(100) NOT NULL,
   `id_dificultad` tinyint(4) DEFAULT NULL,
-  `latitud` bigint(20) NOT NULL,
-  `longitud` bigint(20) NOT NULL,
+  `latitud` float NOT NULL,
+  `longitud` float NOT NULL,
   `puntaje` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -366,8 +372,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `pais`, `ciudad`, `id_dificultad`, `latitud`, `longitud`, `puntaje`) VALUES
-(1, 'test1', 0, 'test1@gmail.com', '1234', 'Ornella', '2024-05-28', 'M', 'test1.jpg', '', '', 1, -41, -66, 0),
-(2, 'ornxllita', 0, 'ornxalonso@gmail.com', 'Ornella2002', 'Ornella Alonso Reyes', '2002-12-05', 'Femenino', 'cv.jpg', 'Argentina', 'Estancia la Primavera', NULL, -42, -66, 0);
+(1, 'test1', 0, 'test1@gmail.com', '1234', 'TEST', '2024-05-28', 'M', 'test1.jpg', 'Argentina', 'La Tablada', 1, -34.6859, -58.5331, 0),
+(2, 'ornxllita', 0, 'ornxalonso@gmail.com', 'Ornella2002', 'Ornella Alonso', '2002-12-05', 'Femenino', 'cv.jpg', 'Brasil', '', NULL, -30, -55, 0),
+(3, 'alejo', 0, 'ornellareyes21@gmail.com', 'Ornella2002', 'Alejo Melissari', '2003-11-17', 'Masculino', 'WIN_20230721_12_30_43_Pro.jpg', 'España', 'Valdemorales', NULL, 39, -6, 0);
 
 --
 -- Índices para tablas volcadas
@@ -444,7 +451,7 @@ ALTER TABLE `dificultad`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -462,7 +469,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -472,6 +479,7 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `partida`
 --
 ALTER TABLE `partida`
+  ADD CONSTRAINT `fk_id_pregunta` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas` (`id_pregunta`),
   ADD CONSTRAINT `partida_ibfk_1` FOREIGN KEY (`id_jugador_1`) REFERENCES `usuario` (`id_usuario`),
   ADD CONSTRAINT `partida_ibfk_2` FOREIGN KEY (`id_jugador_2`) REFERENCES `usuario` (`id_usuario`);
 

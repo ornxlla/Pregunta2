@@ -78,5 +78,15 @@ class LoginController
             $this->presenter->render("error", $data);
         }
     }
+
+    public function toHome() {
+        if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
+            $data["usuario"] = $_SESSION["usuario"];
+            $this->presenter->render("homeUserLogueado", $data);
+        }
+    }
+
 }
+
+
 ?>
