@@ -31,7 +31,6 @@ class PerfilUsuarioController
                 mkdir($carpeta_destino, 0777, true);
             }
             QRcode::png($imgQR, $carpeta_destino . $data["usuario"]["id_usuario"] . "_qr.png", QR_ECLEVEL_L, 4);
-
             $this->presenter->render("perfil-usuario", $data);
         } else {
             echo "ID de usuario no encontrado";
