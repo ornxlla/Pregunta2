@@ -42,7 +42,7 @@ class PerfilUsuarioController
 
     public function procesarModificacion()
     {
-        if (isset($_SESSION["usuario"])) {
+        if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
             $data = [];
             if (isset($_POST["enviar"])) {
                 $required_fields = ["nombre", "year", "genero", "email", "password", "latitud", "longitud"];
@@ -55,7 +55,7 @@ class PerfilUsuarioController
                     }
                 }
                 if ($valid) {
-                    $data["usuario"] = $_SESSION["usuario"];
+                    $data["usuario"] = $_SESSION["usuario"][0];
 
                     $nombre = ucfirst($_POST["nombre"]);
                     $username = strtolower($_POST["username"]);
@@ -81,7 +81,7 @@ class PerfilUsuarioController
 
                     $resultado = $this->model->modificarUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
-                        $_SESSION["usuario"] = $this->model->getUsuarioLogueado($username);
+                        $_SESSION["usuario"][0] = $this->model->getUsuarioLogueado($username);
                         $this->presenter->render("perfil-usuario", $data);
                         Redirect::to("/PerfilUsuario/getUsuario");
                     } else {
@@ -90,7 +90,7 @@ class PerfilUsuarioController
                 }
             }
             // Renderizar la vista de modificarUsuario con los datos y errores
-            $data["usuario"] = $_SESSION["usuario"];
+            $data["usuario"] = $_SESSION["usuario"][0];
             $this->presenter->render("modificarUsuario", $data);
         }
     }
