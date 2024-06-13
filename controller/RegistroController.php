@@ -21,7 +21,15 @@ class RegistroController
     }
 
     public function nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
-        return $this->model->darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen,  $pais, $ciudad, $latitud, $longitud);
+        $codigoValidacion=$this->getNumeroValidacion($username);
+        $resultado=$this->model->darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen,  $pais, $ciudad, $latitud, $longitud,$codigoValidacion);
+
+        if($resultado){
+            $envioCorreo=$this->model->enviarCorreoConfirmacion($email,$codigoValidacion);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public function procesarAlta() {
@@ -47,16 +55,11 @@ class RegistroController
                     $nombreImagen = $_FILES["imagen"]["name"];
                     $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
-                        $codigoValidacion = $this->getNumeroValidacion($username);
-                        $envioCorreo = $this->model->enviarCorreoConfirmacion($email, $codigoValidacion);
-                        if ($envioCorreo===true) {
-
                             $data["altaOk"] = "Los datos fueron ingresados correctamente. Se ha enviado un correo electrónico de confirmación.";
-                            $data["numVal"] = $codigoValidacion;
                             $this->presenter->render("usuarioRegistradoView", $data);
                         } else {
 
-                            $data["error"] = "No se pudo enviar el correo electrónico de confirmación.Detalles: " . $envioCorreo;
+                            $data["error"] = "No se pudo enviar el correo electrónico de confirmación. ";
                             $this->presenter->render("registroView", $data);
                         }
                     } else {
@@ -73,7 +76,7 @@ class RegistroController
             }
 
         }
-    }
+
 
     public function getNumeroValidacion($username){
         $numAleatorio=rand(1000,9999);
@@ -86,7 +89,7 @@ class RegistroController
             $code = $_GET["code"];
             $usuarioValidado = $this->model->validarUsuario($code);
             if ($usuarioValidado) {
-                $this->presenter->render("LoginView");
+                $this->presenter->render("bienvenidaUserValidado");
             } else {
                 // o ponemos un error
                 $this->presenter->render("registroView");

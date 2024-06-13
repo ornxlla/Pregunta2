@@ -20,18 +20,18 @@ class RegistroModel
     {
         return $this->database->query('SELECT * FROM usuario');
     }
-    public function darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password , $nombreImagen, $pais, $ciudad, $latitud, $longitud)
+    public function darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen, $pais, $ciudad, $latitud, $longitud, $codigo_validacion)
     {
         //ARREGLAR SQL
-        $sql = 'INSERT INTO USUARIO
-        ( nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud)
-        VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO usuario
+    (nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud, codigo_validacion)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $stmt = $this->database->prepare($sql);
 
         $rol = 0;
 
         if ($stmt) {
-            $stmt->bind_param("sissssssssss", $username, $rol , $email, $password, $nombre, $year, $genero, $nombreImagen, $pais, $ciudad, $latitud, $longitud);
+            $stmt->bind_param("sisssssssssss", $nombre, $rol , $email, $password, $nombreImagen, $nombre, $year, $genero, $pais, $ciudad, $latitud, $longitud, $codigo_validacion);
             return $stmt->execute();
         } else {
             return false;
@@ -53,9 +53,7 @@ class RegistroModel
             $mail->addAddress($correoUsuario);
             $mail->Subject = 'Correo de validacion';
 
-            $mail->Body = "¡Gracias por registrarte en nuestro sitio! Por favor, haz clic en el siguiente enlace para confirmar tu cuenta: <a href='http://localhost/pregunta2/registro/validacion?code=$codigoValidacion'>Confirmar cuenta</a>";
-
-
+            $mail->Body = "¡Gracias por registrarte en nuestro sitio! Por favor, haz clic en el siguiente enlace para confirmar tu cuenta: http://localhost/Registro/validacion?code=" .$codigoValidacion ;
 
             $mail->send();
             return true;

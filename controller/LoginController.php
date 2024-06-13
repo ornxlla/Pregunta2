@@ -26,11 +26,11 @@ class LoginController
                 if (!empty($resultado)) {
                     $credencialesValidas = false;
                     foreach ($resultado as $fila) {
-                        if ($fila["nombre_usuario"] === $username && $fila["contrasenia"] === $password) {
-                            // Las credenciales son válidas
+                        if ($fila["nombre_usuario"] === $username && $fila["contrasenia"] === $password&& $fila["validado"] == 1) {
+
                             $credencialesValidas = true;
                             $id_usuario = $fila["id_usuario"];
-                            // Iniciar sesión
+
                             $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $password);
                             if ($sesionIniciada === PHP_SESSION_ACTIVE) {
                                 $data["usuario"] = $this->model->getUsuario($username);
@@ -44,7 +44,7 @@ class LoginController
                     }
                     // Si las credenciales no coinciden con ningún registro en la base de datos
                     if (!$credencialesValidas) {
-                        $data["error"] = "Las credenciales son incorrectas!";
+                        $data["error"] = "Las credenciales son incorrectas o la cuenta no está validada.";
                         $this->presenter->render("LoginView", $data);
                     }
                 } else {
