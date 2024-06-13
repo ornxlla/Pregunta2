@@ -1,5 +1,4 @@
 <?php
-
 namespace controller;
 
 class RegistroController
@@ -16,9 +15,6 @@ class RegistroController
         $this->presenter->render("registroView");
     }
 
-    public function saluda(){
-        echo "hola";
-    }
     public function getRegistros(){
         $data["usuario"] = $this->model->getUsuarioRegistrados();
         $this->presenter->render("usuario", $data);
@@ -42,20 +38,27 @@ class RegistroController
                 $password = $_POST["password"];
                 $latitud = $_POST["latitud"];
                 $longitud = $_POST["longitud"];
-                //$pais = $_POST["pais"];
-                //$ciudad = $_POST["ciudad"];
-                //PARA TESTING
-                $pais = "Argentina";
-                $ciudad = "Buenos Aires";
+                $pais = "Argentina"; // Por ahora lo dejamos así
+                $ciudad = "Buenos Aires"; // Por ahora lo dejamos así
+
                 $estadoImagen = $this->subirArchivo();
 
                 if ($estadoImagen != 2) {
                     $nombreImagen = $_FILES["imagen"]["name"];
                     $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
-                        $data["altaOk"] = "Los datos fueron ingresados correctamente";
-                        $data["numVal"] = $this->getNumeroValidacion($username);
-                        $this->presenter->render("usuarioRegistradoView", $data);
+                        $codigoValidacion = $this->getNumeroValidacion($username);
+                        $envioCorreo = $this->model->enviarCorreoConfirmacion($email, $codigoValidacion);
+                        if ($envioCorreo===true) {
+
+                            $data["altaOk"] = "Los datos fueron ingresados correctamente. Se ha enviado un correo electrónico de confirmación.";
+                            $data["numVal"] = $codigoValidacion;
+                            $this->presenter->render("usuarioRegistradoView", $data);
+                        } else {
+
+                            $data["error"] = "No se pudo enviar el correo electrónico de confirmación.Detalles: " . $envioCorreo;
+                            $this->presenter->render("registroView", $data);
+                        }
                     } else {
                         $data["error"] = "Los datos no pudieron ser ingresados";
                         $this->presenter->render("registroView", $data);
@@ -65,7 +68,7 @@ class RegistroController
                     $this->presenter->render("registroView", $data);
                 }
             } else {
-                $data["error"] = "Los campos no pueden estar vacíos - " . $_POST["nombre"] . " - " . $_POST["username"] . " - " . $_POST["year"] . " - " . $_POST["genero"] . " - " . $_POST["email"] . " - " . $_POST["password"] . " - " . $_POST["imagen"] . " - " . $_POST["latitud"] ." - " . $_POST["longitud"];
+                $data["error"] = "Los campos no pueden estar vacíos";
                 $this->presenter->render("registroView", $data);
             }
 
@@ -73,18 +76,24 @@ class RegistroController
     }
 
     public function getNumeroValidacion($username){
-        return $username;
+        $numAleatorio=rand(1000,9999);
+        $codigo=$username . $numAleatorio;
+        return $codigo;
     }
 
     public function validacion(){
         if(isset($_GET["code"])){
-            //TO-DO - Toda la logica de validacion
             $code = $_GET["code"];
-            $data["validar"] = $code;
-            $this->presenter->render("usuarioRegistradoView", $data);
+            $usuarioValidado = $this->model->validarUsuario($code);
+            if ($usuarioValidado) {
+                $this->presenter->render("LoginView");
+            } else {
+                // o ponemos un error
+                $this->presenter->render("registroView");
+            }
         }
-
     }
+
 
     public function subirArchivo(){
         if(isset($_FILES["imagen"]["name"])){

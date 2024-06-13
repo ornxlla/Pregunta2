@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-06-2024 a las 23:39:21
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Tiempo de generación: 13-06-2024 a las 21:04:41
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -63,12 +63,14 @@ CREATE TABLE `partida` (
 --
 
 INSERT INTO `partida` (`id`, `id_jugador_1`, `id_jugador_2`, `hora_inicio`, `hora_final`, `puntos_jugador_1`, `puntos_jugador_2`, `id_pregunta`) VALUES
-(1, 1, NULL, '2024-06-08 13:21:25', '2024-06-11 23:47:24', 21, NULL, NULL),
+(1, 1, NULL, '2024-06-08 13:21:25', '2024-06-13 20:57:08', 22, NULL, NULL),
 (15, 2, NULL, '2024-06-11 23:35:14', '2024-06-11 23:36:41', NULL, NULL, NULL),
 (16, 1, NULL, '2024-06-11 23:36:44', NULL, NULL, NULL, NULL),
 (17, 2, NULL, '2024-06-11 23:42:22', NULL, NULL, NULL, NULL),
 (18, 1, NULL, '2024-06-11 23:47:27', NULL, NULL, NULL, NULL),
-(19, 1, NULL, '2024-06-12 17:00:40', NULL, NULL, NULL, NULL);
+(19, 1, NULL, '2024-06-12 17:00:40', NULL, NULL, NULL, NULL),
+(20, 1, NULL, '2024-06-13 20:57:00', NULL, NULL, NULL, NULL),
+(21, 1, NULL, '2024-06-13 20:57:10', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -102,7 +104,22 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utiliz
 (7, '¿Cuál es el símbolo químico del agua?', 3, 0, 11, 0, 1, 1, 7),
 (8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 2, 0, 2, 1, 6),
 (9, '¿Cuántos lados tiene un hexágono?', 1, 0, 2, 0, 3, 1, 9),
-(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 7, 0, 1, 1, 11);
+(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 7, 0, 1, 1, 11),
+(11, '¿Cual es la capital de Argentina?', 4, 0, 0, 0, 1, 1, 0),
+(12, '¿Cuando es 3 + 4 * 2?', 1, 0, 0, 0, 1, 1, 0),
+(13, 'En que año termino la primera guerra mundial?', 2, 0, 0, 0, 1, 1, 0),
+(14, '¿Cual es el simbolo quimico de oxigeno?', 7, 0, 0, 0, 1, 1, 0),
+(15, '¿Cual es el oceano mas grande del mundo)', 4, 0, 0, 0, 1, 1, 0),
+(16, '¿Cual es el resultado de 5+15?', 1, 0, 1, 0, 1, 1, 1),
+(17, '¿Cual es la formula del area de un triangulo?', 1, 0, 0, 0, 2, 1, 0),
+(18, '¿Quien fue el primer emperador romano?', 2, 0, 0, 0, 2, 1, 0),
+(19, '¿Que elemento quimico tiene el simbolo \"Fe\"?', 3, 0, 0, 0, 2, 1, 0),
+(20, '¿Cual es el pais mas grande del mundo por area de tierra?', 4, 0, 0, 0, 2, 1, 0),
+(21, '¿Cual es el pH del agua pura?', 7, 0, 0, 0, 2, 1, 0),
+(22, '¿Cual es el resultado de 13x0 + 13?', 1, 0, 0, 0, 2, 1, 0),
+(23, '¿Cual es el resultado de 12/2*3?', 1, 0, 0, 0, 3, 1, 0),
+(24, '¿Cual fue la batalla que marco el fin de la guerra de los Cien Años?', 2, 0, 0, 0, 3, 1, 0),
+(25, 'Que cientifico formulo la eoria de la relatividad?', 3, 0, 0, 0, 3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -130,6 +147,7 @@ INSERT INTO `preguntas_partida` (`id_partida`, `id_pregunta`) VALUES
 (1, 8),
 (1, 9),
 (1, 10),
+(1, 16),
 (15, 9);
 
 -- --------------------------------------------------------
@@ -192,42 +210,8 @@ INSERT INTO `respuesta` (`id_respuesta`, `id_pregunta`, `correcta`, `respuesta_t
 (227, 10, 0, 'George Washington'),
 (228, 10, 0, 'Benjamin Franklin'),
 (229, 10, 0, 'John Adams'),
-(233, 11, 1, '6'),
-(234, 11, 0, '12'),
-(235, 11, 0, '8'),
-(236, 11, 0, '14'),
-(240, 12, 1, 'El río Amazonas'),
-(241, 12, 0, 'El río Nilo'),
-(242, 12, 0, 'El río Misisipi'),
-(243, 12, 0, 'El río Yangtsé'),
-(247, 13, 1, '3'),
-(248, 13, 0, '4'),
 (249, 13, 0, '2'),
 (250, 13, 0, '5'),
-(254, 14, 1, '1945'),
-(255, 14, 0, '1918'),
-(256, 14, 0, '1955'),
-(257, 14, 0, '1960'),
-(261, 15, 1, 'Na'),
-(262, 15, 0, 'So'),
-(263, 15, 0, 'Sa'),
-(264, 15, 0, 'Ni'),
-(268, 16, 1, 'El monte Everest'),
-(269, 16, 0, ''),
-(270, 16, 0, 'El monte Fuji'),
-(271, 16, 0, 'El monte McKinley'),
-(311, 36, 1, 'metros'),
-(312, 36, 0, 'litros'),
-(313, 36, 0, 'kilos'),
-(314, 36, 0, 'libras'),
-(318, 37, 1, 'si'),
-(319, 37, 0, 'no'),
-(320, 37, 0, 'no'),
-(321, 37, 0, 'no'),
-(325, 38, 1, 'si'),
-(326, 38, 0, 'no'),
-(327, 38, 0, 'no'),
-(328, 38, 0, 'no'),
 (332, 1, 0, 'πr²'),
 (333, 1, 0, '2πr'),
 (334, 1, 1, 'πr'),
@@ -265,7 +249,67 @@ INSERT INTO `respuesta` (`id_respuesta`, `id_pregunta`, `correcta`, `respuesta_t
 (367, 9, 0, '8'),
 (369, 10, 1, 'Vladimir Lenin'),
 (370, 10, 0, 'Joseph Stalin'),
-(371, 10, 0, 'Leon Trotsky');
+(371, 10, 0, 'Leon Trotsky'),
+(372, 11, 0, 'Cordoba'),
+(373, 11, 0, 'La Plata'),
+(374, 11, 1, 'Buenos Aires'),
+(375, 11, 0, 'Ninguna'),
+(376, 12, 0, '4'),
+(377, 12, 1, '11'),
+(378, 12, 0, '15'),
+(379, 12, 0, '10'),
+(380, 13, 1, '1918'),
+(381, 13, 0, '1914'),
+(382, 13, 0, '1920'),
+(383, 13, 0, '1939'),
+(384, 14, 0, 'O'),
+(385, 14, 0, 'Oc'),
+(386, 14, 1, 'Ox'),
+(387, 14, 0, 'Oxg'),
+(388, 15, 1, 'Oceano Pacifico'),
+(389, 15, 0, 'Oceano Atlantico'),
+(390, 15, 0, 'Oceano Indico'),
+(391, 15, 0, 'Oceano Artico'),
+(392, 16, 0, '10'),
+(393, 16, 1, '20'),
+(394, 16, 0, '15'),
+(395, 16, 0, '14'),
+(396, 17, 1, '(base*altura)/2'),
+(397, 17, 0, 'base*altura'),
+(398, 17, 0, 'base + altura'),
+(399, 17, 0, '(base*altura)*2'),
+(400, 18, 0, 'Julio Cesar'),
+(401, 18, 1, 'Augusto'),
+(402, 18, 0, 'Neron'),
+(403, 18, 0, 'Trajano'),
+(404, 19, 1, 'Hierro'),
+(405, 19, 0, 'Plata'),
+(406, 19, 0, 'Oro'),
+(407, 19, 0, 'Cobre'),
+(408, 20, 0, 'China'),
+(409, 20, 1, 'Canada'),
+(410, 20, 0, 'Rusia'),
+(411, 20, 0, 'Estado unidos'),
+(412, 21, 0, '6'),
+(413, 21, 1, '7'),
+(414, 21, 0, '8'),
+(415, 21, 0, '9'),
+(416, 22, 0, '14'),
+(417, 22, 1, '13'),
+(418, 22, 0, '10'),
+(419, 22, 0, '0'),
+(420, 23, 0, '18'),
+(421, 23, 1, '20'),
+(422, 23, 0, '24'),
+(423, 23, 0, '15'),
+(424, 24, 0, 'Batalla de Hastings'),
+(425, 24, 0, 'Batalla de Agincourt'),
+(426, 24, 1, 'Batalla de Castillon'),
+(427, 24, 0, 'Batalla de Poitiers'),
+(428, 25, 0, 'Issac Newton'),
+(429, 25, 1, 'Albert Einstein'),
+(430, 25, 0, 'Niels Bohr'),
+(431, 25, 0, 'Galileo Galilei');
 
 -- --------------------------------------------------------
 
@@ -308,6 +352,7 @@ INSERT INTO `respuestas_partida` (`id_partida`, `id_respuesta`) VALUES
 (1, 363),
 (1, 365),
 (1, 369),
+(1, 393),
 (15, 365);
 
 -- --------------------------------------------------------
@@ -364,17 +409,19 @@ CREATE TABLE `usuario` (
   `id_dificultad` tinyint(4) DEFAULT NULL,
   `latitud` float NOT NULL,
   `longitud` float NOT NULL,
-  `puntaje` bigint(20) NOT NULL
+  `puntaje` bigint(20) NOT NULL,
+  `validado` tinyint(1) DEFAULT 0,
+  `codigo_validacion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `pais`, `ciudad`, `id_dificultad`, `latitud`, `longitud`, `puntaje`) VALUES
-(1, 'test1', 0, 'test1@gmail.com', '1234', 'TEST', '2024-05-28', 'M', 'test1.jpg', 'Argentina', 'La Tablada', 1, -34.6859, -58.5331, 0),
-(2, 'ornxllita', 0, 'ornxalonso@gmail.com', 'Ornella2002', 'Ornella Alonso', '2002-12-05', 'Femenino', 'cv.jpg', 'Brasil', '', NULL, -30, -55, 0),
-(3, 'alejo', 0, 'ornellareyes21@gmail.com', 'Ornella2002', 'Alejo Melissari', '2003-11-17', 'Masculino', 'WIN_20230721_12_30_43_Pro.jpg', 'España', 'Valdemorales', NULL, 39, -6, 0);
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `es_administrador`, `mail`, `contrasenia`, `nombre_completo`, `anio_nacimiento`, `genero`, `imagen_perfil`, `pais`, `ciudad`, `id_dificultad`, `latitud`, `longitud`, `puntaje`, `validado`, `codigo_validacion`) VALUES
+(1, 'test1', 0, 'test1@gmail.com', '1234', 'TEST', '2024-05-28', 'M', 'test1.jpg', 'Argentina', 'La Tablada', 1, -34.6859, -58.5331, 0, 0, NULL),
+(2, 'ornxllita', 0, 'ornxalonso@gmail.com', 'Ornella2002', 'Ornella Alonso', '2002-12-05', 'Femenino', 'cv.jpg', 'Brasil', '', NULL, -30, -55, 0, 0, NULL),
+(3, 'alejo', 0, 'ornellareyes21@gmail.com', 'Ornella2002', 'Alejo Melissari', '2003-11-17', 'Masculino', 'WIN_20230721_12_30_43_Pro.jpg', 'España', 'Valdemorales', NULL, 39, -6, 0, 0, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -393,7 +440,8 @@ ALTER TABLE `dificultad`
 ALTER TABLE `partida`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_jugador_1` (`id_jugador_1`),
-  ADD KEY `id_jugador_2` (`id_jugador_2`);
+  ADD KEY `id_jugador_2` (`id_jugador_2`),
+  ADD KEY `fk_id_pregunta` (`id_pregunta`);
 
 --
 -- Indices de la tabla `preguntas`
@@ -451,7 +499,7 @@ ALTER TABLE `dificultad`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -463,7 +511,7 @@ ALTER TABLE `preguntas`
 -- AUTO_INCREMENT de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
+  MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
