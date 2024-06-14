@@ -11,7 +11,40 @@ class PreguntaController
         $this->model = $model;
     }
 
-    public function getPreguntasReportadas()
+
+
+    public function agregar()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $preguntaTexto = $_POST['pregunta_texto'] ?? '';
+            $respuestaTexto = $_POST['respuesta_texto'] ?? '';
+
+            // Validación básica (puedes implementar validaciones más robustas)
+            if (empty($preguntaTexto) || empty($respuestaTexto)) {
+                echo "Debe ingresar tanto la pregunta como la respuesta.";
+                return;
+            }
+
+            // Definir otros valores predefinidos o lógica según tus necesidades
+            $idTematica = 1; // Ejemplo: Temática predefinida
+            $idDificultad = 1; // Ejemplo: Dificultad predefinida
+
+            // Intentar agregar la pregunta y la respuesta
+            try {
+                $this->model->agregarPreguntaYRespuesta($preguntaTexto, $respuestaTexto, $idTematica, $idDificultad);
+                echo "Pregunta y respuesta agregadas correctamente.";
+            } catch (Exception $e) {
+                echo "Error al agregar pregunta y respuesta: " . $e->getMessage();
+            }
+        } else {
+            echo "Método no permitido para agregar preguntas.";
+        }
+    }
+
+
+
+
+public function getPreguntasReportadas()
     {
         // Llama al método del modelo para obtener las preguntas reportadas
         $preguntasReportadas = $this->model->getPreguntasReportadas();
@@ -36,7 +69,7 @@ class PreguntaController
         $this->presenter->render('revisarPreguntasReportadas', ['preguntasReportadas' => $preguntasReportadas]);
     }
 
-
+/*
     public function agregarPregunta()
     {
         // Verifica si se está accediendo al formulario de agregado de pregunta
@@ -57,7 +90,7 @@ class PreguntaController
         header("Location: index.php");
         exit();
     }
-
+*/
     public function eliminarPregunta()
     {
         // Verifica si se está accediendo a la página de confirmación para eliminar una pregunta

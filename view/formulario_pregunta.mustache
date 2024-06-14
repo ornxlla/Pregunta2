@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Pregunta con Respuesta</title>
+</head>
+<body>
+<h2>Agregar Pregunta con Respuesta</h2>
+<form action="index.php?controller=pregunta&method=agregar" method="post">
+    <label for="pregunta_texto">Pregunta:</label><br>
+    <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50"></textarea><br><br>
+
+    <label for="respuesta_texto">Respuesta:</label><br>
+    <input type="text" id="respuesta_texto" name="respuesta_texto"><br><br>
+
+    <input type="submit" value="Agregar Pregunta">
+</form>
+</body>
+</html>

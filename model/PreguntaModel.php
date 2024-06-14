@@ -1,15 +1,46 @@
 <?php
 
-class PreguntaModel
-{
+class PreguntaModel {
     private $database;
 
-    public function __construct($database)
-    {
+    public function __construct($database) {
         $this->database = $database;
     }
 
-    public function getPreguntasReportadas()
+// agregar una pregunta con una respuesta directamente desde un formulario
+
+    public function agregarPreguntaYRespuesta($preguntaTexto, $respuestaTexto, $idTematica, $idDificultad)
+    {
+        // Preparar la consulta SQL para insertar la pregunta y obtener su ID
+        $stmtPregunta = $this->database->prepare("INSERT INTO preguntas (pregunta_texto, id_tematica, id_dificultad) VALUES (?, ?, ?)");
+        $stmtPregunta->bind_param("sii", $preguntaTexto, $idTematica, $idDificultad);
+        $stmtPregunta->execute();
+        $idPregunta = $stmtPregunta->insert_id;
+
+        // Preparar la consulta SQL para insertar la respuesta asociada
+        $stmtRespuesta = $this->database->prepare("INSERT INTO respuestas (id_pregunta, correcta, respuesta_texto) VALUES (?, 1, ?)");
+        $stmtRespuesta->bind_param("is", $idPregunta, $respuestaTexto);
+        $stmtRespuesta->execute();
+
+        // Verificar si hubo algún error al ejecutar las consultas
+        if ($stmtPregunta->error || $stmtRespuesta->error) {
+            throw new Exception("Error al insertar pregunta y respuesta en la base de datos.");
+        }
+
+        // Cerrar los statements
+        $stmtPregunta->close();
+        $stmtRespuesta->close();
+    }
+
+
+
+public function obtenerPreguntasPredefinidas() {
+        $stmt = $this->database->query('SELECT id, texto FROM preguntas_predefinidas');
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+public function getPreguntasReportadas()
     {
         $query = "SELECT * FROM preguntas_reportadas";
 
@@ -54,6 +85,7 @@ class PreguntaModel
         }
     }
 
+    /*
     public function agregarPregunta($pregunta, $respuesta, $tematica)
     {
 
@@ -72,7 +104,7 @@ class PreguntaModel
             // Hubo un error al agregar la pregunta
             return false;
         }
-    }
+    }*/
 
     public function eliminarPregunta($preguntaID)
     {
