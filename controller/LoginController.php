@@ -15,6 +15,79 @@ class LoginController
         $this->presenter->render("LoginView");
     }
 
+
+    // metodos de PreguntaController provisoriamente acá hasta que funcione
+    public function preguntas()
+    {
+        $data= [];
+        $preguntasObtenidas = $this->model->obtenerPreguntas();
+        $data["preguntas"] = $preguntasObtenidas;
+        $this->presenter->render("lista_preguntas", $data);
+    }
+
+    public function aceptarPregunta()
+    {
+        $pregunta = $_POST["pregunta-texto"];
+        $this->model->aceptarPregunta($pregunta);
+    }
+
+    public function rechazarPregunta()
+    {
+        $idPregunta = $_GET["ID"];
+        $this->model->eliminarPregunta($idPregunta);
+    }
+
+    //
+
+    // El editor puede revisar las preguntas reportadas para aprobar o dar de baja:
+
+
+    public function manejarSolicitud()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_POST['accion'] === 'aprobarPregunta') {
+                $this->aprobarPregunta($_POST['idPregunta']);
+            } elseif ($_POST['accion'] === 'eliminarPregunta') {
+                $this->eliminarPregunta($_POST['idPregunta']);
+            }
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['accion']) && $_GET['accion'] === 'preguntasReportadas') {
+            $this->getPreguntasReportadas();
+        } else {
+            // Manejar otra lógica según sea necesario
+            $this->presenter->render('view/LoginView.php'); // Vista por defecto
+        }
+    }
+
+    public function getPreguntasReportadas()
+    {
+        $preguntasReportadas = $this->model->getPreguntasReportadas();
+        $this->presenter->render('PreguntasReportadasView.mustache', ['preguntas' => $preguntasReportadas]);
+    }
+
+
+    public function aprobarPregunta($idPregunta)
+    {
+        $this->model->aprobarPregunta($idPregunta);
+        // Redirigir después de aprobar la pregunta
+        header("Location: index.php?accion=preguntasReportadas");
+        exit();
+    }
+
+    public function eliminarPregunta($idPregunta)
+    {
+        $this->model->eliminarPregunta($idPregunta);
+        // Redirigir después de eliminar la pregunta
+        header("Location: index.php?accion=preguntasReportadas");
+        exit();
+    }
+
+
+
+
+    // fin PreguntaController
+
+
+
     public function procesar()
     {
         if (isset($_POST["enviar"])) {

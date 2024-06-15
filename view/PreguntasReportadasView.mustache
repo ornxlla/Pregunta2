@@ -1,0 +1,27 @@
+<h1>Preguntas Reportadas</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Pregunta</th>
+        <th>Acciones</th>
+    </tr>
+    {{#preguntas}}
+        <tr>
+            <td>{{id_pregunta}}</td>
+            <td>{{pregunta}}</td>
+            <td>
+                <form method="post" action="index.php">
+                    <input type="hidden" name="accion" value="aprobarPregunta">
+                    <input type="hidden" name="idPregunta" value="{{id_pregunta}}">
+                    <button type="submit">Aprobar</button>
+                </form>
+                <form method="post" action="index.php">
+                    <input type="hidden" name="accion" value="eliminarPregunta">
+                    <input type="hidden" name="idPregunta" value="{{id_pregunta}}">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+    {{/preguntas}}
+</table>

@@ -12,39 +12,19 @@ class PreguntaController
     }
 
 
-
-    public function agregar()
+    public function aceptarPregunta($idPregunta)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $preguntaTexto = $_POST['pregunta_texto'] ?? '';
-            $respuestaTexto = $_POST['respuesta_texto'] ?? '';
-
-            // Validación básica (puedes implementar validaciones más robustas)
-            if (empty($preguntaTexto) || empty($respuestaTexto)) {
-                echo "Debe ingresar tanto la pregunta como la respuesta.";
-                return;
-            }
-
-            // Definir otros valores predefinidos o lógica según tus necesidades
-            $idTematica = 1; // Ejemplo: Temática predefinida
-            $idDificultad = 1; // Ejemplo: Dificultad predefinida
-
-            // Intentar agregar la pregunta y la respuesta
-            try {
-                $this->model->agregarPreguntaYRespuesta($preguntaTexto, $respuestaTexto, $idTematica, $idDificultad);
-                echo "Pregunta y respuesta agregadas correctamente.";
-            } catch (Exception $e) {
-                echo "Error al agregar pregunta y respuesta: " . $e->getMessage();
-            }
-        } else {
-            echo "Método no permitido para agregar preguntas.";
-        }
+        $this->model->aceptarPergunta($idPregunta);
+        redirect::to("login");
     }
 
 
 
 
-public function getPreguntasReportadas()
+
+
+
+  public function getPreguntasReportadas()
     {
         // Llama al método del modelo para obtener las preguntas reportadas
         $preguntasReportadas = $this->model->getPreguntasReportadas();

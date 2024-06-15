@@ -1,11 +1,16 @@
-{{#preguntas}}
-    <div class="pregunta">
-        <p>{{pregunta}}</p>
-        <p>{{respuesta}}</p>
-        <p>{{tematica}}</p>
-        <form action="/pregunta/eliminar" method="post">
-            <input type="hidden" name="pregunta_id" value="{{pregunta_id}}">
-            <button type="submit">Eliminar</button>
-        </form>
-    </div>
-{{/preguntas}}
+
+<main class="row d-flex m-3 py-3 rounded justify-content-evenly">
+    {{#preguntas}}
+        <div class="card col-lg-5 mb-5 p-0 bg-dark adminPregDiv">
+            <form action="/login/aceptarPregunta" method="post" enctype="multipart/form-data">
+                <p class="card-header">
+                    <label for="pregunta-texto">Pregunta</label>
+                    <input class="form-control mb-2" id="pregunta-texto" name="pregunta-texto" value="{{pregunta}}">
+                    <button type="submit">ACEPTAR</button>
+            </form>
+            <a class="col-6 btn btn-lg btn-danger align-self-center mb-3" href="/login/aceptarPregunta?id={{id}}">Aceptar pregunta</a>
+            <a class="col-6 btn btn-lg btn-danger align-self-center mb-3" href="/login/rechazarPregunta?id={{id}}">Rechazar pregunta</a>
+            <a class="col-6 btn btn-lg btn-danger align-self-center mb-3" href="/login/modificarPregunta?id={{id}}">Modificar pregunta</a>
+        </div>
+    {{/preguntas}}
+</main>

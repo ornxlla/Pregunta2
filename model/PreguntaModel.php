@@ -34,7 +34,11 @@ class PreguntaModel {
 
 
 
-public function obtenerPreguntasPredefinidas() {
+
+
+
+/*
+    public function obtenerPreguntasPredefinidas() {
         $stmt = $this->database->query('SELECT id, texto FROM preguntas_predefinidas');
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -85,26 +89,6 @@ public function getPreguntasReportadas()
         }
     }
 
-    /*
-    public function agregarPregunta($pregunta, $respuesta, $tematica)
-    {
-
-        $query = "INSERT INTO preguntas (pregunta, respuesta, tematica) VALUES (?, ?, ?)";
-
-        $statement = $this->database->prepare($query);
-
-        $statement->bind_param("sss", $pregunta, $respuesta, $tematica);
-
-        $statement->execute();
-
-        if ($statement->affected_rows > 0) {
-            // La pregunta se agregó
-            return true;
-        } else {
-            // Hubo un error al agregar la pregunta
-            return false;
-        }
-    }*/
 
     public function eliminarPregunta($preguntaID)
     {
@@ -140,8 +124,7 @@ public function getPreguntasReportadas()
 
 
 
-
-
+*/
 
 }
 
