@@ -1,27 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Reportadas</title>
+</head>
+<body>
 <h1>Preguntas Reportadas</h1>
 
-<table>
+<table border="1">
+    <thead>
     <tr>
         <th>ID</th>
         <th>Pregunta</th>
         <th>Acciones</th>
     </tr>
+    </thead>
+    <tbody>
+
     {{#preguntas}}
         <tr>
             <td>{{id_pregunta}}</td>
-            <td>{{pregunta}}</td>
+            <td>{{pregunta_texto}}</td>
             <td>
-                <form method="post" action="index.php">
-                    <input type="hidden" name="accion" value="aprobarPregunta">
-                    <input type="hidden" name="idPregunta" value="{{id_pregunta}}">
+                <form action="/Login/aprobarPregunta" method="POST" style="display: inline;">
+                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
                     <button type="submit">Aprobar</button>
                 </form>
-                <form method="post" action="index.php">
-                    <input type="hidden" name="accion" value="eliminarPregunta">
-                    <input type="hidden" name="idPregunta" value="{{id_pregunta}}">
-                    <button type="submit">Eliminar</button>
+                <form action="/Login/darDeBajaPregunta" method="POST" style="display: inline;">
+                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                    <button type="submit">Dar de Baja</button>
                 </form>
             </td>
         </tr>
     {{/preguntas}}
+
+    </tbody>
 </table>
+
+<br>
+<a href="/Login/listadoGeneralPreguntas">Listado de Preguntas General</a>
+
+</body>
+</html>

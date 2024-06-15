@@ -15,79 +15,6 @@ class LoginController
         $this->presenter->render("LoginView");
     }
 
-
-    // metodos de PreguntaController provisoriamente acá hasta que funcione
-    public function preguntas()
-    {
-        $data= [];
-        $preguntasObtenidas = $this->model->obtenerPreguntas();
-        $data["preguntas"] = $preguntasObtenidas;
-        $this->presenter->render("lista_preguntas", $data);
-    }
-
-    public function aceptarPregunta()
-    {
-        $pregunta = $_POST["pregunta-texto"];
-        $this->model->aceptarPregunta($pregunta);
-    }
-
-    public function rechazarPregunta()
-    {
-        $idPregunta = $_GET["ID"];
-        $this->model->eliminarPregunta($idPregunta);
-    }
-
-    //
-
-    // El editor puede revisar las preguntas reportadas para aprobar o dar de baja:
-
-
-    public function manejarSolicitud()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($_POST['accion'] === 'aprobarPregunta') {
-                $this->aprobarPregunta($_POST['idPregunta']);
-            } elseif ($_POST['accion'] === 'eliminarPregunta') {
-                $this->eliminarPregunta($_POST['idPregunta']);
-            }
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['accion']) && $_GET['accion'] === 'preguntasReportadas') {
-            $this->getPreguntasReportadas();
-        } else {
-            // Manejar otra lógica según sea necesario
-            $this->presenter->render('view/LoginView.php'); // Vista por defecto
-        }
-    }
-
-    public function getPreguntasReportadas()
-    {
-        $preguntasReportadas = $this->model->getPreguntasReportadas();
-        $this->presenter->render('PreguntasReportadasView.mustache', ['preguntas' => $preguntasReportadas]);
-    }
-
-
-    public function aprobarPregunta($idPregunta)
-    {
-        $this->model->aprobarPregunta($idPregunta);
-        // Redirigir después de aprobar la pregunta
-        header("Location: index.php?accion=preguntasReportadas");
-        exit();
-    }
-
-    public function eliminarPregunta($idPregunta)
-    {
-        $this->model->eliminarPregunta($idPregunta);
-        // Redirigir después de eliminar la pregunta
-        header("Location: index.php?accion=preguntasReportadas");
-        exit();
-    }
-
-
-
-
-    // fin PreguntaController
-
-
-
     public function procesar()
     {
         if (isset($_POST["enviar"])) {
@@ -158,6 +85,87 @@ class LoginController
             $this->presenter->render("homeUserLogueado", $data);
         }
     }
+
+
+
+
+
+
+
+    ///   PreguntaController:
+    ///    EL EDITOR puede revisar las preguntas reportadas, para aprobar o dar de baja
+    ///    paso 1
+    public function getPreguntasReportadas()
+    {
+        $preguntasReportadas = $this->model->obtenerPreguntasReportadas();
+        $this->presenter->render('PreguntasReportadasView', ['preguntas' => $preguntasReportadas]);
+    }
+
+    // paso 2 de aprobar preguntas ok funciona
+
+    public function aprobarPregunta()
+    {
+
+        $idPregunta = $_POST['id_pregunta'] ?? null;
+
+        if (!$idPregunta) {
+            echo "Error: ID de pregunta no especificado.";
+            return;
+        }
+        $this->model->aprobarPregunta($idPregunta);
+        header("Location: /Login/getPreguntasReportadas");
+        exit;
+    }
+
+
+    // paso 3 dar de baja preguntada reportada ok funciona
+
+    public function darDeBajaPregunta()
+    {
+        $idPregunta = $_POST['id_pregunta'] ?? null;
+
+        if (!$idPregunta) {
+            echo "Error: ID de pregunta no especificado.";
+            return;
+        }
+        $this->model->darDeBajaPregunta($idPregunta);
+        header("Location: /Login/getPreguntasReportadas");
+        exit;
+    }
+
+
+  // el editor puede aprobar las preguntas sugeridas por usuarios
+  // paso 1
+    public function getPreguntasSugeridas()
+    {
+        $preguntasSugeridas = $this->model->obtenerPreguntasSugeridas();
+        $this->presenter->render('PreguntasSugeridasView', ['preguntas' => $preguntasSugeridas]);
+    }
+
+// paso 2 que apruebe preguntas sugeridas
+
+    public function aprobarPreguntaSugerida()
+    {
+        $idPregunta = $_POST['id_pregunta'] ?? null;
+
+        if (!$idPregunta) {
+            echo "Error: ID de pregunta no especificado.";
+            return;
+        }
+
+        $this->model->aprobarPreguntaSugerida($idPregunta);
+        header("Location: /Login/getPreguntasSugeridas");
+        exit;
+    }
+
+// el editor podrá ver los cambios de sus funciones en el listado general de preguntas, es decir que trae las preguntas que no son sugeridas ni reportadas  (porque cuando las aceptó dichos campos pasaron a estar en false)
+
+    public function listadoGeneralPreguntas()
+    {
+        $preguntasGenerales = $this->model->obtenerPreguntasGenerales();
+        $this->presenter->render('ListadoGeneralPreguntasView', ['preguntas' => $preguntasGenerales]);
+    }
+
 
 }
 

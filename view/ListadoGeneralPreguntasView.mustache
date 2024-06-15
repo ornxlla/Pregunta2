@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado General de Preguntas</title>
+</head>
+<body>
+<h1>Listado General de Preguntas</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Pregunta</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#preguntas}}
+        <tr>
+            <td>{{id_pregunta}}</td>
+            <td>{{pregunta_texto}}</td>
+        </tr>
+    {{/preguntas}}
+    </tbody>
+</table>
+
+<br>
+<a href="/Login/getPreguntasReportadas">Preguntas Reportadas</a>
+<br>
+<a href="/Login/getPreguntasSugeridas">Preguntas Sugeridas</a>
+
+</body>
+</html>

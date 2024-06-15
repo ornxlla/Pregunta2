@@ -33,14 +33,91 @@ class LoginModel
 
 
 
-    // METODOS DEL PreguntaController provisoriamente acá hasta que funcione el PreguntaModel
+
+// PreguntaMODEL:
+//PREGUNTAS REPORTADAS: puede revisar las preguntas reportadas, para aprobar o dar de baja
+
+// paso 1
+    public function obtenerPreguntasReportadas()
+    {
+        $query = "SELECT id_pregunta, pregunta_texto FROM preguntas WHERE reportada = 1";
+        return $this->database->query($query);
+    }
+
+//paso 2 aprobar pregunta
+
+    public function aprobarPregunta($idPregunta)
+    {
+        $query = "UPDATE preguntas SET reportada = 0 WHERE id_pregunta = '$idPregunta'";
+        $this->database->execute($query);
+    }
+
+//paso 3 eliminar pregunta
+
+    public function darDeBajaPregunta($idPregunta)
+    {
+        $query = "DELETE FROM preguntas WHERE id_pregunta = '$idPregunta'";
+        $this->database->execute($query);
+    }
+
+
+// PREGUNTAS SUGERIDAS : // el editor puede aprobar las preguntas sugeridas por usuarios
+
+    public function obtenerPreguntasSugeridas()
+    {
+        $query = "SELECT id_pregunta, pregunta_texto FROM preguntas WHERE es_sugerida = 1";
+        return $this->database->query($query);
+    }
+
+
+    public function aprobarPreguntaSugerida($idPregunta)
+    {
+        $query = "UPDATE preguntas SET es_sugerida = 0 WHERE id_pregunta = $idPregunta";
+        $this->database->execute($query);
+    }
+
+
+// el editor podrá ver los cambios de sus funciones en el listado general de preguntas, es decir que trae las preguntas que no son sugeridas ni reportadas  (porque cuando las aceptó dichos campos pasaron a estar en false)
+
+    public function obtenerPreguntasGenerales()
+    {
+        $query = "SELECT id_pregunta, pregunta_texto FROM preguntas WHERE es_sugerida = 0 AND reportada = 0";
+        return $this->database->query($query);
+    }
+
+// consigna: Debe existir un tipo de usuario editor, que le permite dar de alta, baja y modificar las preguntas:
+
+// 1ER PASO: CREAR PREGUNTA Y SE AGREGA AL LISTADO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // VER METODOS DEL PreguntaController provisoriamente acá hasta que funcione el PreguntaModel
 
     public function obtenerPreguntas()
     {
         $query = "SELECT * FROM  preguntas_sugeridas";
         return$this->database->query($query);
     }
-
+/*
     public function aceptarPregunta($pregunta){
         $query = "INSERT INTO preguntas (pregunta_texto, id_tematica, utilizada, contador_respuestas_correctas, contador_respuestas_incorrectas, id_dificultad, estado, apariciones) VALUES ('$pregunta', 1, 0, 0, 0, 1, 1, 0)";
         $this->database->query($query);
@@ -50,50 +127,6 @@ class LoginModel
         $query = "DELETE FROM preguntas WHERE id_pregunta = '$idPregunta'";
         $this->database->query($query);
     }*/
-
-
-
-
-
-    // El editor puede revisar las preguntas reportadas para aprobar o dar de baja:
-
-
-
-    public function getPreguntasReportadas()
-    {
-        $query = "SELECT id_pregunta, pregunta_texto FROM preguntas WHERE reportada = 1";
-        $stmt = $this->database->prepare($query);
-        $stmt->execute();
-
-        $result = $stmt->get_result(); // Obtenemos el resultado como objeto mysqli_result
-        $preguntasReportadas = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $preguntasReportadas[] = $row; // Almacenamos cada fila en el array
-        }
-
-        return $preguntasReportadas;
-    }
-
-
-
-    public function aprobarPregunta($idPregunta)
-    {
-        // Consulta para aprobar la pregunta (marcar como no reportada)
-        $stmt = $this->database->prepare("UPDATE preguntas SET reportada = 0 WHERE id_pregunta = :idPregunta");
-        $stmt->bindParam(':idPregunta', $idPregunta);
-        $stmt->execute();
-    }
-
-    public function eliminarPregunta($idPregunta)
-    {
-        // Consulta para eliminar la pregunta
-        $stmt = $this->database->prepare("DELETE FROM preguntas WHERE id_pregunta = :idPregunta");
-        $stmt->bindParam(':idPregunta', $idPregunta);
-        $stmt->execute();
-    }
-
-
 
 
 }
