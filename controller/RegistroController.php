@@ -55,7 +55,6 @@ class RegistroController
                     $nombreImagen = $_FILES["imagen"]["name"];
                     $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
-                            $data["altaOk"] = "Los datos fueron ingresados correctamente. Se ha enviado un correo electrónico de confirmación.";
                             $this->presenter->render("usuarioRegistradoView", $data);
                         } else {
 

@@ -7,9 +7,15 @@
 {{#usuario}}
     <div class="datos-container">
         <div class="datos">
+            <div class="imagenYqr">
             <div class="imagen">
                 <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil">
             </div>
+            <div class="qr">
+                <img class="img-fluid" src="/public/images/profile_qrs/{{id}}_qr.png" alt="CódigoQR">
+            </div>
+            </div>
+
             <div class="nombrePrincipales">
                 <h1>¡Hola {{nombre_usuario}}!</h1><br>
                 <h3>Mail: {{mail}}</h3> <br>
@@ -19,21 +25,23 @@
                 <h3>Genero: {{genero}}</h3> <br>
                 <h3>Pais: {{pais}}</h3> <br>
                 <h3>Ciudad: {{ciudad}}</h3> <br>
+                <h3>Latitud: <span id="latitud">{{latitud}}</span></h3> <br>
+                <h3>Longitud: <span id="longitud">{{longitud}}</span></h3> <br>
             </div>
         </div>
 
         <div>
-            <img class="img-fluid" src="/public/images/profile_qrs/{{id}}_qr.png" alt="CódigoQR">
             <div class="map-container">
-                <p>Latitud: <span id="latitud">{{latitud}}</span></p>
-                <p>Longitud: <span id="longitud">{{longitud}}</span></p>
+
                 <div id="map"></div>
             </div>
         </div>
-        <div class="botonEditar">
-            <a href="/PerfilUsuario/modificarUsuario">Editar datos</a>
-            <a href="/Login/toHome">Volver al home</a>
+
+        <div class="botones">
+            <div class="botonVolver"><a href="/Login/toHome">Volver</a></div>
+            <div class="botonEditar"><a href="/PerfilUsuario/modificarUsuario">Editar datos</a></div>
         </div>
+
 
     </div>
 {{/usuario}}
@@ -147,10 +155,10 @@
 <style>
 
 
-    /* Estilo para la sección de información del usuario */
+
     .datos-container {
-        margin: 20px auto; /* Esto centrará el contenedor horizontalmente */
-        max-width: 800px; /* Define un ancho máximo para el contenedor */
+        margin: 20px auto;
+        max-width: 800px;
         background-color: #fff;
         padding: 20px;
         box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
@@ -162,14 +170,14 @@
 
     .datos {
         display: flex;
-        flex-direction: row; /* Alinear elementos verticalmente */
-        align-items: center; /* Centrar elementos horizontalmente */
+        flex-direction: row;
+        align-items: center;
         justify-content: space-around;
         margin-top: 0.5em;
     }
 
     .imagen {
-        margin-bottom: 20px; /* Espacio entre la imagen y el botón */
+        margin-bottom: 20px;
     }
 
     .imagen img {
@@ -179,11 +187,10 @@
     }
 
     .botonEditar {
-        margin-bottom: 20px; /* Espacio entre el botón y la información */
-        display: flex;
-        flex-direction: column-reverse;
+        margin-bottom: 20px;
         align-items: center;
         margin-top: 1em;
+
     }
 
     .botonEditar a {
@@ -201,9 +208,36 @@
         border: 1px solid black;
     }
 
+    .botonVolver{
+        margin-bottom: 20px;
+        align-items: center;
+        margin-top: 1em;
+    }
+
+    .botonVolver a {
+        text-decoration: none;
+        color:black;
+        font-weight: bold;
+        border-radius: 1em ;
+        padding: 1em;
+        background-color: white;
+    }
+
+
+    .botones{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        padding: 1em;
+    }
+
+
+
     .datos h1 {
         font-size: 2rem;
         color: #1a202c;
+        text-align: center;
     }
 
     .datos h3 {
@@ -247,6 +281,13 @@
         width: 100%;
     }
 
+    .imagenYqr{
+        display: flex;
+        flex-direction: column;
+    }
 
+    .qr{
+        margin-top: 2em;
+    }
 
 </style>
