@@ -34,7 +34,7 @@ class LoginModel
 
 
 
-// PreguntaMODEL:
+// *********************** PreguntaMODEL:*********************************
 //PREGUNTAS REPORTADAS: puede revisar las preguntas reportadas, para aprobar o dar de baja
 
 // paso 1
@@ -87,46 +87,54 @@ class LoginModel
 
 // consigna: Debe existir un tipo de usuario editor, que le permite dar de alta, baja y modificar las preguntas:
 
-// 1ER PASO: CREAR PREGUNTA Y SE AGREGA AL LISTADO
+// 1ER PASO: CREAR PREGUNTA Y SE AGREGA AL LISTADO  ok
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // VER METODOS DEL PreguntaController provisoriamente acá hasta que funcione el PreguntaModel
-
-    public function obtenerPreguntas()
+    public function obtenerDificultades()
     {
-        $query = "SELECT * FROM  preguntas_sugeridas";
-        return$this->database->query($query);
+        $query = "SELECT id, nombre FROM dificultad";
+        return $this->database->query($query);
     }
-/*
-    public function aceptarPregunta($pregunta){
-        $query = "INSERT INTO preguntas (pregunta_texto, id_tematica, utilizada, contador_respuestas_correctas, contador_respuestas_incorrectas, id_dificultad, estado, apariciones) VALUES ('$pregunta', 1, 0, 0, 0, 1, 1, 0)";
-        $this->database->query($query);
+
+    public function obtenerTematicas()
+    {
+        $query = "SELECT id_tematica, nombre FROM tematicas";
+        return $this->database->query($query);
     }
-/*
-    public function eliminarPregunta($idPregunta){
+
+// ahora hay que insertar esa pregunta en la bbdd OK
+
+    public function insertarPregunta($pregunta_texto, $id_dificultad, $id_tematica) {
+
+        $query = "INSERT INTO preguntas (pregunta_texto, id_dificultad, id_tematica, utilizada, contador_respuestas_correctas, contador_respuestas_incorrectas, estado, apariciones, reportada, es_sugerida) 
+                  VALUES (?, ?, ?, 0, 0, 0, 1, 0, 0, 0)";
+
+        $stmt = $this->database->prepare($query);
+
+        $stmt->bind_param("sii", $pregunta_texto, $id_dificultad, $id_tematica);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+// eliminar pregunta del listado ok
+
+    public function eliminarPregunta($idPregunta)
+    {
         $query = "DELETE FROM preguntas WHERE id_pregunta = '$idPregunta'";
-        $this->database->query($query);
-    }*/
+        $this->database->execute($query);
+    }
+
+
+
+
+
+
+
+
+
 
 
 }

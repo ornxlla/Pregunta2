@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nueva Pregunta</title>
+    <link rel="stylesheet" href="public/css/styles.css">
+</head>
+<body>
+<h1>Crear Nueva Pregunta</h1>
+
+<form action="/Login/crearPregunta" method="POST">
+    <label for="pregunta_texto">Texto de la Pregunta:</label><br>
+    <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required></textarea><br>
+
+    <label for="id_tematica">Tema:</label>
+    <select id="id_tematica" name="id_tematica">
+        {{#tematicas}}
+            <option value="{{id_tematica}}">{{nombre}}</option>
+        {{/tematicas}}
+    </select><br>
+
+    <label for="id_dificultad">Dificultad:</label>
+    <select id="id_dificultad" name="id_dificultad">
+        {{#dificultades}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/dificultades}}
+    </select><br>
+
+    <button type="submit">Crear Pregunta</button>
+</form>
+
+<br>
+<a href="/Login/listadoGeneralPreguntas">Volver al Listado de Preguntas General</a>
+</body>
+</html>

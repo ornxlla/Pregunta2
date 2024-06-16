@@ -92,7 +92,7 @@ class LoginController
 
 
 
-    ///   PreguntaController:
+    ///   ******************PreguntaController**************************************************
     ///    EL EDITOR puede revisar las preguntas reportadas, para aprobar o dar de baja
     ///    paso 1
     public function getPreguntasReportadas()
@@ -165,6 +165,61 @@ class LoginController
         $preguntasGenerales = $this->model->obtenerPreguntasGenerales();
         $this->presenter->render('ListadoGeneralPreguntasView', ['preguntas' => $preguntasGenerales]);
     }
+
+
+    // consigna: Debe existir un tipo de usuario editor, que le permite dar de alta, baja y modificar las preguntas:
+
+// 1ER PASO: CREAR PREGUNTA Y SE AGREGA AL LISTADO -- este metodo ok
+
+
+    public function mostrarFormularioCrearPregunta() {
+        $dificultades = $this->model->obtenerDificultades();
+        $tematicas = $this->model->obtenerTematicas();
+
+        $this->presenter->render('CrearPreguntaView', ['dificultades' => $dificultades,
+            'tematicas' => $tematicas
+        ]);
+    }
+
+    // ok creamos la pregunta y la misma se ve reflejada en el listado como incluida
+
+    public function crearPregunta()
+    {
+
+            $pregunta_texto = $_POST['pregunta_texto'];
+            $id_tematica = $_POST['id_tematica'];
+            $id_dificultad = $_POST['id_dificultad'];
+
+            $insertado = $this->model->insertarPregunta($pregunta_texto, $id_tematica, $id_dificultad);
+
+
+        header('Location: /Login/listadoGeneralPreguntas');
+        exit();
+
+        }
+
+// eliminar pregunta del listado
+
+    public function eliminarPregunta()
+    {
+        $idPregunta = $_POST['id_pregunta'] ?? null;
+
+        if (!$idPregunta) {
+            echo "Error: ID de pregunta no especificado.";
+            return;
+        }
+
+        $this->model->eliminarPregunta($idPregunta);
+
+        header("Location: /Login/listadoGeneralPreguntas");
+        exit();
+    }
+
+
+
+
+
+
 
 
 }
