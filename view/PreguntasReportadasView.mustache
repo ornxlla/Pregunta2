@@ -4,42 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas Reportadas</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
 </head>
 <body>
-<h1>Preguntas Reportadas</h1>
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Pregunta</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    {{#preguntas}}
-        <tr>
-            <td>{{id_pregunta}}</td>
-            <td>{{pregunta_texto}}</td>
-            <td>
-                <form action="/Login/aprobarPregunta" method="POST" style="display: inline;">
-                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                    <button type="submit">Aprobar</button>
-                </form>
-                <form action="/Login/darDeBajaPregunta" method="POST" style="display: inline;">
-                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                    <button type="submit">Dar de Baja</button>
-                </form>
-            </td>
-        </tr>
-    {{/preguntas}}
-
-    </tbody>
-</table>
-
-<br>
-<a href="/Login/listadoGeneralPreguntas">Listado de Preguntas General</a>
-
+<div class="container">
+    <div class="table-container">
+        <h1>Preguntas Reportadas</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pregunta</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#preguntas}}
+                <tr>
+                    <td>{{id_pregunta}}</td>
+                    <td>{{pregunta_texto}}</td>
+                    <td>
+                        <form action="/Login/aprobarPregunta" method="POST" style="display: inline;">
+                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                            <button type="submit">Aprobar</button>
+                        </form>
+                        <form action="/Login/darDeBajaPregunta" method="POST" style="display: inline;">
+                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                            <button type="submit" class="button-danger">Dar de Baja</button>
+                        </form>
+                    </td>
+                </tr>
+            {{/preguntas}}
+            </tbody>
+        </table>
+        <br>
+        <a href="/Login/listadoGeneralPreguntas">Listado de Preguntas General</a>
+    </div>
+</div>
 </body>
 </html>

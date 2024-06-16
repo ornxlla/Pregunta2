@@ -5,30 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado General de Preguntas</title>
 </head>
-<body>
-<h1>Listado General de Preguntas</h1>
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Pregunta</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#preguntas}}
-        <tr>
-            <td>{{id_pregunta}}</td>
-            <td>{{pregunta_texto}}</td>
-        </tr>
-    {{/preguntas}}
-    </tbody>
-</table>
-
-<br>
-<a href="/Login/getPreguntasReportadas">Preguntas Reportadas</a>
-<br>
-<a href="/Login/getPreguntasSugeridas">Preguntas Sugeridas</a>
-
+<body style="width: 100%; height: 100%; background-image: url('/public/img/registro.jpg'); background-size: cover;">
+<div style="display: flex; justify-content: center; align-items: center; margin: 5%;">
+    <div style="max-width: 800px; width: 100%; background-color: #fff; padding: 20px; box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185); border-radius: 10px;">
+        <h1 style="text-align: center; font-size: 2rem; margin-bottom: 20px; color: #1a202c;">Listado General de Preguntas</h1>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead>
+            <tr>
+                <th style="border: 1px solid #ddd; padding: 12px; text-align: left; background-color: #f2f2f2;">ID</th>
+                <th style="border: 1px solid #ddd; padding: 12px; text-align: left; background-color: #f2f2f2;">Pregunta</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#preguntas}}
+                <tr style="border: 1px solid #ddd;">
+                    <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">{{id_pregunta}}</td>
+                    <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">{{pregunta_texto}}</td>
+                </tr>
+            {{/preguntas}}
+            </tbody>
+        </table>
+        <br>
+        <a href="/Login/getPreguntasReportadas" style="display: block; margin-top: 20px; color: #1a202c; text-decoration: none; text-align: center;">Preguntas Reportadas</a>
+        <br>
+        <a href="/Login/getPreguntasSugeridas" style="display: block; margin-top: 20px; color: #1a202c; text-decoration: none; text-align: center;">Preguntas Sugeridas</a>
+    </div>
+</div>
 </body>
 </html>
