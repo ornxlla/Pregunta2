@@ -26,7 +26,7 @@ class RegistroModel
         $rol = 0;
 
         if ($stmt) {
-          
+
             $stmt->bind_param("sisssssssssss", $username, $rol, $email, $password, $nombre, $year, $genero, $nombreImagen, $pais, $ciudad, $latitud, $longitud, $codigo_validacion);
             return $stmt->execute();
         } else {
