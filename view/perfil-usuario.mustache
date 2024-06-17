@@ -4,18 +4,22 @@
 </head>
 <body class="d-flex align-items-center" >
 
-{{#usuario}}
+{{#datos_usuario}}
     <div class="datos-container">
+        {{#error}}
+            <div class="error-message">
+                <h1>{{error}}</h1>
+            </div>
+        {{/error}}
         <div class="datos">
             <div class="imagen">
                 <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil">
             </div>
             <div class="nombrePrincipales">
-                <h1>¡Hola {{nombre_usuario}}!</h1><br>
-                <h3>Mail: {{mail}}</h3> <br>
-                <h3>Nombre completo: {{nombre_completo}}</h3> <br>
-                <h3>Calendario: {{anio_nacimiento}}</h3> <br>
-                <h3>Contraseña: ********</h3> <br>
+                <h1>¡Hola {{username}}!</h1><br>
+                <h3>Mail: {{correo}}</h3> <br>
+                <h3>Nombre completo: {{nombre}}</h3> <br>
+                <h3>Calendario: {{nacimiento}}</h3> <br>
                 <h3>Genero: {{genero}}</h3> <br>
                 <h3>Pais: {{pais}}</h3> <br>
                 <h3>Ciudad: {{ciudad}}</h3> <br>
@@ -23,20 +27,24 @@
         </div>
 
         <div>
-            <img class="img-fluid" src="/public/images/profile_qrs/{{id}}_qr.png" alt="CódigoQR">
+            <img class="img-fluid" src="/public/images/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR">
             <div class="map-container">
-                <p>Latitud: <span id="latitud">{{latitud}}</span></p>
-                <p>Longitud: <span id="longitud">{{longitud}}</span></p>
+                <p hidden>Latitud: <span id="latitud">{{latitud}}</span></p>
+                <p hidden>Longitud: <span id="longitud">{{longitud}}</span></p>
                 <div id="map"></div>
             </div>
         </div>
         <div class="botonEditar">
-            <a href="/PerfilUsuario/modificarUsuario">Editar datos</a>
+            {{#boton-editar}}
+                <a href="/PerfilUsuario/modificarUsuario">Editar datos</a>
+            {{/boton-editar}}
+
+
             <a href="/Login/toHome">Volver al home</a>
         </div>
 
     </div>
-{{/usuario}}
+{{/datos_usuario}}
 
 
 <footer>

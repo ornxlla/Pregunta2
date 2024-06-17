@@ -2,8 +2,13 @@
 <div class="form-container">
     <form class="form" action="/PerfilUsuario/procesarModificacion" method="POST" enctype="multipart/form-data">
     <div class="datos-container">
+        {{#error}}
+            <div class="error-message">
+                <p>{{error}}</p>
+            </div>
+        {{/error}}
     <div class="datos">
-        {{#usuario}}
+        {{#datos_usuario}}
             <div class="imagen">
                 <img src="/public/img/users/{{imagen_perfil}}">
                 <label for="imagen" class="label"></label>
@@ -11,13 +16,13 @@
             </div>
             <div class="nombresPrincipales">
                 <label for="nombre" class="label">Nombre completo</label>
-                <input type="text" id="nombre" name="nombre" required class="input" value="{{nombre_completo}}">
+                <input type="text" id="nombre" name="nombre" required class="input" value="{{nombre}}">
 
                 <label for="username" class="label">Nombre de usuario</label>
-                <input type="text" id="username" name="username" required class="input" value="{{nombre_usuario}}">
+                <input type="text" id="username" name="username" required class="input" value="{{username}}">
 
                 <label for="year" class="label">Año de nacimiento</label>
-                <input type="date" id="year" name="year" required class="input" value="{{anio_nacimiento}}">
+                <input type="date" id="year" name="year" required class="input" value="{{nacimiento}}">
 
                 <label for="genero" class="label">Género</label>
                 <select id="genero" name="genero" required class="input">
@@ -28,20 +33,18 @@
                 </select>
 
                 <label for="email" class="label">Correo electrónico</label>
-                <input type="email" id="email" name="email" required class="input" value="{{mail}}">
+                <input type="email" id="email" name="email" required class="input" value="{{correo}}">
 
                 <label for="password" class="label">Contraseña</label>
-                <input type="password" id="password" name="password" required class="input" value="{{contrasenia}}">
+                <input type="password" id="password" name="password" class="input" placeholder="*****">
                 <div class="password-info" id="password-info">La contraseña debe tener al menos 6 caracteres, incluyendo al menos una letra y un número.</div>
 
-                <label for="confirm_password" class="label">Repetir Contraseña</label>
-                <input type="password" id="confirm_password" name="confirm_password" required class="input" placeholder="*****">
             </div>
         </div>
             <div class="map-container">
                 <label for="map" class="label">País y Ciudad</label>
-                <p>Latitud: {{latitud}}</p>
-                <p>Longitud: {{longitud}}</p>
+                <p hidden>Latitud: {{latitud}}</p>
+                <p hidden>Longitud: {{longitud}}</p>
 
                 <div id="map" style="width: 100%; height: 300px; margin: 20px 0;"></div>
                 <input type="hidden" id="latitud" name="latitud" value="{{latitud}}">
@@ -53,7 +56,7 @@
             <div class="boton">
                 <button class="botonEditar" type="submit" name="enviar">Guardar Cambios</button>
             </div>
-        {{/usuario}}
+        {{/datos_usuario}}
     </form>
 </div>
 

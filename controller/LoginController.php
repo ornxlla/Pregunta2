@@ -36,16 +36,17 @@ class LoginController
 
                             if($fila["activado"] == 1){
                                 $id_usuario = $fila["id_usuario"];
+                                $correo = $fila["correo"];
 
-                                $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $password);
+                                $sesionIniciada = $this->iniciarSesion($id_usuario,$username,$correo);
                                 if ($sesionIniciada === PHP_SESSION_ACTIVE) {
                                     header("location:/");
                                 } else {
-                                    $data["error"] = "¡Usuario no validado! Por favor, revise su casilla de correo";
+                                    $data["error"] = "Error al iniciar sesión.";
                                     $this->presenter->render("LoginView", $data);
                                 }
                             }else{
-                                $data["error"] = "Error al iniciar sesión";
+                                $data["error"] = "¡Usuario no validado! Por favor, revise su casilla de correo.";
                                 $this->presenter->render("LoginView", $data);
                             }
 
@@ -53,7 +54,7 @@ class LoginController
                     }
                     // Si las credenciales no coinciden con ningún registro en la base de datos
                     if (!$credencialesValidas) {
-                        $data["error"] = "Las credenciales son incorrectas o la cuenta no está validada.";
+                        $data["error"] = "Las credenciales son incorrectas.";
                         $this->presenter->render("LoginView", $data);
                     }
                 } else {
@@ -71,10 +72,11 @@ class LoginController
         }
     }
 
-    public function iniciarSesion($id, $username, $password)
+    public function iniciarSesion($id,$username,$correo)
     {
         $_SESSION["Session_id"] = $id;
-        $_SESSION["Session_nombre"] = $username;
+        $_SESSION["Session_username"] = $username;
+        $_SESSION["Session_correo"] = $correo;
         return session_status();
     }
 
