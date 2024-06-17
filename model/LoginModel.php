@@ -127,12 +127,27 @@ class LoginModel
         $this->database->execute($query);
     }
 
+// modificar pregunta ok *************************** ver tematica duplicado
 
+    public function obtenerPreguntaPorId($idPregunta)
+    {
+        $query = "SELECT * FROM preguntas WHERE id_pregunta = '$idPregunta'";
+        return $this->database->query($query)[0];  // Asumiendo que solo debe retornar una fila
+    }
 
+    public function actualizarPregunta($id_pregunta, $pregunta_texto, $id_tematica, $id_dificultad)
+    {
+        $query = "UPDATE preguntas SET pregunta_texto = ?, id_tematica = ?, id_dificultad = ? WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
 
+        if (!$stmt) {
+            return false;
+        }
 
+        $stmt->bind_param("siii", $pregunta_texto, $id_tematica, $id_dificultad, $id_pregunta);
 
-
+        return $stmt->execute();
+    }
 
 
 

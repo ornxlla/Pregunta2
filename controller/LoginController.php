@@ -95,6 +95,11 @@ class LoginController
     ///   ******************PreguntaController**************************************************
     ///    EL EDITOR puede revisar las preguntas reportadas, para aprobar o dar de baja
     ///    paso 1
+
+    public function funciones() {
+        $this->presenter->render("funcionesDelEditor");
+    }
+
     public function getPreguntasReportadas()
     {
         $preguntasReportadas = $this->model->obtenerPreguntasReportadas();
@@ -214,6 +219,62 @@ class LoginController
         header("Location: /Login/listadoGeneralPreguntas");
         exit();
     }
+
+// modificar pregunta  OK*************** Ver la duplicación de tematicas**************
+
+    public function mostrarFormularioModificarPregunta()
+    {
+        $idPregunta = $_POST['id_pregunta'] ?? null;
+
+        if (!$idPregunta) {
+            echo "Error: ID de pregunta no especificado.";
+            return;
+        }
+
+        $pregunta = $this->model->obtenerPreguntaPorId($idPregunta);
+        $dificultades = $this->model->obtenerDificultades();
+        $tematicas = $this->model->obtenerTematicas();
+
+        // Marcar la temática y dificultad seleccionada
+        foreach ($tematicas as &$tematica) {
+            if ($tematica['id_tematica'] == $pregunta['id_tematica']) {
+                $tematica['is_selected'] = true;
+            }
+        }
+        foreach ($dificultades as &$dificultad) {
+            if ($dificultad['id'] == $pregunta['id_dificultad']) {
+                $dificultad['is_selected'] = true;
+            }
+        }
+
+        $data = [
+            'pregunta' => $pregunta,
+            'dificultades' => $dificultades,
+            'tematicas' => $tematicas
+        ];
+
+        $this->presenter->render('ModificarPreguntaView', $data);
+    }
+
+    public function modificarPregunta()
+    {
+        $id_pregunta = $_POST['id_pregunta'];
+        $pregunta_texto = $_POST['pregunta_texto'];
+        $id_tematica = $_POST['id_tematica'];
+        $id_dificultad = $_POST['id_dificultad'];
+
+        $actualizado = $this->model->actualizarPregunta($id_pregunta, $pregunta_texto, $id_tematica, $id_dificultad);
+
+        if ($actualizado) {
+            echo "Pregunta actualizada correctamente.";
+        } else {
+            echo "Error al actualizar la pregunta.";
+        }
+
+        header('Location: /Login/listadoGeneralPreguntas');
+        exit();
+    }
+
 
 
 
