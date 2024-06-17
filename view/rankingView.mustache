@@ -1,0 +1,24 @@
+<main>
+    <h1>Ranking de usuarios</h1>
+
+    {{#primer_usuario}}
+        <section>
+            <h2>Felicidades {{username}}!</h2>
+            <img src="/public/img/users/{{imagen_perfil}}" alt="imagenPerfil{{username}}">
+            <p>Puntos: {{max_puntos}}</p>
+            <img class="img-fluid" src="/public/images/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR">
+        </section>
+    {{/primer_usuario}}
+
+    <h2>Otros usuarios</h2>
+    <ul>
+        {{#otros_usuarios}}
+            <li>
+                <h3>Nominado #{{index}}: {{username}}</h3>
+                <img src="/public/img/users/{{imagen_perfil}}" alt="imagenPerfil{{username}}">
+                <p>Puntos: {{max_puntos}}</p>
+                <img class="img-fluid" src="/public/images/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR">
+            </li>
+        {{/otros_usuarios}}
+    </ul>
+</main>
