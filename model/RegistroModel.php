@@ -20,6 +20,8 @@ class RegistroModel
     {
         return $this->database->query('SELECT * FROM usuario');
     }
+
+    /*
     public function darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen, $pais, $ciudad, $latitud, $longitud, $codigo_validacion)
     {
         //ARREGLAR SQL
@@ -35,6 +37,51 @@ class RegistroModel
             return $stmt->execute();
         } else {
             return false;
+        }
+    }
+    */
+    public function altaUsuario($username, $password, $correo, $hash){
+        $sql = "INSERT INTO login (username, password, correo, rol, activado, hash)
+                VALUES (?, ?, ?, ?, ?, ?)";
+        $rol = 1;
+        $activado = 0;
+
+        $stmt = $this->database->prepare($sql);
+        if($stmt){
+            $stmt->bind_param("sssiis", $username, $password, $correo, $rol, $activado, $hash);
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+
+    public function altaUsuario_datos($id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud){
+        $sql = "INSERT INTO datos_usuario (id_usuario, nombre, nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud)
+                VALUES (? ,?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->database->prepare($sql);
+        $stmt = $this->database->prepare($sql);
+        if($stmt){
+            $stmt->bind_param("issssssss", $id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud);
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+
+    public function obtenerUsuario($username){
+        $query = "SELECT id_usuario FROM login WHERE username = ?";
+        $stmt = $this->database->prepare($query);
+        if($stmt){
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result) {
+                return $result->fetch_assoc();
+            } else {
+                echo "Error ejecutando la consulta: " . $stmt->error;
+                return false;
+            }
         }
     }
 
@@ -66,9 +113,8 @@ class RegistroModel
 
     public function validarUsuario($codigoValidacion)
     {
-
-        $sql = 'SELECT * FROM usuario WHERE codigo_validacion = ?';
-        $stmt = $this->database->prepare($sql);
+        $query = "SELECT * FROM login WHERE hash = ?";
+        $stmt = $this->database->prepare($query);
         $stmt->bind_param("s", $codigoValidacion);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -79,7 +125,7 @@ class RegistroModel
             $row = $result->fetch_assoc();
             $userId = $row['id_usuario'];
 
-            $sqlUpdate = 'UPDATE usuario SET validado = 1 WHERE id_usuario = ?';
+            $sqlUpdate = 'UPDATE login SET activado = 1 WHERE id_usuario = ?';
             $stmtUpdate = $this->database->prepare($sqlUpdate);
             $stmtUpdate->bind_param("i", $userId);
             $stmtUpdate->execute();
