@@ -81,11 +81,8 @@ class PerfilUsuarioController
 
 
             $qrLink = "http://localhost/PerfilUsuario/buscarUsuario?id=" . $id;
-<<<<<<< HEAD
-            $carpeta_destino = "public/img/profile_qrs/";
-=======
+
               $carpeta_destino = "public/img/profile_qrs/";
->>>>>>> c6c5fb7a5af69d0eab2678907d86a3c245e557ff
             if (!file_exists($carpeta_destino)) {
                 mkdir($carpeta_destino, 0777, true);
             }
