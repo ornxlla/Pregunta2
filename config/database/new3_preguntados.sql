@@ -95,8 +95,8 @@ INSERT INTO `login` (`id_usuario`, `username`, `password`, `correo`, `rol`, `act
 (3, 'test2', '123456', 'agustin.pucci.rubio@gmail.com', 1, 0, '17186392229951'),
 (8, 'test2', '123456', 'agustin.pucci.rubio@gmail.com', 1, 0, '17186410284690'),
 (9, 'pucci96', '123456', 'agustin.pucci.rubio@gmail.com', 1, 1, '17186412888255'),
-(10, 'ornxllita', 'Orne2002', 'ornxalonso@gmail.com', 1, 1, '17187437413853'),
-(11, 'alejo', 'Ornella2002', 'mikxykitty@gmail.com', 1, 1, '17187450096911');
+(10, 'ornxllita', '1234567', 'ornxalonso@gmail.com', 1, 1, '17187437413853'),
+(11, 'alejo', '12345678', 'mikxykitty@gmail.com', 1, 1, '17187450096911');
 
 -- --------------------------------------------------------
 
