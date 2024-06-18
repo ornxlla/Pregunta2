@@ -90,8 +90,8 @@ CREATE TABLE `login` (
 
 INSERT INTO `login` (`id_usuario`, `username`, `password`, `correo`, `rol`, `activado`, `hash`) VALUES
 (1, 'test1', '1234', 'test1@gmail.com', 1, 1, '1111111111111111111111'),
-(2, 'ornxllita', 'Orne2002', 'ornxalonso@gmail.com', 1, 1, '17187349389678'),
-(4, 'alejo', 'Rosa7777', 'mikxykitty@gmail.com', 1, 1, '17187372556152');
+(2, 'ornxllita', '12345678', 'ornxalonso@gmail.com', 1, 1, '17187349389678'),
+(4, 'alejo', '12345', 'mikxykitty@gmail.com', 1, 1, '17187372556152');
 
 -- --------------------------------------------------------
 
