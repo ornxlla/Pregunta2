@@ -15,8 +15,75 @@ class PlayController
         $this->presenter->render("playView");
     }
 
+    public function get(){
+        if(isset($_SESSION["partida_iniciada"])){
+            //Apreto "Nueva partida" al tener una partida en progreso o recargo la pagina. Se realiza el proceso de finalizar partida.
+            $this->finalizar_partida();
+
+            //header("Location: /");
+            echo "adios!";
+            return;
+        }
+
+        if(!isset($_SESSION["Session_id"])){
+            //Error en el usuario de sesion - Directo al HOME
+            header("Location: /");
+        }
+
+        $_SESSION["partida_iniciada"] = true;
+        $horaInicio = date('Y-m-d H:i:s');
+        $idPartidaIniciada = $this->model->iniciarPartida_clasico($_SESSION["Session_id"], $horaInicio);
+
+        $data["aux_preguntas"] = $this->model->obtenerPreguntas_clasico($idPartidaIniciada, $_SESSION["Session_id"]);
+        $data["aux_pregunta_elegida"] = $this->elegirPregunta($data["aux_preguntas"]["listaPreguntas"]);
+
+        $data["pregunta"] = $this->unificarDatosPregunta($data["aux_pregunta_elegida"],$data["aux_preguntas"]["dificultadPreguntas"]);
+        $data["respuesta"] = $this->model->obtenerRespuestas($data["pregunta"]["id_pregunta"]);
+
+        shuffle($data["respuesta"]);
+        $_SESSION["pregunta_enviada"] = $data["pregunta"]["id_pregunta"];
+        $_SESSION["Testing1"] = $data["pregunta"];
+        $_SESSION["Testing2"] = $data["respuesta"];
+        $_SESSION["idPartida"] = $idPartidaIniciada;
+        $_SESSION["puntosPartida"] = 0;
+
+        $this->presenter->render("playView", $data);
+    }
+
+    public function elegirPregunta($listaPreguntas){
+        $numeroMagico = rand(0,99999);
+        $idMagico = $numeroMagico % count($listaPreguntas);
+        return $listaPreguntas[$idMagico];
+    }
+
+    public function unificarDatosPregunta($elegida, $lista){
+        $datos = [];
+        $datos["id_pregunta"] = $elegida["id_pregunta"];
+        $datos["texto_pregunta"] = $elegida["texto"];
+        $datos["tematica"] = $elegida["tematica"];
+
+        for ($i = 0; $i < count($lista); $i++){
+            if($lista[$i]["id_pregunta"] == $datos["id_pregunta"]){
+                $datos["id_dificultad"] = $lista[$i]["dificultad"];
+                $datos["texto_dificultad"] = $lista[$i]["texto_dificultad"];
+                $datos["puntos_pregunta"] = $lista[$i]["puntos_correcto"];
+            }
+        }
+        return $datos;
+    }
+
+    public function proximaPregunta(){
+        if(isset($_POST["responder"])){
+            var_dump($_SESSION["Testing1"]);
+            var_dump($_SESSION["Testing2"]);
+        }
+    }
+
+    /*---------------------------*/
+
     public function getPartida()
     {
+
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -139,13 +206,12 @@ class PlayController
         unset($_SESSION["pregunta_enviada"]);
         unset($_SESSION["tiempo_inicial"]);
 
+        /*
         $this->model->actualizarPartida($idPartida);
         $this->model->calcularDificultadDelUsuario($_SESSION["Session_id"]);
         $this->model->actualizarDificultadPreguntas();
+        */
 
-        // Redirigir a una página que muestre un mensaje de que la partida ha terminado
-        header("Location: /partidaTerminadaView");
-        exit();
     }
 
 }

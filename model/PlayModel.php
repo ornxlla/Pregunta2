@@ -10,6 +10,131 @@ class PlayModel
         $this->database = $database;
     }
 
+    public function iniciarPartida_clasico($idUsuario, $horaInicio)
+    {
+        $sql = "insert into partida_clasica_general (id_jugador, hora_inicio) values (?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("is", $idUsuario, $horaInicio);
+            $stmt->execute();
+            return $stmt->insert_id;
+        } else {
+            return null;
+        }
+    }
+
+    public function obtenerPreguntas_clasico($idPartida, $idUsuario)
+    {
+        $data["listaPreguntas"] = $this->obtenerListaPreguntas($idPartida, $idUsuario);
+        $data["dificultadPreguntas"] = $this->obtenerDificultadPreguntas($idPartida, $idUsuario);
+
+        return $data;
+    }
+
+    public function obtenerListaPreguntas($idPartida, $idUsuario){
+        $sql = "SELECT preg.id_pregunta, preg.texto, tem.nombre AS tematica
+                 FROM preguntas_listado AS preg
+                 INNER JOIN tematicas as tem
+                 ON preg.id_tematica = tem.id_tematica
+                 WHERE !EXISTS(
+                     SELECT part.*
+                     FROM partida_clasica_respuestas as part
+                     WHERE part.id_jugador = ?
+                     AND part.id_partida = ?
+                     AND part.id_pregunta = preg.id_pregunta
+                 )";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $idUsuario, $idPartida );
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            if ($result) {
+                $i = 0;
+                while($row = $result->fetch_assoc()){
+                    $data[$i] = $row;
+                    $i = $i + 1;
+                }
+                return $data;
+            }
+        }
+        return null;
+    }
+
+    public function obtenerDificultadPreguntas($idPartida, $idUsuario){
+        $sql = "SELECT est.* 
+                FROM pregunta_estadisticas AS est
+                WHERE !EXISTS(
+                     SELECT part.*
+                     FROM partida_clasica_respuestas as part
+                     WHERE part.id_jugador = ?
+                     AND part.id_partida = ?
+                     AND part.id_pregunta = est.id_pregunta
+                )";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $idUsuario, $idPartida );
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            if ($result) {
+                $i = 0;
+                while($row = $result->fetch_assoc()){
+                    $data[$i] = $this->calcularDificultadPregunta($row);
+                    $i = $i + 1;
+                }
+                return $data;
+            }
+        }
+        return null;
+    }
+
+    public function calcularDificultadPregunta($estadisticas){
+        $data = [];
+        $data["id_pregunta"] = $estadisticas["id_pregunta"];
+        //Si la pregunta es nueva (0 llamadas), se considerara como "Indefinido" y se dara 100 puntos
+        if($estadisticas["veces_llamado"] == 0){
+            $data["dificultad"] = 0;
+            $data["puntos_correcto"] = 100;
+            $data["texto_dificultad"] = "No definido";
+        }elseif($estadisticas["veces_llamado"] < 7 && $estadisticas["veces_acertado"] == 0){
+            //Si fue llamado menos de 7 veces y no tiene respuestas acertadas, se considerara Medio
+            $data["dificultad"] = 2;
+            $data["puntos_correcto"] = 50;
+            $data["texto_dificultad"] = "Medio";
+        }elseif($estadisticas["veces_llamado"] >= 7 && $estadisticas["veces_acertado"] == 0){
+            //Si fue llamado mas o igual a 7 veces y no tiene respuestas acertadas, se considerara dificil
+            $data["dificultad"] = 3;
+            $data["puntos_correcto"] = 100;
+            $data["texto_dificultad"] = "Dificil";
+        }else {
+            $estadistica = ($estadisticas["veces_llamado"] * $estadisticas["veces_acertado"]) / 100;
+            if ($estadistica > 0.70) {    //Mas del 70% acertado = Facul
+                $data["dificultad"] = 1;
+                $data["puntos_correcto"] = 25;
+                $data["texto_dificultad"] = "Facil";
+            } elseif ($estadistica < 0.30) {   //Menos del 30% acertado = dificil
+                $data["dificultad"] = 3;
+                $data["puntos_correcto"] = 100;
+                $data["texto_dificultad"] = "Dificil";
+            } else {  //demas = medio
+                $data["dificultad"] = 2;
+                $data["puntos_correcto"] = 50;
+                $data["texto_dificultad"] = "Medio";
+            }
+        }
+        return $data;
+    }
+
+    public function obtenerRespuestas($idPregunta)
+    {
+        $sql = "SELECT * FROM respuesta_listado WHERE id_pregunta = $idPregunta";
+
+        return $this->database->query($sql);
+    }
+
+
+    /*---------------------------*/
     public function iniciarPartida($idUsuario, $horaInicio)
     {
         /*
