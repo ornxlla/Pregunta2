@@ -21,17 +21,24 @@ class RegistroController
     }
 */
     public function nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
+        // Primero verificamos si el usuario ya existe
+        $usuarioExistente = $this->model->obtenerUsuario($username);
+        if ($usuarioExistente) {
+            return false;
+        }
 
         $codigoValidacion = $this->getNumeroValidacion();
 
-        //$resultado=$this->model->darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen,  $pais, $ciudad, $latitud, $longitud,$codigoValidacion);
         $resultadoLogin = $this->model->altaUsuario($username, $password, $email, $codigoValidacion);
         if($resultadoLogin){
+
             $datosCreados = $this->model->obtenerUsuario($username);
             if(isset($datosCreados["id_usuario"])){
+
                 $resultadoDatos = $this->model->altaUsuario_datos($datosCreados["id_usuario"], $nombre, $year, $genero, $nombreImagen, $pais, $ciudad, $latitud, $longitud);
                 if($resultadoDatos){
-                    $envioCorreo = $this->model->enviarCorreoConfirmacion($email,$codigoValidacion);
+
+                    $envioCorreo = $this->model->enviarCorreoConfirmacion($email, $codigoValidacion);
                     return true;
                 }
             }

@@ -1,0 +1,29 @@
+<main>
+    <h1>Ranking de usuarios</h1>
+
+    {{#primer_usuario}}
+
+            <h2>Felicidades {{username}}!</h2>
+            <img src="/public/img/users/{{imagen_perfil}}" alt="imagenPerfil{{username}}">
+            <p>Puntos: {{max_puntos}}</p>
+            <a href="http://localhost/PerfilUsuario/buscarUsuario?id={{id_usuario}}">
+            <img class="img-fluid" src="/public/images/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR">
+        </a>
+        </section>
+    {{/primer_usuario}}
+
+    <h2>Otros usuarios</h2>
+    <ul>
+        {{#otros_usuarios}}
+            <li>
+                <h3>#{{index}}: {{username}}</h3>
+
+                <img src="/public/img/users/{{imagen_perfil}}" alt="imagenPerfil{{username}}">
+                <a href="http://localhost/PerfilUsuario/buscarUsuario?id={{id_usuario}}">
+                <img class="img-fluid" src="/public/images/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR">
+                </a>
+                <p>Puntos: {{max_puntos}}</p>
+            </li>
+        {{/otros_usuarios}}
+    </ul>
+</main>

@@ -87,8 +87,8 @@ class PerfilUsuarioController
             }
             $qrImg = $carpeta_destino . $id . "_qr.png";
 
-            //QRcode::png($qrLink,$qrImg,QR_ECLEVEL_L,8);
-            //$qr = QRcode::png($qrLink, $qrImg , QR_ECLEVEL_L, 4);
+           QRcode::png($qrLink,$qrImg,QR_ECLEVEL_L,8);
+           $qr = QRcode::png($qrLink, $qrImg , QR_ECLEVEL_L, 4);
             return $data;
         }
         return false;

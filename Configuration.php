@@ -13,12 +13,13 @@ include_once("controller/RegistroController.php");
 include_once("controller/PerfilUsuarioController.php");
 include_once ("controller/PlayController.php");
 include_once("controller/PreguntaController.php");
-
+include_once ("controller/RankingController.php");
 include_once("model/LoginModel.php");
 include_once("model/RegistroModel.php");
 include_once("model/PerfilUsuarioModel.php");
 include_once("model/PlayModel.php");
 include_once("model/PreguntaModel.php");
+include_once("model/RankingModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
@@ -50,7 +51,10 @@ class Configuration
     {
         return new PlayController(self::getPresenter(), self::getPlayModel());
     }
-
+    public static function getRankingController()
+    {
+        return new RankingController(self::getPresenter(), self::getRankingModel());
+    }
     public static function getPreguntaController()
     {
         return new PreguntaController(self::getPresenter(), self::getPreguntaModel());
@@ -82,6 +86,13 @@ class Configuration
     {
         return new PreguntaModel(self::getDatabase());
     }
+
+
+    private static function getRankingModel()
+    {
+        return new RankingModel(self::getDatabase());
+    }
+
 
     // HELPERS
     public static function getDatabase()
