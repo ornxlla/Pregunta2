@@ -221,7 +221,7 @@ class LoginController
     }
 
 // modificar pregunta  OK*************** Ver la duplicación de tematicas**************
-
+/*
     public function mostrarFormularioModificarPregunta()
     {
         $idPregunta = $_POST['id_pregunta'] ?? null;
@@ -273,7 +273,97 @@ class LoginController
 
         header('Location: /Login/listadoGeneralPreguntas');
         exit();
+    }*/
+
+
+// 19/6 crear pregunta sugerida  ok ******
+
+    public function mostrarFormularioCrearPreguntaSugerida() {
+        $dificultades = $this->model->obtenerDificultades();
+        $tematicas = $this->model->obtenerTematicas();
+
+        $this->presenter->render('CrearPreguntaSugeridaView', ['dificultades' => $dificultades, 'tematicas' => $tematicas]);
     }
+
+    public function crearPreguntaSugerida()
+    {
+        $pregunta_texto = $_POST['pregunta_texto'];
+        $id_tematica = $_POST['id_tematica'];
+        $id_dificultad = $_POST['id_dificultad'];
+        $respuestas = $_POST['respuestas'];
+        $respuesta_correcta = $_POST['respuesta_correcta'];
+
+        if ($pregunta_texto && $id_tematica && $id_dificultad && count($respuestas) === 4 && $respuesta_correcta !== null) {
+            $idPregunta = $this->model->insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica);
+
+            if ($idPregunta) {
+                foreach ($respuestas as $index => $respuesta_texto) {
+                    $es_correcta = ($index == $respuesta_correcta) ? 1 : 0;
+                    $this->model->insertarRespuesta($idPregunta, $respuesta_texto, $es_correcta);
+                }
+
+                header('Location: /Login/listadoGeneralPreguntas');
+                exit();
+            } else {
+                echo "Error: No se pudo insertar la pregunta.";
+            }
+        } else {
+            echo "Error: Por favor, complete todos los campos y asegúrese de marcar una respuesta correcta.";
+        }
+    }
+
+
+// modificar pregunta y respuesta
+
+    public function mostrarFormularioModificarPreguntaYRespuesta()
+    {
+        // Obtener el ID de la pregunta desde $_GET
+        if (isset($_GET['id_pregunta'])) {
+            $idPregunta = $_GET['id_pregunta'];
+
+            // Lógica para obtener los detalles de la pregunta y respuestas asociadas
+            $pregunta = $this->model->obtenerPreguntaPorId($idPregunta);
+            $respuestas = $this->model->obtenerRespuestasPorIdPregunta($idPregunta);
+            $dificultades = $this->model->obtenerDificultades();
+            $tematicas = $this->model->obtenerTematicas();
+
+            // Verificar que se obtuvieron datos
+            if ($pregunta !== null && $respuestas !== []) {
+                // Renderizar la vista de modificación con los datos obtenidos
+                $this->presenter->render('ModificarPreguntaYRespuestaView', [
+                    'pregunta' => $pregunta,
+                    'respuestas' => $respuestas,
+                    'dificultades' => $dificultades,
+                    'tematicas' => $tematicas
+                ]);
+            } else {
+                echo "Error: No se encontró la pregunta o las respuestas.";
+            }
+        } else {
+            echo "Error: ID de la pregunta no especificado.";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

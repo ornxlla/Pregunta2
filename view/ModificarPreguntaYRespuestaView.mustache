@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Pregunta y Respuesta</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+<h1>Modificar Pregunta y Respuesta</h1>
+
+<form action="/Login/modificarPreguntaYRespuesta" method="POST">
+    <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
+
+    <label for="pregunta_texto">Texto de la Pregunta:</label><br>
+    <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required>{{pregunta.pregunta_texto}}</textarea><br>
+
+    <label for="id_tematica">Tema:</label>
+    <select id="id_tematica" name="id_tematica">
+        {{#tematicas}}
+            <option value="{{id_tematica}}" {{#selected}}selected{{/selected}}>{{nombre}}</option>
+        {{/tematicas}}
+    </select><br>
+
+    <label for="id_dificultad">Dificultad:</label>
+    <select id="id_dificultad" name="id_dificultad">
+        {{#dificultades}}
+            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{nombre}}</option>
+        {{/dificultades}}
+    </select><br>
+
+    {{#respuestas}}
+        <label for="respuesta_{{@index}}">Respuesta {{@index + 1}}:</label>
+        <input type="text" name="respuestas[{{@index}}][respuesta_texto]" id="respuesta_{{@index}}" value="{{respuesta_texto}}" required>
+        <input type="radio" name="respuesta_correcta" value="{{@index}}" {{#correcta}}checked{{/correcta}}> Correcta<br>
+    {{/respuestas}}
+
+    <button type="submit">Modificar Pregunta y Respuesta</button>
+</form>
+
+<br>
+<a href="/Login/listadoGeneralPreguntas">Volver al Listado de Preguntas General</a>
+<a href="/Login/funciones" class="panel-link">Panel de Control</a>
+
+</body>
+</html>

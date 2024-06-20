@@ -127,8 +127,8 @@ class LoginModel
         $this->database->execute($query);
     }
 
-// modificar pregunta ok *************************** ver tematica duplicado
-
+// modificar pregunta ok *************************** ver tematica duplicado (COMENTO ESTO PORQUE HAY OTRO IGAL PERO FUNCIONA)
+/*
     public function obtenerPreguntaPorId($idPregunta)
     {
         $query = "SELECT * FROM preguntas WHERE id_pregunta = '$idPregunta'";
@@ -147,7 +147,72 @@ class LoginModel
         $stmt->bind_param("siii", $pregunta_texto, $id_tematica, $id_dificultad, $id_pregunta);
 
         return $stmt->execute();
+    }*/
+
+    //  crear pregunta sugerida OK *********
+
+
+    public function insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica) {
+        $query = "INSERT INTO preguntas (pregunta_texto, id_dificultad, id_tematica, utilizada, contador_respuestas_correctas, contador_respuestas_incorrectas, estado, apariciones, reportada, es_sugerida) 
+              VALUES (?, ?, ?, 0, 0, 0, 0, 0, 0, 1)";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sii", $pregunta_texto, $id_dificultad, $id_tematica);
+
+        if ($stmt->execute()) {
+            return $stmt->insert_id;
+        } else {
+            return false;
+        }
     }
+
+    public function insertarRespuesta($id_pregunta, $respuesta_texto, $es_correcta) {
+        $query = "INSERT INTO respuesta (id_pregunta, respuesta_texto, correcta) VALUES (?, ?, ?)";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("isi", $id_pregunta, $respuesta_texto, $es_correcta);
+
+        return $stmt->execute();
+    }
+
+// MODIFICAR PREGUNTA Y RESPUESTA ********
+
+
+    public function obtenerPreguntaPorId($idPregunta) {
+        $query = "SELECT * FROM preguntas WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function obtenerRespuestasPorIdPregunta($idPregunta) {
+        $query = "SELECT * FROM respuesta WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $respuestas = [];
+        while ($row = $result->fetch_assoc()) {
+            $respuestas[] = $row;
+        }
+        return $respuestas;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
