@@ -3,44 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Pregunta y Respuesta</title>
-    <link rel="stylesheet" href="/public/css/styles.css">
+    <title>Modificar Pregunta y Respuestas</title>
 </head>
-<body>
-<h1>Modificar Pregunta y Respuesta</h1>
+<body style="width: 100%; height: 100%; background-image: url('/public/img/registro.jpg'); background-size: cover;">
+<div style="display: flex; justify-content: center; align-items: center; margin: 5%;">
+    <div style="max-width: 800px; width: 100%; background-color: #fff; padding: 20px; box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185); border-radius: 10px;">
+        <h1 style="text-align: center; font-size: 2rem; margin-bottom: 20px; color: #1a202c;">Modificar Pregunta y Respuestas</h1>
+        <form action="/Login/actualizarPreguntaYRespuestas" method="POST">
+            <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
 
-<form action="/Login/modificarPreguntaYRespuesta" method="POST">
-    <input type="hidden" name="id_pregunta" value="{{pregunta.id_pregunta}}">
+            <div style="margin-bottom: 20px;">
+                <label for="pregunta_texto" style="display: block; margin-bottom: 5px; color: #1a202c;">Texto de la pregunta:</label>
+                <textarea name="pregunta_texto" id="pregunta_texto" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">{{pregunta.pregunta_texto}}</textarea>
+            </div>
 
-    <label for="pregunta_texto">Texto de la Pregunta:</label><br>
-    <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required>{{pregunta.pregunta_texto}}</textarea><br>
+            <div style="margin-bottom: 20px;">
+                <label for="id_tematica" style="display: block; margin-bottom: 5px; color: #1a202c;">Temática:</label>
+                <select name="id_tematica" id="id_tematica" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    {{#tematicas}}
+                        <option value="{{id_tematica}}" {{#is_selected}}selected{{/is_selected}}>{{nombre}}</option>
+                    {{/tematicas}}
+                </select>
+            </div>
 
-    <label for="id_tematica">Tema:</label>
-    <select id="id_tematica" name="id_tematica">
-        {{#tematicas}}
-            <option value="{{id_tematica}}" {{#selected}}selected{{/selected}}>{{nombre}}</option>
-        {{/tematicas}}
-    </select><br>
+            <div style="margin-bottom: 20px;">
+                <label for="id_dificultad" style="display: block; margin-bottom: 5px; color: #1a202c;">Dificultad:</label>
+                <select name="id_dificultad" id="id_dificultad" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    {{#dificultades}}
+                        <option value="{{id}}" {{#is_selected}}selected{{/is_selected}}>{{nombre}}</option>
+                    {{/dificultades}}
+                </select>
+            </div>
 
-    <label for="id_dificultad">Dificultad:</label>
-    <select id="id_dificultad" name="id_dificultad">
-        {{#dificultades}}
-            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{nombre}}</option>
-        {{/dificultades}}
-    </select><br>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; color: #1a202c;">Respuestas:</label>
+                {{#respuestas}}
+                    <div style="margin-bottom: 10px;">
+                        <input type="radio" name="respuesta_correcta" value="{{id_respuesta}}" {{#is_correcta}}checked{{/is_correcta}}>
+                        <input type="text" name="respuesta[]" value="{{respuesta_texto}}" style="width: 80%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <input type="hidden" name="id_respuesta[]" value="{{id_respuesta}}">
+                    </div>
+                {{/respuestas}}
+            </div>
 
-    {{#respuestas}}
-        <label for="respuesta_{{@index}}">Respuesta {{@index + 1}}:</label>
-        <input type="text" name="respuestas[{{@index}}][respuesta_texto]" id="respuesta_{{@index}}" value="{{respuesta_texto}}" required>
-        <input type="radio" name="respuesta_correcta" value="{{@index}}" {{#correcta}}checked{{/correcta}}> Correcta<br>
-    {{/respuestas}}
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #1a202c; color: #fff; border: none; border-radius: 5px;">Guardar cambios</button>
 
-    <button type="submit">Modificar Pregunta y Respuesta</button>
-</form>
-
-<br>
-<a href="/Login/listadoGeneralPreguntas">Volver al Listado de Preguntas General</a>
-<a href="/Login/funciones" class="panel-link">Panel de Control</a>
-
+        </form>
+    </div>
+</div>
 </body>
 </html>

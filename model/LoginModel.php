@@ -128,7 +128,7 @@ class LoginModel
     }
 
 // modificar pregunta ok *************************** ver tematica duplicado (COMENTO ESTO PORQUE HAY OTRO IGAL PERO FUNCIONA)
-/*
+    /*
     public function obtenerPreguntaPorId($idPregunta)
     {
         $query = "SELECT * FROM preguntas WHERE id_pregunta = '$idPregunta'";
@@ -147,7 +147,8 @@ class LoginModel
         $stmt->bind_param("siii", $pregunta_texto, $id_tematica, $id_dificultad, $id_pregunta);
 
         return $stmt->execute();
-    }*/
+    }
+*/
 
     //  crear pregunta sugerida OK *********
 
@@ -177,7 +178,6 @@ class LoginModel
 
 // MODIFICAR PREGUNTA Y RESPUESTA ********
 
-
     public function obtenerPreguntaPorId($idPregunta) {
         $query = "SELECT * FROM preguntas WHERE id_pregunta = ?";
         $stmt = $this->database->prepare($query);
@@ -200,6 +200,110 @@ class LoginModel
         return $respuestas;
     }
 
+
+//metodo a revisar
+
+    public function actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad)
+    {
+        $query = "UPDATE preguntas SET pregunta_texto = ?, id_tematica = ?, id_dificultad = ? WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("siii", $preguntaTexto, $idTematica, $idDificultad, $idPregunta);
+        return $stmt->execute();
+    }
+
+//** ver porque actualiza las preguntas pero no las respuestas  */
+
+    public function actualizarRespuestas($respuestas, $idPregunta) {
+        foreach ($respuestas as $respuesta) {
+            $respuestaTexto = $respuesta['respuesta_texto'];
+            $idRespuesta = $respuesta['id_respuesta'];
+            $esCorrecta = ($respuesta['id_respuesta'] == $_POST['respuesta_correcta']) ? 1 : 0;
+
+            // Preparar la consulta para actualizar respuestas
+            $query = "UPDATE respuesta SET respuesta_texto=?, es_correcta=? WHERE id_respuesta=?";
+            $stmt = $this->db->prepare($query);
+
+            if ($stmt === false) {
+                // Manejo de error si prepare() falla
+                die('Error de preparación de consulta: ' . $this->db->error);
+            }
+
+            // Vincular parámetros y ejecutar consulta
+            $stmt->bind_param("sii", $respuestaTexto, $esCorrecta, $idRespuesta);
+            $stmt->execute();
+
+            if ($stmt->error) {
+                // Manejo de error si execute() falla
+                die('Error al ejecutar consulta: ' . $stmt->error);
+            }
+
+            // Cerrar declaración
+            $stmt->close();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+        public function obtenerPreguntaPorId($idPregunta) {
+            $query = "SELECT * FROM preguntas WHERE id_pregunta = ?";
+            $stmt = $this->database->prepare($query);
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+
+        public function obtenerRespuestasPorIdPregunta($idPregunta) {
+            $query = "SELECT * FROM respuesta WHERE id_pregunta = ?";
+            $stmt = $this->database->prepare($query);
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $respuestas = [];
+            while ($row = $result->fetch_assoc()) {
+                $respuestas[] = $row;
+            }
+            return $respuestas;
+        }
+    */
 
 
 
