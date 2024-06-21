@@ -21,25 +21,6 @@ class RegistroModel
         return $this->database->query('SELECT * FROM usuario');
     }
 
-    /*
-    public function darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen, $pais, $ciudad, $latitud, $longitud, $codigo_validacion)
-    {
-        //ARREGLAR SQL
-        $sql = 'INSERT INTO usuario
-    (nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud, codigo_validacion)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $stmt = $this->database->prepare($sql);
-
-        $rol = 0;
-
-        if ($stmt) {
-            $stmt->bind_param("sisssssssssss", $nombre, $rol , $email, $password, $nombreImagen, $nombre, $year, $genero, $pais, $ciudad, $latitud, $longitud, $codigo_validacion);
-            return $stmt->execute();
-        } else {
-            return false;
-        }
-    }
-    */
     public function altaUsuario($username, $password, $correo, $hash){
         $sql = "INSERT INTO login (username, password, correo, rol, activado, hash)
                 VALUES (?, ?, ?, ?, ?, ?)";
@@ -135,5 +116,4 @@ class RegistroModel
             return false; // Error en la preparación de la consulta
         }
     }
-
 }

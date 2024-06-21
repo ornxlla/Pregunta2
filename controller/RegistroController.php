@@ -14,12 +14,7 @@ class RegistroController
     public function get(){
         $this->presenter->render("registroView");
     }
-/*
-    public function getRegistros(){
-        $data["usuario"] = $this->model->getUsuarioRegistrados();
-        $this->presenter->render("usuario", $data);
-    }
-*/
+
     public function nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
         // Primero verificamos si el usuario ya existe
         $usuarioExistente = $this->model->obtenerUsuario($username);

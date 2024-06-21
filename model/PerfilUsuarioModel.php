@@ -9,28 +9,6 @@ class PerfilUsuarioModel
         $this->database = $database;
     }
 
-    public function modificarUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
-/*        $sql = 'UPDATE USUARIO SET nombre_completo = ?, anio_nacimiento = ?, genero = ?, mail = ?, contrasenia = ?, pais = ?, ciudad = ?, latitud = ?, longitud = ?';
-        if ($nombreImagen) {
-            $sql .= ', imagen_perfil = ?';
-        }
-        $sql .= ' WHERE nombre_usuario = ?';
-
-        $stmt = $this->database->prepare($sql);
-        if ($stmt) {
-            if ($nombreImagen) {
-                $stmt->bind_param("sssssssssss", $nombre, $year, $genero, $email, $password, $pais, $ciudad, $latitud, $longitud, $nombreImagen, $username);
-            } else {
-                $stmt->bind_param("ssssssssss", $nombre, $year, $genero, $email, $password, $pais, $ciudad, $latitud, $longitud, $username);
-            }
-            return $stmt->execute();
-        } else {
-            echo "Error al preparar la consulta: " . $this->database->error;
-            return false;
-        }
-*/
-    }
-
     public function getDataUsuario($id_user){
         $stmt = $this->database->prepare("SELECT data.* , login.username, login.correo 
                 FROM datos_usuario AS data 
@@ -129,5 +107,4 @@ class PerfilUsuarioModel
             return false;
         }
     }
-
 }

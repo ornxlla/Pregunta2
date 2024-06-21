@@ -51,29 +51,7 @@ class PerfilUsuarioController
             Redirect::root();    //Error -> Llevar a HOME
         }
     }
-/*
-    public function getUsuario()
-    {
 
-        if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
-            $data["usuario"] = $_SESSION["usuario"][0];
-            if (!isset($data["usuario"]["id_usuario"])) {
-                error_log("ID de usuario no encontrado en la sesión.");
-                return;
-            }
-
-            $imgQR = "http://localhost/PerfilUsuario/getUsuario?id=" . $data["usuario"]["id_usuario"];
-            $carpeta_destino = "public/images/profile_qrs/";
-            if (!file_exists($carpeta_destino)) {
-                mkdir($carpeta_destino, 0777, true);
-            }
-            QRcode::png($imgQR, $carpeta_destino . $data["usuario"]["id_usuario"] . "_qr.png", QR_ECLEVEL_L, 4);
-            $this->presenter->render("perfil-usuario", $data);
-        } else {
-            error_log("ID de usuario no encontrado");
-        }
-    }
-*/
     public function obtenerDatosUsuario($id){
         $data = $this->model->getDataUsuario($id);
         if(!empty($data)){
