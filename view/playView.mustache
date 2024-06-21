@@ -110,9 +110,7 @@
     {{#pregunta}}
     <div class="text-center">
         <div class="text-center card">
-
                 <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">{{tematica}}</h2>
-
         </div>
     </div>
     <div class="row">
@@ -122,12 +120,17 @@
                         <p class="card-text">{{texto_pregunta}}</p>
                         <p class="dificultad">Dificultad de la pregunta: {{texto_dificultad}}</p>
                 </div>
+
+                <div class="card-body">
+                    <p class="card-text">Puntaje actual: {{puntaje}} </p>
+                </div>
+
                 <form class="card-body d-flex flex-column align-items-center" method="post" enctype="multipart/form-data"
                       action="/Play/proximaPregunta">
                     <input type="hidden" name="id_pregunta" id="id_pregunta" value="{{id_pregunta}}">
                     <div class=" col-10 btn-group-vertical align-self-center" role="group">
                     {{#respuesta}}
-                        <input class="btn-check" type="radio" name="id_respuesta" id="radio-{{id_respuesta}}" onclick="seleccionarRespuesta('{{id_respuesta}}')">
+                        <input class="btn-check" type="radio" name="id_respuesta" id="radio-{{id_respuesta}}" onclick="seleccionarRespuesta('{{id_respuesta}}')" value="{{id_respuesta}}">
                         <label class="radio-button py-2" for="{{id_respuesta}}">{{texto}}</label>
                     {{/respuesta}}
                     </div>

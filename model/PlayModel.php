@@ -62,6 +62,7 @@ class PlayModel
     }
 
     public function obtenerDificultadPreguntas($idPartida, $idUsuario){
+        /*
         $sql = "SELECT est.* 
                 FROM pregunta_estadisticas AS est
                 WHERE !EXISTS(
@@ -86,7 +87,24 @@ class PlayModel
                 return $data;
             }
         }
-        return null;
+        return null;*/
+        $sql = "SELECT id_pregunta, COUNT(id) as 'veces_llamado', SUM(acertado) as 'veces_acertado' 
+                FROM partida_clasica_respuestas 
+                GROUP BY id_pregunta";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            if ($result) {
+                $i = 0;
+                while($row = $result->fetch_assoc()){
+                    $data[$i] = $this->calcularDificultadPregunta($row);
+                    $i = $i + 1;
+                }
+                return $data;
+            }
+        }
     }
 
     public function calcularDificultadPregunta($estadisticas){
@@ -109,7 +127,7 @@ class PlayModel
             $data["texto_dificultad"] = "Dificil";
         }else {
             $estadistica = ($estadisticas["veces_llamado"] * $estadisticas["veces_acertado"]) / 100;
-            if ($estadistica > 0.70) {    //Mas del 70% acertado = Facul
+            if ($estadistica > 0.70) {    //Mas del 70% acertado = Facil
                 $data["dificultad"] = 1;
                 $data["puntos_correcto"] = 25;
                 $data["texto_dificultad"] = "Facil";
@@ -131,6 +149,29 @@ class PlayModel
         $sql = "SELECT * FROM respuesta_listado WHERE id_pregunta = $idPregunta";
 
         return $this->database->query($sql);
+    }
+
+    public function preguntaRespondida($id_jugador, $id_partida, $id_pregunta, $acertada){
+        $sql = "insert into partida_clasica_respuestas (id_jugador, id_partida, id_pregunta, acertado) values (?, ?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("iiii", $id_jugador, $id_partida, $id_pregunta, $acertada);
+            $stmt->execute();
+            return $stmt->insert_id;
+        } else {
+            return null;
+        }
+    }
+
+    public function finalizarPartida($id_partida, $puntos, $hora_final){
+        $sql = "UPDATE partida_clasica_general SET puntos = ?, hora_final = ? WHERE id = ?";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("isi", $puntos,  $hora_final, $id_partida);
+            return $stmt->execute();
+        } else {
+            return null;
+        }
     }
 
 

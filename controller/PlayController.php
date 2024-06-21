@@ -16,39 +16,90 @@ class PlayController
     }
 
     public function get(){
-        if(isset($_SESSION["partida_iniciada"])){
-            //Apreto "Nueva partida" al tener una partida en progreso o recargo la pagina. Se realiza el proceso de finalizar partida.
-            $this->finalizar_partida();
-
-            //header("Location: /");
-            echo "adios!";
-            return;
-        }
-
         if(!isset($_SESSION["Session_id"])){
             //Error en el usuario de sesion - Directo al HOME
             header("Location: /");
         }
 
-        $_SESSION["partida_iniciada"] = true;
-        $horaInicio = date('Y-m-d H:i:s');
-        $idPartidaIniciada = $this->model->iniciarPartida_clasico($_SESSION["Session_id"], $horaInicio);
+        if(isset($_SESSION["proxima_pregunta"])){
+            //ESTA LOGICA ESTA RESERVADA CUANDO SE VIENE DE RESPONDER UNA PREGUNTA CORRECTA
+            unset($_SESSION["proxima_pregunta"]); //EVITA LOCURAS CON F5
+            unset($_SESSION["pregunta_enviada"]);
+            unset($_SESSION["respuesta"]);
+            unset($_SESSION["puntosPregunta"]);
 
+            $idPartidaIniciada = $_SESSION["idPartida"];
+
+        }else{
+            //NUEVA PARTIDA
+            if(isset($_SESSION["partida_iniciada"])){
+                //Apreto "Nueva partida" al tener una partida en progreso o recargo la pagina. Se realiza el proceso de finalizar partida.
+                $this->finalizar_partida();
+                //header("Location: /");
+                echo "adios!";
+                return;
+            }
+
+            $_SESSION["partida_iniciada"] = true;
+            $horaInicio = date('Y-m-d H:i:s');
+            $idPartidaIniciada = $this->model->iniciarPartida_clasico($_SESSION["Session_id"], $horaInicio);
+
+            $_SESSION["puntosPartida"] = 0;
+            $_SESSION["idPartida"] = $idPartidaIniciada;
+        }
         $data["aux_preguntas"] = $this->model->obtenerPreguntas_clasico($idPartidaIniciada, $_SESSION["Session_id"]);
+        if(empty($data["aux_preguntas"]["listaPreguntas"])){
+            echo "Se terminaron las preguntas!";
+            //TO-DO Logica en caso de que se terminen las preguntas - Por ahora, terminara forzosamente la partida
+            $this->finalizar_partida();
+            return;
+        }
         $data["aux_pregunta_elegida"] = $this->elegirPregunta($data["aux_preguntas"]["listaPreguntas"]);
 
         $data["pregunta"] = $this->unificarDatosPregunta($data["aux_pregunta_elegida"],$data["aux_preguntas"]["dificultadPreguntas"]);
         $data["respuesta"] = $this->model->obtenerRespuestas($data["pregunta"]["id_pregunta"]);
-
         shuffle($data["respuesta"]);
+
         $_SESSION["pregunta_enviada"] = $data["pregunta"]["id_pregunta"];
-        $_SESSION["Testing1"] = $data["pregunta"];
-        $_SESSION["Testing2"] = $data["respuesta"];
-        $_SESSION["idPartida"] = $idPartidaIniciada;
-        $_SESSION["puntosPartida"] = 0;
+        $_SESSION["respuesta"] = $this->obtenerIdRespuestaCorrecta($data["respuesta"]);
+        $_SESSION["puntosPregunta"] = $data["pregunta"]["puntos_pregunta"];
+
+        $data["puntaje"] = $_SESSION["puntosPartida"];
 
         $this->presenter->render("playView", $data);
     }
+
+    public function proximaPregunta(){
+        if(isset($_POST["responder"])){
+            if($_POST["id_respuesta"] == $_SESSION["respuesta"]){
+                //SUMAR PUNTOS
+                $_SESSION["puntosPartida"] = $_SESSION["puntosPartida"] + $_SESSION["puntosPregunta"];
+                $_SESSION["proxima_pregunta"] = true;
+                //Ingresar en bbdd que se respondio la pregunta.
+                $aux = $this->model->preguntaRespondida($_SESSION["Session_id"], $_SESSION["idPartida"], $_SESSION["pregunta_enviada"], 1);
+
+                Redirect::to("/play");
+            }else{
+                echo "Respuesta incorrecta!";
+                $aux = $this->model->preguntaRespondida($_SESSION["Session_id"], $_SESSION["idPartida"], $_SESSION["pregunta_enviada"], 0);
+                $this->finalizar_partida();
+            }
+        }
+    }
+
+    public function finalizar_partida()
+    {
+        $horafinal = date('Y-m-d H:i:s');
+        $aux = $this->model->finalizarPartida($_SESSION["idPartida"], $_SESSION["puntosPartida"], $horafinal);
+        $data["puntaje"] = $_SESSION["puntosPartida"];
+        unset($_SESSION["partida_iniciada"]);
+        unset($_SESSION["pregunta_enviada"]);
+        unset($_SESSION["respuesta"]);
+        unset($_SESSION["tiempo_inicial"]);
+        unset($_SESSION["puntosPartida"]);
+        $this->presenter->render("partidaTerminadaView", $data);
+    }
+
 
     public function elegirPregunta($listaPreguntas){
         $numeroMagico = rand(0,99999);
@@ -72,12 +123,17 @@ class PlayController
         return $datos;
     }
 
-    public function proximaPregunta(){
-        if(isset($_POST["responder"])){
-            var_dump($_SESSION["Testing1"]);
-            var_dump($_SESSION["Testing2"]);
+    public function obtenerIdRespuestaCorrecta($respuesta){
+        $returnValue = "";
+        for($i = 0; $i < count($respuesta); $i++){
+            if($respuesta[$i]["correcta"] == 1){
+                $returnValue = $respuesta[$i]["id_respuesta"];
+            }
         }
+        return $returnValue;
     }
+
+
 
     /*---------------------------*/
 
@@ -199,19 +255,4 @@ class PlayController
             }
         }
     }
-    public function finalizar_partida()
-    {
-        $idPartida = $_SESSION["partida_iniciada"];
-        unset($_SESSION["partida_iniciada"]);
-        unset($_SESSION["pregunta_enviada"]);
-        unset($_SESSION["tiempo_inicial"]);
-
-        /*
-        $this->model->actualizarPartida($idPartida);
-        $this->model->calcularDificultadDelUsuario($_SESSION["Session_id"]);
-        $this->model->actualizarDificultadPreguntas();
-        */
-
-    }
-
 }
