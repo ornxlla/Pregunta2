@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Pregunta Sugerida</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+<h1>Crear Pregunta Sugerida</h1>
+
+<form action="/Login/crearPreguntaSugerida" method="POST">
+    <label for="pregunta_texto">Texto de la Pregunta:</label><br>
+    <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required></textarea><br>
+
+    <label for="id_tematica">Tema:</label>
+    <select id="id_tematica" name="id_tematica">
+        {{#tematicas}}
+            <option value="{{id_tematica}}">{{nombre}}</option>
+        {{/tematicas}}
+    </select><br>
+
+    <label for="id_dificultad">Dificultad:</label>
+    <select id="id_dificultad" name="id_dificultad">
+        {{#dificultades}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/dificultades}}
+    </select><br>
+
+    <label for="respuesta_1">Respuesta 1:</label>
+    <input type="text" name="respuestas[]" id="respuesta_1" required>
+    <input type="radio" name="respuesta_correcta" value="0" required> Correcta<br>
+
+    <label for="respuesta_2">Respuesta 2:</label>
+    <input type="text" name="respuestas[]" id="respuesta_2" required>
+    <input type="radio" name="respuesta_correcta" value="1"> Correcta<br>
+
+    <label for="respuesta_3">Respuesta 3:</label>
+    <input type="text" name="respuestas[]" id="respuesta_3" required>
+    <input type="radio" name="respuesta_correcta" value="2"> Correcta<br>
+
+    <label for="respuesta_4">Respuesta 4:</label>
+    <input type="text" name="respuestas[]" id="respuesta_4" required>
+    <input type="radio" name="respuesta_correcta" value="3"> Correcta<br>
+
+    <button type="submit">Crear Pregunta Sugerida</button>
+</form>
+
+<br>
+<a href="/Login/listadoGeneralPreguntas">Volver al Listado de Preguntas General</a>
+<a href="/Login/funciones" class="panel-link">Panel de Control</a>
+
+</body>
+</html>

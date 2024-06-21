@@ -12,7 +12,11 @@ class LoginController
 
     public function get()
     {
-        $this->presenter->render("LoginView");
+        if(isset($_SESSION["Session_id"])){
+            $this->toHome();
+        }else{
+            $this->presenter->render("LoginView");
+        }
     }
 
     public function procesar()
@@ -26,28 +30,36 @@ class LoginController
                 if (!empty($resultado)) {
                     $credencialesValidas = false;
                     foreach ($resultado as $fila) {
-                        if ($fila["nombre_usuario"] === $username && $fila["contrasenia"] === $password&& $fila["validado"] == 1) {
+                        if ($fila["username"] === $username && $fila["password"] === $password ) {
 
                             $credencialesValidas = true;
-                            $id_usuario = $fila["id_usuario"];
 
-                            $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $password);
-                            if ($sesionIniciada === PHP_SESSION_ACTIVE) {
-                                $data["usuario"] = $this->model->getUsuario($username);
-                                $_SESSION["usuario"] = $data["usuario"]; // Guardar datos del usuario en la sesión
-                                $this->presenter->render("homeUserLogueado", $data);
-                            } else {
-                                $data["error"] = "Error al iniciar sesión";
+                            if($fila["activado"] == 1){
+                                $id_usuario = $fila["id_usuario"];
+                                $correo = $fila["correo"];
+
+                                $sesionIniciada = $this->iniciarSesion($id_usuario,$username,$correo);
+                                if ($sesionIniciada === PHP_SESSION_ACTIVE) {
+                                    header("location:/");
+                                } else {
+                                    $data["error"] = "Error al iniciar sesión.";
+                                    $this->presenter->render("LoginView", $data);
+                                }
+                            }else{
+                                $data["error"] = "¡Usuario no validado! Por favor, revise su casilla de correo.";
                                 $this->presenter->render("LoginView", $data);
                             }
+
                         }
                     }
                     // Si las credenciales no coinciden con ningún registro en la base de datos
                     if (!$credencialesValidas) {
-                        $data["error"] = "Las credenciales son incorrectas o la cuenta no está validada.";
+                        $data["error"] = "Las credenciales son incorrectas.";
                         $this->presenter->render("LoginView", $data);
                     }
                 } else {
+                    var_dump($username);
+                    var_dump($resultado);
                     // Si no se encontraron resultados en la base de datos
                     $data["error"] = "Las credenciales son incorrectas!";
                     $this->presenter->render("LoginView", $data);
@@ -60,36 +72,27 @@ class LoginController
         }
     }
 
-    public function iniciarSesion($id, $username, $password)
+    public function iniciarSesion($id,$username,$correo)
     {
         $_SESSION["Session_id"] = $id;
-        $_SESSION["Session_nombre"] = $username;
+        $_SESSION["Session_username"] = $username;
+        $_SESSION["Session_correo"] = $correo;
         return session_status();
     }
 
-    public function getUsuario($username = null)
-    {
-        if (isset($_SESSION["usuario"])) {
-            $data["usuario"] = $_SESSION["usuario"];
-            $this->presenter->render("usuario", $data);
-        } else {
-            // Manejo del caso en que no se recibe el nombre de usuario
-            $data["error"] = "Nombre de usuario no especificado";
-            $this->presenter->render("error", $data);
-        }
-    }
-
     public function toHome() {
-        if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
-            $data["usuario"] = $_SESSION["usuario"];
+        $data['usuario'] = $this->model->getDatosUser($_SESSION["Session_id"]);
+        if(!empty($data['usuario'])){
             $this->presenter->render("homeUserLogueado", $data);
+        }else{
+            $this->cerrarSesion();
         }
     }
 
-
-
-
-
+    public function cerrarSesion(){
+        session_destroy();
+        header("location:/");
+    }
 
 
     ///   ******************PreguntaController**************************************************
@@ -221,7 +224,7 @@ class LoginController
     }
 
 // modificar pregunta  OK*************** Ver la duplicación de tematicas**************
-
+/*
     public function mostrarFormularioModificarPregunta()
     {
         $idPregunta = $_POST['id_pregunta'] ?? null;
@@ -274,6 +277,178 @@ class LoginController
         header('Location: /Login/listadoGeneralPreguntas');
         exit();
     }
+*/
+
+// 19/6 crear pregunta sugerida  ok ******
+
+    public function mostrarFormularioCrearPreguntaSugerida() {
+        $dificultades = $this->model->obtenerDificultades();
+        $tematicas = $this->model->obtenerTematicas();
+
+        $this->presenter->render('CrearPreguntaSugeridaView', ['dificultades' => $dificultades, 'tematicas' => $tematicas]);
+    }
+
+    public function crearPreguntaSugerida()
+    {
+        $pregunta_texto = $_POST['pregunta_texto'];
+        $id_tematica = $_POST['id_tematica'];
+        $id_dificultad = $_POST['id_dificultad'];
+        $respuestas = $_POST['respuestas'];
+        $respuesta_correcta = $_POST['respuesta_correcta'];
+
+        if ($pregunta_texto && $id_tematica && $id_dificultad && count($respuestas) === 4 && $respuesta_correcta !== null) {
+            $idPregunta = $this->model->insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica);
+
+            if ($idPregunta) {
+                foreach ($respuestas as $index => $respuesta_texto) {
+                    $es_correcta = ($index == $respuesta_correcta) ? 1 : 0;
+                    $this->model->insertarRespuesta($idPregunta, $respuesta_texto, $es_correcta);
+                }
+
+                header('Location: /Login/listadoGeneralPreguntas');
+                exit();
+            } else {
+                echo "Error: No se pudo insertar la pregunta.";
+            }
+        } else {
+            echo "Error: Por favor, complete todos los campos y asegúrese de marcar una respuesta correcta.";
+        }
+    }
+
+
+// mostrar modificar pregunta y respuesta ok
+
+
+    public function mostrarFormularioModificarPreguntaYRespuesta()
+    {
+
+        if (isset($_POST['id_pregunta'])) {
+            $idPregunta = $_POST['id_pregunta'];
+
+            $pregunta = $this->model->obtenerPreguntaPorId($idPregunta);
+            $respuestas = $this->model->obtenerRespuestasPorIdPregunta($idPregunta);
+            $dificultades = $this->model->obtenerDificultades();
+            $tematicas = $this->model->obtenerTematicas();
+
+            if ($pregunta && $respuestas) {
+                foreach ($tematicas as &$tematica) {
+                    if ($tematica['id_tematica'] == $pregunta['id_tematica']) {
+                        $tematica['selected'] = true;
+                    }
+                }
+                foreach ($dificultades as &$dificultad) {
+                    if ($dificultad['id'] == $pregunta['id_dificultad']) {
+                        $dificultad['selected'] = true;
+                    }
+                }
+
+                $this->presenter->render('ModificarPreguntaYRespuestaView', [
+                    'pregunta' => $pregunta,
+                    'respuestas' => $respuestas,
+                    'dificultades' => $dificultades,
+                    'tematicas' => $tematicas
+                ]);
+            } else {
+                echo "Error: No se encontró la pregunta o las respuestas.";
+            }
+        } else {
+            echo "Error: ID de la pregunta no especificado.";
+        }
+    }
+
+
+
+//metodo a revisar
+
+
+    public function actualizarPreguntaYRespuestas()
+    {
+        if (
+            isset($_POST['id_pregunta']) &&
+            isset($_POST['pregunta_texto']) &&
+            isset($_POST['id_tematica']) &&
+            isset($_POST['id_dificultad']) &&
+            isset($_POST['respuesta_correcta']) &&
+            isset($_POST['respuesta']) &&
+            isset($_POST['id_respuesta'])
+        ) {
+            $idPregunta = $_POST['id_pregunta'];
+            $preguntaTexto = $_POST['pregunta_texto'];
+            $idTematica = $_POST['id_tematica'];
+            $idDificultad = $_POST['id_dificultad'];
+            $respuestaCorrecta = $_POST['respuesta_correcta'];
+            $respuestas = $_POST['respuesta'];
+            $idRespuestas = $_POST['id_respuesta'];
+
+            // Actualizar la pregunta
+            $resultadoPregunta = $this->model->actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad);
+
+            // Actualizar las respuestas
+            $resultadoRespuestas = $this->model->actualizarRespuestas($idRespuestas, $respuestas, $respuestaCorrecta);
+
+            if ($resultadoPregunta && $resultadoRespuestas) {
+                echo "Pregunta y respuestas actualizadas correctamente.";
+            } else {
+                echo "Error al actualizar la pregunta o las respuestas.";
+            }
+        } else {
+            echo "Error: Faltan parámetros para actualizar la pregunta y respuestas.";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

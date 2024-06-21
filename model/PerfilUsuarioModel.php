@@ -9,10 +9,13 @@ class PerfilUsuarioModel
         $this->database = $database;
     }
 
-    public function getUsuarioLogueado($username) {
-        $stmt = $this->database->prepare("SELECT * FROM usuario WHERE nombre_usuario = ?");
+    public function getDataUsuario($id_user){
+        $stmt = $this->database->prepare("SELECT data.* , login.username, login.correo 
+                FROM datos_usuario AS data 
+                INNER JOIN login AS login ON data.id_usuario = login.id_usuario
+                WHERE data.id_usuario = ?");
         if ($stmt) {
-            $stmt->bind_param('s', $username);
+            $stmt->bind_param('i', $id_user);
             $stmt->execute();
             $result = $stmt->get_result();
             if ($result) {
@@ -27,25 +30,81 @@ class PerfilUsuarioModel
         }
     }
 
-    public function modificarUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
-        $sql = 'UPDATE USUARIO SET nombre_completo = ?, anio_nacimiento = ?, genero = ?, mail = ?, contrasenia = ?, pais = ?, ciudad = ?, latitud = ?, longitud = ?';
-        if ($nombreImagen) {
+    public function updateDatosUsuario($id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud){
+        $sql = 'UPDATE datos_usuario SET nombre = ?, nacimiento = ?, genero = ?, pais = ?, ciudad = ?, latitud = ?, longitud = ?';
+        if ($imagen_perfil) {
             $sql .= ', imagen_perfil = ?';
         }
-        $sql .= ' WHERE nombre_usuario = ?';
-
+        $sql .= ' WHERE id_usuario = ?';
         $stmt = $this->database->prepare($sql);
         if ($stmt) {
-            if ($nombreImagen) {
-                $stmt->bind_param("sssssssssss", $nombre, $year, $genero, $email, $password, $pais, $ciudad, $latitud, $longitud, $nombreImagen, $username);
+            if ($imagen_perfil) {
+                $stmt->bind_param("ssssssssi", $nombre, $nacimiento, $genero, $pais, $ciudad, $latitud, $longitud, $imagen_perfil, $id_usuario);
             } else {
-                $stmt->bind_param("ssssssssss", $nombre, $year, $genero, $email, $password, $pais, $ciudad, $latitud, $longitud, $username);
+                $stmt->bind_param("sssssssi", $nombre, $nacimiento, $genero, $pais, $ciudad, $latitud, $longitud, $id_usuario);
             }
-            return $stmt->execute();
+            $result = $stmt->execute();
+            if ($result) {
+                return $result;
+            } else {
+                echo "Error ejecutando la consulta: " . $stmt->error;
+                return false;
+            }
+        } else {
+            echo "Error al preparar la consulta: " . $this->database->error;
+            return false;
+        }
+
+    }
+
+    public function updateCorreo($id_usuario, $correo){
+        $stmt = $this->database->prepare("UPDATE login SET correo = ? WHERE id_usuario = ?");
+        if ($stmt) {
+            $stmt->bind_param('si', $correo, $id_usuario);
+            $result = $stmt->execute();
+            if ($result) {
+                return $result;
+            } else {
+                echo "Error ejecutando la consulta: " . $stmt->error;
+                return false;
+            }
         } else {
             echo "Error al preparar la consulta: " . $this->database->error;
             return false;
         }
     }
 
+    public function updateUsername($id_usuario, $username){
+        $stmt = $this->database->prepare("UPDATE login SET username = ? WHERE id_usuario = ?");
+        if ($stmt) {
+            $stmt->bind_param('si', $username, $id_usuario);
+            $result = $stmt->execute();
+            if ($result) {
+                return $result;
+            } else {
+                echo "Error ejecutando la consulta: " . $stmt->error;
+                return false;
+            }
+        } else {
+            echo "Error al preparar la consulta: " . $this->database->error;
+            return false;
+        }
+    }
+
+    public function updatePassword($id_usuario, $password){
+        $stmt = $this->database->prepare("UPDATE login SET password = ? WHERE id_usuario = ?");
+        if ($stmt) {
+            $stmt->bind_param('si', $password, $id_usuario);
+            $result = $stmt->execute();
+            if ($result) {
+                return $result;
+            } else {
+                echo "Error ejecutando la consulta: " . $stmt->error;
+                return false;
+            }
+        } else {
+            echo "Error al preparar la consulta: " . $this->database->error;
+            return false;
+        }
+    }
 }

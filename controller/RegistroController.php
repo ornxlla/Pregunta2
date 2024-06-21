@@ -15,25 +15,34 @@ class RegistroController
         $this->presenter->render("registroView");
     }
 
-    public function getRegistros(){
-        $data["usuario"] = $this->model->getUsuarioRegistrados();
-        $this->presenter->render("usuario", $data);
-    }
-
     public function nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud) {
-        $codigoValidacion=$this->getNumeroValidacion($username);
-        $resultado=$this->model->darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen,  $pais, $ciudad, $latitud, $longitud,$codigoValidacion);
-
-        if($resultado){
-            $envioCorreo=$this->model->enviarCorreoConfirmacion($email,$codigoValidacion);
-            return true;
-        }else {
+        // Primero verificamos si el usuario ya existe
+        $usuarioExistente = $this->model->obtenerUsuario($username);
+        if ($usuarioExistente) {
             return false;
         }
+
+        $codigoValidacion = $this->getNumeroValidacion();
+
+        $resultadoLogin = $this->model->altaUsuario($username, $password, $email, $codigoValidacion);
+        if($resultadoLogin){
+
+            $datosCreados = $this->model->obtenerUsuario($username);
+            if(isset($datosCreados["id_usuario"])){
+
+                $resultadoDatos = $this->model->altaUsuario_datos($datosCreados["id_usuario"], $nombre, $year, $genero, $nombreImagen, $pais, $ciudad, $latitud, $longitud);
+                if($resultadoDatos){
+
+                    $envioCorreo = $this->model->enviarCorreoConfirmacion($email, $codigoValidacion);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function procesarAlta() {
-        $data = array();
+        $data = [];
         if (isset($_POST["enviar"])) {
             if (!empty($_POST["nombre"]) && !empty($_POST["username"]) && !empty($_POST["year"])
                 && !empty($_POST["genero"]) && !empty($_POST["email"]) && !empty($_POST["password"])
@@ -41,7 +50,8 @@ class RegistroController
                 $nombre = ucfirst($_POST["nombre"]);
                 $username = strtolower($_POST["username"]);
                 $year = $_POST["year"];
-                $genero = $_POST["genero"];
+                //$genero = $_POST["genero"];
+                $genero = $this->obtenerLetraGenero($_POST["genero"]);
                 $email = $_POST["email"];
                 $password = $_POST["password"];
                 $latitud = $_POST["latitud"];
@@ -50,36 +60,35 @@ class RegistroController
                 $ciudad = "Buenos Aires"; // Por ahora lo dejamos así
 
                 $estadoImagen = $this->subirArchivo();
-
                 if ($estadoImagen != 2) {
                     $nombreImagen = $_FILES["imagen"]["name"];
                     $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
-                            $this->presenter->render("usuarioRegistradoView", $data);
-                        } else {
 
-                            $data["error"] = "No se pudo enviar el correo electrónico de confirmación. ";
-                            $this->presenter->render("registroView", $data);
-                        }
+                        $data["altaOk"] = "Los datos fueron ingresados correctamente. Se ha enviado un correo electrónico de confirmación.";
+                        $this->presenter->render("usuarioRegistradoView", $data);
+
                     } else {
-                        $data["error"] = "Los datos no pudieron ser ingresados";
+
+                        $data["error"] = "No se pudo enviar el correo electrónico de confirmación. ";
                         $this->presenter->render("registroView", $data);
                     }
                 } else {
-                    $data["error"] = "Error al subir la imagen";
+                    $data["error"] = "Los datos no pudieron ser ingresados";
                     $this->presenter->render("registroView", $data);
                 }
             } else {
                 $data["error"] = "Los campos no pueden estar vacíos";
                 $this->presenter->render("registroView", $data);
             }
-
         }
+    }
 
 
-    public function getNumeroValidacion($username){
+    public function getNumeroValidacion(){
+        $timestamp = time();
         $numAleatorio=rand(1000,9999);
-        $codigo=$username . $numAleatorio;
+        $codigo = $timestamp . $numAleatorio;
         return $codigo;
     }
 
@@ -91,7 +100,7 @@ class RegistroController
                 $this->presenter->render("bienvenidaUserValidado");
             } else {
                 // o ponemos un error
-                $this->presenter->render("registroView");
+                header("Location:/");
             }
         }
     }
@@ -114,6 +123,20 @@ class RegistroController
 
     public function mostrarPerfil(){
         $this->presenter->render("perfilUsuario");
+    }
+
+
+    public function obtenerLetraGenero($genero){
+        switch($genero){
+            case "Masculino":
+                return "M";
+                break;
+            case "Femenino":
+                return "F";
+                break;
+            default:
+                return "X";
+        }
     }
 
 }

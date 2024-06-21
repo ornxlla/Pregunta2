@@ -11,28 +11,14 @@ class LoginModel
 
     public function validarCredenciales($username, $password)
     {
-        $query = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND contrasenia = '$password'";
+        $query = "SELECT * FROM login WHERE username = '$username' AND password = '$password'";
         return $this->database->query($query);
     }
 
-    public function getUsuario($username){
-        $query = "SELECT * FROM usuario WHERE nombre_usuario = '$username'";
+    public function getDatosUser($id_user){
+        $query = "SELECT * FROM datos_usuario WHERE id_usuario = '$id_user'";
         return $this->database->query($query);
     }
-
-   /* public function setUserVerified($token) {
-        $query =  "UPDATE usuario SET esta_verificado = 'true' WHERE verify_token = '$token'";
-        return $this->database->update($query);
-    }*/
-
-   /* public function actualizarCoordenadas($latitud,$longitud,$idUsuario){
-        $query = "UPDATE usuario SET latitud = '$latitud', longitud = '$longitud' WHERE id = '$idUsuario'";
-        return $this->database->update($query);
-    }*/
-
-
-
-
 
 // *********************** PreguntaMODEL:*********************************
 //PREGUNTAS REPORTADAS: puede revisar las preguntas reportadas, para aprobar o dar de baja
@@ -127,8 +113,8 @@ class LoginModel
         $this->database->execute($query);
     }
 
-// modificar pregunta ok *************************** ver tematica duplicado
-
+// modificar pregunta ok *************************** ver tematica duplicado (COMENTO ESTO PORQUE HAY OTRO IGAL PERO FUNCIONA)
+    /*
     public function obtenerPreguntaPorId($idPregunta)
     {
         $query = "SELECT * FROM preguntas WHERE id_pregunta = '$idPregunta'";
@@ -148,6 +134,175 @@ class LoginModel
 
         return $stmt->execute();
     }
+*/
+
+    //  crear pregunta sugerida OK *********
+
+
+    public function insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica) {
+        $query = "INSERT INTO preguntas (pregunta_texto, id_dificultad, id_tematica, utilizada, contador_respuestas_correctas, contador_respuestas_incorrectas, estado, apariciones, reportada, es_sugerida) 
+              VALUES (?, ?, ?, 0, 0, 0, 0, 0, 0, 1)";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("sii", $pregunta_texto, $id_dificultad, $id_tematica);
+
+        if ($stmt->execute()) {
+            return $stmt->insert_id;
+        } else {
+            return false;
+        }
+    }
+
+    public function insertarRespuesta($id_pregunta, $respuesta_texto, $es_correcta) {
+        $query = "INSERT INTO respuesta (id_pregunta, respuesta_texto, correcta) VALUES (?, ?, ?)";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("isi", $id_pregunta, $respuesta_texto, $es_correcta);
+
+        return $stmt->execute();
+    }
+
+// MODIFICAR PREGUNTA Y RESPUESTA ********
+
+    public function obtenerPreguntaPorId($idPregunta) {
+        $query = "SELECT * FROM preguntas WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function obtenerRespuestasPorIdPregunta($idPregunta) {
+        $query = "SELECT * FROM respuesta WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("i", $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $respuestas = [];
+        while ($row = $result->fetch_assoc()) {
+            $respuestas[] = $row;
+        }
+        return $respuestas;
+    }
+
+
+//metodo a revisar
+
+    public function actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad)
+    {
+        $query = "UPDATE preguntas SET pregunta_texto = ?, id_tematica = ?, id_dificultad = ? WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param("siii", $preguntaTexto, $idTematica, $idDificultad, $idPregunta);
+        return $stmt->execute();
+    }
+
+//** ver porque actualiza las preguntas pero no las respuestas  */
+
+    public function actualizarRespuestas($respuestas, $idPregunta) {
+        foreach ($respuestas as $respuesta) {
+            $respuestaTexto = $respuesta['respuesta_texto'];
+            $idRespuesta = $respuesta['id_respuesta'];
+            $esCorrecta = ($respuesta['id_respuesta'] == $_POST['respuesta_correcta']) ? 1 : 0;
+
+            // Preparar la consulta para actualizar respuestas
+            $query = "UPDATE respuesta SET respuesta_texto=?, es_correcta=? WHERE id_respuesta=?";
+            $stmt = $this->db->prepare($query);
+
+            if ($stmt === false) {
+                // Manejo de error si prepare() falla
+                die('Error de preparación de consulta: ' . $this->db->error);
+            }
+
+            // Vincular parámetros y ejecutar consulta
+            $stmt->bind_param("sii", $respuestaTexto, $esCorrecta, $idRespuesta);
+            $stmt->execute();
+
+            if ($stmt->error) {
+                // Manejo de error si execute() falla
+                die('Error al ejecutar consulta: ' . $stmt->error);
+            }
+
+            // Cerrar declaración
+            $stmt->close();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+        public function obtenerPreguntaPorId($idPregunta) {
+            $query = "SELECT * FROM preguntas WHERE id_pregunta = ?";
+            $stmt = $this->database->prepare($query);
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+
+        public function obtenerRespuestasPorIdPregunta($idPregunta) {
+            $query = "SELECT * FROM respuesta WHERE id_pregunta = ?";
+            $stmt = $this->database->prepare($query);
+            $stmt->bind_param("i", $idPregunta);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $respuestas = [];
+            while ($row = $result->fetch_assoc()) {
+                $respuestas[] = $row;
+            }
+            return $respuestas;
+        }
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -16,23 +16,58 @@ class RegistroModel
         $this->database = $database;
     }
 
-    public function darDeAltaUsuario($nombre, $username, $year, $genero, $email, $password, $nombreImagen, $pais, $ciudad, $latitud, $longitud, $codigo_validacion)
+
+    public function getUsuarioRegistrados()
     {
-        $sql = 'INSERT INTO usuario
-            (nombre_usuario, es_administrador, mail, contrasenia, nombre_completo, anio_nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud, codigo_validacion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        return $this->database->query('SELECT * FROM usuario');
+    }
+
+    public function altaUsuario($username, $password, $correo, $hash){
+        $sql = "INSERT INTO login (username, password, correo, rol, activado, hash)
+                VALUES (?, ?, ?, ?, ?, ?)";
+        $rol = 1;
+        $activado = 0;
+
         $stmt = $this->database->prepare($sql);
-
-        $rol = 0;
-
-        if ($stmt) {
-
-            $stmt->bind_param("sisssssssssss", $username, $rol, $email, $password, $nombre, $year, $genero, $nombreImagen, $pais, $ciudad, $latitud, $longitud, $codigo_validacion);
+        if($stmt){
+            $stmt->bind_param("sssiis", $username, $password, $correo, $rol, $activado, $hash);
             return $stmt->execute();
-        } else {
+        }else{
             return false;
         }
     }
+
+    public function altaUsuario_datos($id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud){
+        $sql = "INSERT INTO datos_usuario (id_usuario, nombre, nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->database->prepare($sql);
+        if($stmt){
+            $stmt->bind_param("issssssss", $id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud);
+
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+
+    public function obtenerUsuario($username){
+        $query = "SELECT id_usuario FROM login WHERE username = ?";
+        $stmt = $this->database->prepare($query);
+        if($stmt){
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows == 1) {
+                return $result->fetch_assoc();
+            } else {
+                return null; // Usuario no encontrado
+            }
+        } else {
+            return null; // Error en la preparación de la consulta
+        }
+    }
+
 
     public function enviarCorreoConfirmacion($correoUsuario, $codigoValidacion)
     {
@@ -62,28 +97,25 @@ class RegistroModel
 
     public function validarUsuario($codigoValidacion)
     {
+        $query = "SELECT * FROM login WHERE hash = ? AND activado = 0";
+        $stmt = $this->database->prepare($query);
+        if($stmt){
+            $stmt->bind_param("s", $codigoValidacion);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows == 1) {
+                // Actualiza el estado "activado" del usuario en la base de datos
+                $sqlUpdate = 'UPDATE login SET activado = 1 WHERE hash = ?';
+                $stmtUpdate = $this->database->prepare($sqlUpdate);
+                $stmtUpdate->bind_param("s", $codigoValidacion);
+                $stmtUpdate->execute();
 
-        $sql = 'SELECT * FROM usuario WHERE codigo_validacion = ?';
-        $stmt = $this->database->prepare($sql);
-        $stmt->bind_param("s", $codigoValidacion);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows == 1) {
-            //usuario con el código de validación se encontro
-            // Actualiza el estado "validado" del usuario en la base de datos
-            $row = $result->fetch_assoc();
-            $userId = $row['id_usuario'];
-
-            $sqlUpdate = 'UPDATE usuario SET validado = 1 WHERE id_usuario = ?';
-            $stmtUpdate = $this->database->prepare($sqlUpdate);
-            $stmtUpdate->bind_param("i", $userId);
-            $stmtUpdate->execute();
-
-            return true;
+                return true;
+            } else {
+                return false; // Código de validación no válido o usuario ya activado
+            }
         } else {
-            return false;
+            return false; // Error en la preparación de la consulta
         }
     }
-
 }
