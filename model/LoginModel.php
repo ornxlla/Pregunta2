@@ -11,28 +11,14 @@ class LoginModel
 
     public function validarCredenciales($username, $password)
     {
-        $query = "SELECT * FROM usuario WHERE nombre_usuario = '$username' AND contrasenia = '$password'";
+        $query = "SELECT * FROM login WHERE username = '$username' AND password = '$password'";
         return $this->database->query($query);
     }
 
-    public function getUsuario($username){
-        $query = "SELECT * FROM usuario WHERE nombre_usuario = '$username'";
+    public function getDatosUser($id_user){
+        $query = "SELECT * FROM datos_usuario WHERE id_usuario = '$id_user'";
         return $this->database->query($query);
     }
-
-   /* public function setUserVerified($token) {
-        $query =  "UPDATE usuario SET esta_verificado = 'true' WHERE verify_token = '$token'";
-        return $this->database->update($query);
-    }*/
-
-   /* public function actualizarCoordenadas($latitud,$longitud,$idUsuario){
-        $query = "UPDATE usuario SET latitud = '$latitud', longitud = '$longitud' WHERE id = '$idUsuario'";
-        return $this->database->update($query);
-    }*/
-
-
-
-
 
 // *********************** PreguntaMODEL:*********************************
 //PREGUNTAS REPORTADAS: puede revisar las preguntas reportadas, para aprobar o dar de baja

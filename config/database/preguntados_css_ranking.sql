@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-06-2024 a las 11:12:14
+-- Tiempo de generación: 18-06-2024 a las 21:24:58
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.25
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,7 +44,9 @@ CREATE TABLE `datos_usuario` (
 --
 
 INSERT INTO `datos_usuario` (`id_usuario`, `nombre`, `nacimiento`, `genero`, `imagen_perfil`, `pais`, `ciudad`, `latitud`, `longitud`) VALUES
-(1, 'Usuario de Testing 1', '2024-03-01', 'M', 'test1.jpg', 'Argentina', 'La Tablada', -34.6859, -58.5331);
+(1, 'Usuario de Testing 1', '2024-03-01', 'M', 'test1.jpg', 'Argentina', 'La Tablada', -34.6859, -58.5331),
+(2, 'Ornella Alonso', '2002-12-05', 'F', 'cv.jpg', 'Argentina', 'La Tablada', -34.6859, -58.5331),
+(4, 'Alejo Melissari', '2003-11-17', 'M', 'tipo_acero_icono.png', 'Argentina', 'Buenos Aires', -37.0736, -62.605);
 
 -- --------------------------------------------------------
 
@@ -87,7 +89,9 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id_usuario`, `username`, `password`, `correo`, `rol`, `activado`, `hash`) VALUES
-(1, 'test1', '1234', 'test1@gmail.com', 1, 1, '1111111111111111111111');
+(1, 'test1', '1234', 'test1@gmail.com', 1, 1, '1111111111111111111111'),
+(2, 'ornxllita', '12345678', 'ornxalonso@gmail.com', 1, 1, '17187349389678'),
+(4, 'alejo', '12345', 'mikxykitty@gmail.com', 1, 1, '17187372556152');
 
 -- --------------------------------------------------------
 
@@ -112,8 +116,8 @@ CREATE TABLE `partida` (
 
 INSERT INTO `partida` (`id`, `id_jugador_1`, `id_jugador_2`, `hora_inicio`, `hora_final`, `puntos_jugador_1`, `puntos_jugador_2`, `id_pregunta`) VALUES
 (1, 1, NULL, '2024-06-08 13:21:25', '2024-06-13 20:57:08', 22, NULL, NULL),
-(15, 2, NULL, '2024-06-11 23:35:14', '2024-06-11 23:36:41', NULL, NULL, NULL),
-(16, 1, NULL, '2024-06-11 23:36:44', NULL, NULL, NULL, NULL),
+(15, 2, NULL, '2024-06-11 23:35:14', '2024-06-11 23:36:41', 13, NULL, NULL),
+(16, 4, NULL, '2024-06-11 23:36:44', NULL, 15, NULL, NULL),
 (17, 2, NULL, '2024-06-11 23:42:22', NULL, NULL, NULL, NULL),
 (18, 1, NULL, '2024-06-11 23:47:27', NULL, NULL, NULL, NULL),
 (19, 1, NULL, '2024-06-12 17:00:40', NULL, NULL, NULL, NULL),
@@ -571,7 +575,7 @@ ALTER TABLE `dificultad`
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `id_usuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `partida`

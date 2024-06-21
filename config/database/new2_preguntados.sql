@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-06-2024 a las 11:12:14
+-- Tiempo de generación: 18-06-2024 a las 05:57:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.1.25
 
@@ -44,7 +44,9 @@ CREATE TABLE `datos_usuario` (
 --
 
 INSERT INTO `datos_usuario` (`id_usuario`, `nombre`, `nacimiento`, `genero`, `imagen_perfil`, `pais`, `ciudad`, `latitud`, `longitud`) VALUES
-(1, 'Usuario de Testing 1', '2024-03-01', 'M', 'test1.jpg', 'Argentina', 'La Tablada', -34.6859, -58.5331);
+(1, 'Usuario de Testing 1', '2024-03-01', 'M', 'FWGiiYXUIAAEBvI.jpg', 'Argentina', 'La Tablada', -34.6859, -58.5331),
+(3, 'Agustin Pucci', '1996-08-05', 'M', 'GMwd0w2WQAMkK20.jpeg', 'Argentina', 'Buenos Aires', -37.6795, -60.4028),
+(9, 'Agustin Pucci', '1996-08-05', 'M', 'GNvexEzWMAAXAmi.png', 'Argentina', 'Buenos Aires', -37.6795, -57.9419);
 
 -- --------------------------------------------------------
 
@@ -87,7 +89,10 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id_usuario`, `username`, `password`, `correo`, `rol`, `activado`, `hash`) VALUES
-(1, 'test1', '1234', 'test1@gmail.com', 1, 1, '1111111111111111111111');
+(1, 'test1', '1234', 'test1@gmail.comasdg', 1, 1, '1111111111111111111111'),
+(3, 'test2', '123456', 'agustin.pucci.rubio@gmail.com', 1, 0, '17186392229951'),
+(8, 'test2', '123456', 'agustin.pucci.rubio@gmail.com', 1, 0, '17186410284690'),
+(9, 'pucci96', '123456', 'agustin.pucci.rubio@gmail.com', 1, 1, '17186412888255');
 
 -- --------------------------------------------------------
 
@@ -111,14 +116,191 @@ CREATE TABLE `partida` (
 --
 
 INSERT INTO `partida` (`id`, `id_jugador_1`, `id_jugador_2`, `hora_inicio`, `hora_final`, `puntos_jugador_1`, `puntos_jugador_2`, `id_pregunta`) VALUES
-(1, 1, NULL, '2024-06-08 13:21:25', '2024-06-13 20:57:08', 22, NULL, NULL),
+(1, 1, NULL, '2024-06-08 13:21:25', '2024-06-17 22:21:56', 22, NULL, NULL),
 (15, 2, NULL, '2024-06-11 23:35:14', '2024-06-11 23:36:41', NULL, NULL, NULL),
 (16, 1, NULL, '2024-06-11 23:36:44', NULL, NULL, NULL, NULL),
 (17, 2, NULL, '2024-06-11 23:42:22', NULL, NULL, NULL, NULL),
 (18, 1, NULL, '2024-06-11 23:47:27', NULL, NULL, NULL, NULL),
 (19, 1, NULL, '2024-06-12 17:00:40', NULL, NULL, NULL, NULL),
 (20, 1, NULL, '2024-06-13 20:57:00', NULL, NULL, NULL, NULL),
-(21, 1, NULL, '2024-06-13 20:57:10', NULL, NULL, NULL, NULL);
+(21, 1, NULL, '2024-06-13 20:57:10', NULL, NULL, NULL, NULL),
+(22, 9, NULL, '2024-06-17 18:31:09', NULL, NULL, NULL, NULL),
+(23, 9, NULL, '2024-06-17 22:09:27', NULL, NULL, NULL, NULL),
+(24, 9, NULL, '2024-06-17 22:11:34', NULL, NULL, NULL, NULL),
+(25, 9, NULL, '2024-06-17 22:21:05', NULL, NULL, NULL, NULL),
+(26, 9, NULL, '2024-06-17 22:21:21', NULL, NULL, NULL, NULL),
+(27, 9, NULL, '2024-06-17 22:21:34', NULL, NULL, NULL, NULL),
+(28, 9, NULL, '2024-06-17 22:21:55', NULL, NULL, NULL, NULL),
+(29, 9, NULL, '2024-06-17 22:21:55', NULL, NULL, NULL, NULL),
+(30, 9, NULL, '2024-06-18 02:07:11', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_clasica_general`
+--
+
+CREATE TABLE `partida_clasica_general` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_jugador` int(10) UNSIGNED NOT NULL,
+  `puntos` int(10) NOT NULL,
+  `hora_inicio` datetime NOT NULL,
+  `hora_final` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `partida_clasica_general`
+--
+
+INSERT INTO `partida_clasica_general` (`id`, `id_jugador`, `puntos`, `hora_inicio`, `hora_final`) VALUES
+(1, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(2, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(3, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(4, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(5, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(6, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(7, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(8, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(9, 9, 0, '2024-06-17 00:00:00', '0000-00-00 00:00:00'),
+(10, 9, 0, '2024-06-17 23:31:58', '0000-00-00 00:00:00'),
+(11, 9, 0, '2024-06-17 23:32:54', '0000-00-00 00:00:00'),
+(12, 9, 0, '2024-06-17 23:33:50', '0000-00-00 00:00:00'),
+(13, 9, 0, '2024-06-17 23:37:03', '0000-00-00 00:00:00'),
+(14, 9, 0, '2024-06-17 23:37:16', '0000-00-00 00:00:00'),
+(15, 9, 0, '2024-06-17 23:37:34', '0000-00-00 00:00:00'),
+(16, 9, 0, '2024-06-17 23:37:48', '0000-00-00 00:00:00'),
+(17, 9, 0, '2024-06-17 23:38:08', '0000-00-00 00:00:00'),
+(18, 9, 0, '2024-06-17 23:38:52', '0000-00-00 00:00:00'),
+(19, 9, 0, '2024-06-17 23:38:59', '0000-00-00 00:00:00'),
+(20, 9, 0, '2024-06-17 23:39:11', '0000-00-00 00:00:00'),
+(21, 9, 0, '2024-06-17 23:39:25', '0000-00-00 00:00:00'),
+(22, 9, 0, '2024-06-17 23:39:46', '0000-00-00 00:00:00'),
+(23, 9, 0, '2024-06-17 23:39:56', '0000-00-00 00:00:00'),
+(24, 9, 0, '2024-06-17 23:41:09', '0000-00-00 00:00:00'),
+(25, 9, 0, '2024-06-17 23:41:43', '0000-00-00 00:00:00'),
+(26, 9, 0, '2024-06-17 23:42:25', '0000-00-00 00:00:00'),
+(27, 9, 0, '2024-06-17 23:43:44', '0000-00-00 00:00:00'),
+(28, 9, 0, '2024-06-17 23:43:56', '0000-00-00 00:00:00'),
+(29, 9, 0, '2024-06-17 23:44:06', '0000-00-00 00:00:00'),
+(30, 9, 0, '2024-06-17 23:45:01', '0000-00-00 00:00:00'),
+(31, 9, 0, '2024-06-17 23:45:32', '0000-00-00 00:00:00'),
+(32, 9, 0, '2024-06-17 23:45:44', '0000-00-00 00:00:00'),
+(33, 9, 0, '2024-06-17 23:46:06', '0000-00-00 00:00:00'),
+(34, 9, 0, '2024-06-17 23:46:10', '0000-00-00 00:00:00'),
+(35, 9, 0, '2024-06-17 23:46:16', '0000-00-00 00:00:00'),
+(36, 9, 0, '2024-06-17 23:46:23', '0000-00-00 00:00:00'),
+(37, 9, 0, '2024-06-17 23:46:52', '0000-00-00 00:00:00'),
+(38, 9, 0, '2024-06-17 23:47:00', '0000-00-00 00:00:00'),
+(39, 9, 0, '2024-06-17 23:47:26', '0000-00-00 00:00:00'),
+(40, 9, 0, '2024-06-17 23:47:38', '0000-00-00 00:00:00'),
+(41, 9, 0, '2024-06-17 23:47:41', '0000-00-00 00:00:00'),
+(42, 9, 0, '2024-06-17 23:47:42', '0000-00-00 00:00:00'),
+(43, 9, 0, '2024-06-17 23:48:36', '0000-00-00 00:00:00'),
+(44, 9, 0, '2024-06-17 23:58:06', '0000-00-00 00:00:00'),
+(45, 9, 0, '2024-06-18 00:16:38', '0000-00-00 00:00:00'),
+(46, 9, 0, '2024-06-18 00:18:48', '0000-00-00 00:00:00'),
+(47, 9, 0, '2024-06-18 00:19:08', '0000-00-00 00:00:00'),
+(48, 9, 0, '2024-06-18 00:23:11', '0000-00-00 00:00:00'),
+(49, 9, 0, '2024-06-18 00:23:21', '0000-00-00 00:00:00'),
+(50, 9, 0, '2024-06-18 00:25:13', '0000-00-00 00:00:00'),
+(51, 9, 0, '2024-06-18 00:25:37', '0000-00-00 00:00:00'),
+(52, 9, 0, '2024-06-18 00:26:37', '0000-00-00 00:00:00'),
+(53, 9, 0, '2024-06-18 00:27:12', '0000-00-00 00:00:00'),
+(54, 9, 0, '2024-06-18 00:27:43', '0000-00-00 00:00:00'),
+(55, 9, 0, '2024-06-18 00:31:38', '0000-00-00 00:00:00'),
+(56, 9, 0, '2024-06-18 00:31:54', '0000-00-00 00:00:00'),
+(57, 9, 0, '2024-06-18 00:32:18', '0000-00-00 00:00:00'),
+(58, 9, 0, '2024-06-18 00:32:41', '0000-00-00 00:00:00'),
+(59, 9, 0, '2024-06-18 00:37:07', '0000-00-00 00:00:00'),
+(60, 9, 0, '2024-06-18 00:39:37', '0000-00-00 00:00:00'),
+(61, 9, 0, '2024-06-18 00:40:11', '0000-00-00 00:00:00'),
+(62, 9, 0, '2024-06-18 00:40:14', '0000-00-00 00:00:00'),
+(63, 9, 0, '2024-06-18 00:40:43', '0000-00-00 00:00:00'),
+(64, 9, 0, '2024-06-18 00:41:13', '0000-00-00 00:00:00'),
+(65, 9, 0, '2024-06-18 00:41:39', '0000-00-00 00:00:00'),
+(66, 9, 0, '2024-06-18 00:45:39', '0000-00-00 00:00:00'),
+(67, 9, 0, '2024-06-18 00:46:02', '0000-00-00 00:00:00'),
+(68, 9, 0, '2024-06-18 00:49:03', '0000-00-00 00:00:00'),
+(69, 9, 0, '2024-06-18 00:49:05', '0000-00-00 00:00:00'),
+(70, 9, 0, '2024-06-18 00:53:52', '0000-00-00 00:00:00'),
+(71, 9, 0, '2024-06-18 00:54:16', '0000-00-00 00:00:00'),
+(72, 9, 0, '2024-06-18 00:54:30', '0000-00-00 00:00:00'),
+(73, 9, 0, '2024-06-18 00:54:55', '0000-00-00 00:00:00'),
+(74, 9, 0, '2024-06-18 00:55:02', '0000-00-00 00:00:00'),
+(75, 9, 0, '2024-06-18 00:55:37', '0000-00-00 00:00:00'),
+(76, 9, 0, '2024-06-18 00:57:44', '0000-00-00 00:00:00'),
+(77, 9, 0, '2024-06-18 00:57:49', '0000-00-00 00:00:00'),
+(78, 9, 0, '2024-06-18 00:57:50', '0000-00-00 00:00:00'),
+(79, 9, 0, '2024-06-18 00:57:51', '0000-00-00 00:00:00'),
+(80, 9, 0, '2024-06-18 00:57:52', '0000-00-00 00:00:00'),
+(81, 9, 0, '2024-06-18 00:57:52', '0000-00-00 00:00:00'),
+(82, 9, 0, '2024-06-18 00:58:21', '0000-00-00 00:00:00'),
+(83, 9, 0, '2024-06-18 00:58:26', '0000-00-00 00:00:00'),
+(84, 9, 0, '2024-06-18 00:58:27', '0000-00-00 00:00:00'),
+(85, 9, 0, '2024-06-18 00:58:28', '0000-00-00 00:00:00'),
+(86, 9, 0, '2024-06-18 00:58:56', '0000-00-00 00:00:00'),
+(87, 9, 0, '2024-06-18 00:59:20', '0000-00-00 00:00:00'),
+(88, 9, 0, '2024-06-18 00:59:29', '0000-00-00 00:00:00'),
+(89, 9, 0, '2024-06-18 01:02:31', '0000-00-00 00:00:00'),
+(90, 9, 0, '2024-06-18 01:03:23', '0000-00-00 00:00:00'),
+(91, 9, 0, '2024-06-18 01:04:20', '0000-00-00 00:00:00'),
+(92, 9, 0, '2024-06-18 01:06:18', '0000-00-00 00:00:00'),
+(93, 9, 0, '2024-06-18 01:06:34', '0000-00-00 00:00:00'),
+(94, 9, 0, '2024-06-18 01:06:36', '0000-00-00 00:00:00'),
+(95, 9, 0, '2024-06-18 01:07:21', '0000-00-00 00:00:00'),
+(96, 9, 0, '2024-06-18 01:07:24', '0000-00-00 00:00:00'),
+(97, 9, 0, '2024-06-18 01:08:51', '0000-00-00 00:00:00'),
+(98, 9, 0, '2024-06-18 01:08:55', '0000-00-00 00:00:00'),
+(99, 9, 0, '2024-06-18 01:12:18', '0000-00-00 00:00:00'),
+(100, 9, 0, '2024-06-18 01:14:53', '0000-00-00 00:00:00'),
+(101, 9, 0, '2024-06-18 01:15:21', '0000-00-00 00:00:00'),
+(102, 9, 0, '2024-06-18 01:15:55', '0000-00-00 00:00:00'),
+(103, 9, 0, '2024-06-18 01:16:04', '0000-00-00 00:00:00'),
+(104, 9, 0, '2024-06-18 01:16:55', '0000-00-00 00:00:00'),
+(105, 9, 0, '2024-06-18 01:17:30', '0000-00-00 00:00:00'),
+(106, 9, 0, '2024-06-18 01:19:18', '0000-00-00 00:00:00'),
+(107, 9, 0, '2024-06-18 01:20:03', '0000-00-00 00:00:00'),
+(108, 9, 0, '2024-06-18 01:20:18', '0000-00-00 00:00:00'),
+(109, 9, 0, '2024-06-18 01:24:38', '0000-00-00 00:00:00'),
+(110, 9, 0, '2024-06-18 01:25:09', '0000-00-00 00:00:00'),
+(111, 9, 0, '2024-06-18 01:25:22', '0000-00-00 00:00:00'),
+(112, 9, 0, '2024-06-18 01:25:37', '0000-00-00 00:00:00'),
+(113, 9, 0, '2024-06-18 01:25:55', '0000-00-00 00:00:00'),
+(114, 9, 0, '2024-06-18 01:26:40', '0000-00-00 00:00:00'),
+(115, 9, 0, '2024-06-18 01:27:14', '0000-00-00 00:00:00'),
+(116, 9, 0, '2024-06-18 01:33:18', '0000-00-00 00:00:00'),
+(117, 9, 0, '2024-06-18 01:33:56', '0000-00-00 00:00:00'),
+(118, 9, 0, '2024-06-18 01:36:03', '0000-00-00 00:00:00'),
+(119, 9, 0, '2024-06-18 01:37:40', '0000-00-00 00:00:00'),
+(120, 9, 0, '2024-06-18 01:37:55', '0000-00-00 00:00:00'),
+(121, 9, 0, '2024-06-18 01:42:49', '0000-00-00 00:00:00'),
+(122, 9, 0, '2024-06-18 01:44:08', '0000-00-00 00:00:00'),
+(123, 9, 0, '2024-06-18 01:44:44', '0000-00-00 00:00:00'),
+(124, 9, 0, '2024-06-18 01:46:03', '0000-00-00 00:00:00'),
+(125, 9, 0, '2024-06-18 01:46:06', '0000-00-00 00:00:00'),
+(126, 9, 0, '2024-06-18 01:46:07', '0000-00-00 00:00:00'),
+(127, 9, 0, '2024-06-18 01:46:36', '0000-00-00 00:00:00'),
+(128, 9, 0, '2024-06-18 01:47:02', '0000-00-00 00:00:00'),
+(129, 9, 0, '2024-06-18 01:47:19', '0000-00-00 00:00:00'),
+(130, 9, 0, '2024-06-18 01:49:05', '0000-00-00 00:00:00'),
+(131, 9, 0, '2024-06-18 01:51:00', '0000-00-00 00:00:00'),
+(132, 9, 0, '2024-06-18 02:06:09', '0000-00-00 00:00:00'),
+(133, 9, 0, '2024-06-18 02:07:16', '0000-00-00 00:00:00'),
+(134, 9, 0, '2024-06-18 02:07:58', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partida_clasica_respuestas`
+--
+
+CREATE TABLE `partida_clasica_respuestas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_jugador` int(10) UNSIGNED NOT NULL,
+  `id_partida` int(10) UNSIGNED NOT NULL,
+  `id_pregunta` int(10) UNSIGNED NOT NULL,
+  `acertado` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -145,7 +327,7 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utilizada`, `contador_respuestas_correctas`, `contador_respuestas_incorrectas`, `id_dificultad`, `estado`, `apariciones`, `reportada`, `es_sugerida`) VALUES
-(1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 8, 1, 1, 1, 14, 0, 0),
+(1, '¿Cuál es la fórmula para calcular el área de un círculo?', 1, 0, 8, 1, 2, 1, 14, 0, 0),
 (2, '¿Quién fue el primer presidente de Estados Unidos?', 2, 0, 0, 0, 2, 1, 4, 0, 0),
 (3, '¿Qué es la mitosis?', 3, 0, 0, 0, 3, 1, 5, 0, 0),
 (4, '¿Cuál es la capital de Francia?', 4, 0, 8, 0, 1, 1, 11, 0, 0),
@@ -154,8 +336,8 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utiliz
 (7, '¿Cuál es el símbolo químico del agua?', 3, 0, 11, 0, 1, 1, 7, 0, 0),
 (8, '¿Dónde se encuentra la Gran Barrera de Coral?', 4, 0, 2, 0, 2, 1, 6, 0, 0),
 (9, '¿Cuántos lados tiene un hexágono?', 1, 0, 2, 0, 3, 1, 9, 0, 0),
-(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 7, 0, 1, 1, 11, 0, 0),
-(11, '¿Cual es la capital de Argentina?', 4, 0, 0, 0, 1, 1, 0, 0, 0),
+(10, '¿Quién fue el líder de la Revolución Rusa en 1917?', 2, 0, 7, 0, 2, 1, 11, 0, 0),
+(11, '¿Cual es la capital de Argentina?', 4, 0, 1, 0, 1, 1, 1, 0, 0),
 (12, '¿Cuando es 3 + 4 * 2?', 1, 0, 0, 0, 1, 1, 0, 0, 0),
 (13, 'En que año termino la primera guerra mundial?', 2, 0, 0, 0, 1, 1, 0, 0, 0),
 (14, '¿Cual es el simbolo quimico de oxigeno?', 7, 0, 0, 0, 1, 1, 0, 0, 0),
@@ -168,7 +350,7 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utiliz
 (21, '¿Cual es el pH del agua pura?', 7, 0, 0, 0, 2, 1, 0, 0, 0),
 (22, '¿Cual es el resultado de 13x0 + 13?', 1, 0, 0, 0, 2, 1, 0, 0, 0),
 (23, '¿Cual es el resultado de 12/2*3?', 1, 0, 0, 0, 3, 1, 0, 0, 0),
-(24, '¿Cual fue la batalla que marco el fin de la guerra de los Cien Años?', 2, 0, 0, 0, 3, 1, 0, 0, 0),
+(24, '¿Cual fue la batalla que marco el fin de la guerra de los Cien Años?', 2, 0, 0, 0, 3, 1, 1, 0, 0),
 (25, 'Que cientifico formulo la eoria de la relatividad?', 3, 0, 0, 0, 3, 1, 0, 0, 0),
 (53, '¿Cuál es el animal más rápido del mundo?', 3, 0, 0, 0, 1, 1, 0, 0, 0),
 (54, '¿Qué animal tiene mejor visión, el perro o el gato?', 4, 0, 0, 0, 1, 1, 0, 1, 0),
@@ -201,6 +383,26 @@ INSERT INTO `preguntas` (`id_pregunta`, `pregunta_texto`, `id_tematica`, `utiliz
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `preguntas_listado`
+--
+
+CREATE TABLE `preguntas_listado` (
+  `id_pregunta` int(10) UNSIGNED NOT NULL,
+  `texto` varchar(250) NOT NULL,
+  `id_tematica` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `preguntas_listado`
+--
+
+INSERT INTO `preguntas_listado` (`id_pregunta`, `texto`, `id_tematica`) VALUES
+(1, '¿Cual es el resultado de la siguiente cuenta? ( 9 + 5 ) * 4 ', 1),
+(2, '¿Quién fue el primer presidente de Estados Unidos?', 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `preguntas_partida`
 --
 
@@ -224,7 +426,9 @@ INSERT INTO `preguntas_partida` (`id_partida`, `id_pregunta`) VALUES
 (1, 8),
 (1, 9),
 (1, 10),
+(1, 11),
 (1, 16),
+(1, 24),
 (15, 9);
 
 -- --------------------------------------------------------
@@ -253,6 +457,26 @@ CREATE TABLE `preguntas_sugeridas` (
   `aprobada` tinyint(1) NOT NULL DEFAULT 0,
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pregunta_estadisticas`
+--
+
+CREATE TABLE `pregunta_estadisticas` (
+  `id_pregunta` int(10) UNSIGNED NOT NULL,
+  `veces_llamado` int(10) NOT NULL,
+  `veces_acertado` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pregunta_estadisticas`
+--
+
+INSERT INTO `pregunta_estadisticas` (`id_pregunta`, `veces_llamado`, `veces_acertado`) VALUES
+(1, 0, 0),
+(2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -429,8 +653,37 @@ INSERT INTO `respuestas_partida` (`id_partida`, `id_respuesta`) VALUES
 (1, 363),
 (1, 365),
 (1, 369),
+(1, 374),
 (1, 393),
 (15, 365);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `respuesta_listado`
+--
+
+CREATE TABLE `respuesta_listado` (
+  `id_respuesta` int(20) UNSIGNED NOT NULL,
+  `id_pregunta` int(10) UNSIGNED NOT NULL,
+  `texto` varchar(250) NOT NULL,
+  `correcta` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta_listado`
+--
+
+INSERT INTO `respuesta_listado` (`id_respuesta`, `id_pregunta`, `texto`, `correcta`) VALUES
+(1, 1, '50', 0),
+(2, 1, '56', 1),
+(3, 1, '55', 0),
+(4, 1, '60', 0),
+(5, 1, '75', 0),
+(6, 2, 'Abraham Lincoln', 0),
+(7, 2, 'George Washington', 1),
+(8, 2, 'Thomas Jefferson', 0),
+(9, 2, 'John Adams', 0);
 
 -- --------------------------------------------------------
 
@@ -517,6 +770,22 @@ ALTER TABLE `partida`
   ADD KEY `fk_id_pregunta` (`id_pregunta`);
 
 --
+-- Indices de la tabla `partida_clasica_general`
+--
+ALTER TABLE `partida_clasica_general`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_partida_general_idusuario` (`id_jugador`);
+
+--
+-- Indices de la tabla `partida_clasica_respuestas`
+--
+ALTER TABLE `partida_clasica_respuestas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_jugador` (`id_jugador`),
+  ADD KEY `fk_partida` (`id_partida`),
+  ADD KEY `fk_pregunta` (`id_pregunta`);
+
+--
 -- Indices de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
@@ -525,10 +794,23 @@ ALTER TABLE `preguntas`
   ADD KEY `fk_id_dificultad` (`id_dificultad`);
 
 --
+-- Indices de la tabla `preguntas_listado`
+--
+ALTER TABLE `preguntas_listado`
+  ADD PRIMARY KEY (`id_pregunta`),
+  ADD KEY `fk_preg_listado` (`id_tematica`);
+
+--
 -- Indices de la tabla `preguntas_partida`
 --
 ALTER TABLE `preguntas_partida`
   ADD PRIMARY KEY (`id_partida`,`id_pregunta`),
+  ADD KEY `id_pregunta` (`id_pregunta`);
+
+--
+-- Indices de la tabla `pregunta_estadisticas`
+--
+ALTER TABLE `pregunta_estadisticas`
   ADD KEY `id_pregunta` (`id_pregunta`);
 
 --
@@ -544,6 +826,13 @@ ALTER TABLE `respuesta`
 ALTER TABLE `respuestas_partida`
   ADD PRIMARY KEY (`id_partida`,`id_respuesta`),
   ADD KEY `id_respuesta` (`id_respuesta`);
+
+--
+-- Indices de la tabla `respuesta_listado`
+--
+ALTER TABLE `respuesta_listado`
+  ADD PRIMARY KEY (`id_respuesta`),
+  ADD KEY `fk_respuesta_preg` (`id_pregunta`);
 
 --
 -- Indices de la tabla `roles`
@@ -571,13 +860,19 @@ ALTER TABLE `dificultad`
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `id_usuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT de la tabla `partida_clasica_general`
+--
+ALTER TABLE `partida_clasica_general`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -590,6 +885,12 @@ ALTER TABLE `preguntas`
 --
 ALTER TABLE `respuesta`
   MODIFY `id_respuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
+
+--
+-- AUTO_INCREMENT de la tabla `respuesta_listado`
+--
+ALTER TABLE `respuesta_listado`
+  MODIFY `id_respuesta` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -614,10 +915,30 @@ ALTER TABLE `login`
   ADD CONSTRAINT `fk_rol` FOREIGN KEY (`rol`) REFERENCES `roles` (`id_rol`);
 
 --
+-- Filtros para la tabla `partida_clasica_general`
+--
+ALTER TABLE `partida_clasica_general`
+  ADD CONSTRAINT `fk_partida_general_idusuario` FOREIGN KEY (`id_jugador`) REFERENCES `login` (`id_usuario`);
+
+--
+-- Filtros para la tabla `partida_clasica_respuestas`
+--
+ALTER TABLE `partida_clasica_respuestas`
+  ADD CONSTRAINT `fk_jugador` FOREIGN KEY (`id_jugador`) REFERENCES `login` (`id_usuario`),
+  ADD CONSTRAINT `fk_partida` FOREIGN KEY (`id_partida`) REFERENCES `partida_clasica_general` (`id`),
+  ADD CONSTRAINT `fk_pregunta` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas_listado` (`id_pregunta`);
+
+--
 -- Filtros para la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
   ADD CONSTRAINT `fk_id_dificultad` FOREIGN KEY (`id_dificultad`) REFERENCES `dificultad` (`id`);
+
+--
+-- Filtros para la tabla `preguntas_listado`
+--
+ALTER TABLE `preguntas_listado`
+  ADD CONSTRAINT `fk_preg_listado` FOREIGN KEY (`id_tematica`) REFERENCES `tematicas` (`id_tematica`);
 
 --
 -- Filtros para la tabla `preguntas_partida`
@@ -627,11 +948,23 @@ ALTER TABLE `preguntas_partida`
   ADD CONSTRAINT `preguntas_partida_ibfk_2` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas` (`id_pregunta`);
 
 --
+-- Filtros para la tabla `pregunta_estadisticas`
+--
+ALTER TABLE `pregunta_estadisticas`
+  ADD CONSTRAINT `pregunta_estadisticas_ibfk_1` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas_listado` (`id_pregunta`);
+
+--
 -- Filtros para la tabla `respuestas_partida`
 --
 ALTER TABLE `respuestas_partida`
   ADD CONSTRAINT `respuestas_partida_ibfk_1` FOREIGN KEY (`id_partida`) REFERENCES `partida` (`id`),
   ADD CONSTRAINT `respuestas_partida_ibfk_2` FOREIGN KEY (`id_respuesta`) REFERENCES `respuesta` (`id_respuesta`);
+
+--
+-- Filtros para la tabla `respuesta_listado`
+--
+ALTER TABLE `respuesta_listado`
+  ADD CONSTRAINT `fk_respuesta_preg` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas_listado` (`id_pregunta`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

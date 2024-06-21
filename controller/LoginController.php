@@ -12,7 +12,11 @@ class LoginController
 
     public function get()
     {
-        $this->presenter->render("LoginView");
+        if(isset($_SESSION["Session_id"])){
+            $this->toHome();
+        }else{
+            $this->presenter->render("LoginView");
+        }
     }
 
     public function procesar()
@@ -26,28 +30,36 @@ class LoginController
                 if (!empty($resultado)) {
                     $credencialesValidas = false;
                     foreach ($resultado as $fila) {
-                        if ($fila["nombre_usuario"] === $username && $fila["contrasenia"] === $password&& $fila["validado"] == 1) {
+                        if ($fila["username"] === $username && $fila["password"] === $password ) {
 
                             $credencialesValidas = true;
-                            $id_usuario = $fila["id_usuario"];
 
-                            $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $password);
-                            if ($sesionIniciada === PHP_SESSION_ACTIVE) {
-                                $data["usuario"] = $this->model->getUsuario($username);
-                                $_SESSION["usuario"] = $data["usuario"]; // Guardar datos del usuario en la sesión
-                                $this->presenter->render("homeUserLogueado", $data);
-                            } else {
-                                $data["error"] = "Error al iniciar sesión";
+                            if($fila["activado"] == 1){
+                                $id_usuario = $fila["id_usuario"];
+                                $correo = $fila["correo"];
+
+                                $sesionIniciada = $this->iniciarSesion($id_usuario,$username,$correo);
+                                if ($sesionIniciada === PHP_SESSION_ACTIVE) {
+                                    header("location:/");
+                                } else {
+                                    $data["error"] = "Error al iniciar sesión.";
+                                    $this->presenter->render("LoginView", $data);
+                                }
+                            }else{
+                                $data["error"] = "¡Usuario no validado! Por favor, revise su casilla de correo.";
                                 $this->presenter->render("LoginView", $data);
                             }
+
                         }
                     }
                     // Si las credenciales no coinciden con ningún registro en la base de datos
                     if (!$credencialesValidas) {
-                        $data["error"] = "Las credenciales son incorrectas o la cuenta no está validada.";
+                        $data["error"] = "Las credenciales son incorrectas.";
                         $this->presenter->render("LoginView", $data);
                     }
                 } else {
+                    var_dump($username);
+                    var_dump($resultado);
                     // Si no se encontraron resultados en la base de datos
                     $data["error"] = "Las credenciales son incorrectas!";
                     $this->presenter->render("LoginView", $data);
@@ -60,36 +72,27 @@ class LoginController
         }
     }
 
-    public function iniciarSesion($id, $username, $password)
+    public function iniciarSesion($id,$username,$correo)
     {
         $_SESSION["Session_id"] = $id;
-        $_SESSION["Session_nombre"] = $username;
+        $_SESSION["Session_username"] = $username;
+        $_SESSION["Session_correo"] = $correo;
         return session_status();
     }
 
-    public function getUsuario($username = null)
-    {
-        if (isset($_SESSION["usuario"])) {
-            $data["usuario"] = $_SESSION["usuario"];
-            $this->presenter->render("usuario", $data);
-        } else {
-            // Manejo del caso en que no se recibe el nombre de usuario
-            $data["error"] = "Nombre de usuario no especificado";
-            $this->presenter->render("error", $data);
-        }
-    }
-
     public function toHome() {
-        if (isset($_SESSION["usuario"]) && isset($_SESSION["usuario"][0])) {
-            $data["usuario"] = $_SESSION["usuario"];
+        $data['usuario'] = $this->model->getDatosUser($_SESSION["Session_id"]);
+        if(!empty($data['usuario'])){
             $this->presenter->render("homeUserLogueado", $data);
+        }else{
+            $this->cerrarSesion();
         }
     }
 
-
-
-
-
+    public function cerrarSesion(){
+        session_destroy();
+        header("location:/");
+    }
 
 
     ///   ******************PreguntaController**************************************************
