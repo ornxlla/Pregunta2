@@ -1,3 +1,79 @@
-<p>Bienvenido! Ya podes ingresar a nuestro sitiio</p>
-<a href="/Login/get">Iniciar sesión</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/home.css">
+    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
+    <title>Preguntados</title>
+    <style>
+        body {
+            background-image: url('../public/img/fondoRegistro.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .confirmaCorreo {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            padding: 5em;
+            font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        .botonEditar {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            margin-top: 2em;
+        }
+
+        .botonEditar a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 1em;
+            padding: 1em;
+            background-color: black;
+        }
+
+        .botonEditar a:hover {
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        .bienvenido{
+            font-weight: bold;
+            font-size:1.5em;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="confirmaCorreo">
+
+    <div>
+        <p class="bienvenido">Bienvenido!</p>
+        <p>Ya podes ingresar a nuestro sitio</p>
+    </div>
+
+    <div class="botonEditar">
+        <a href="/Login/get">Iniciar sesion</a>
+    </div>
+
+</div>
+</body>
+</html>

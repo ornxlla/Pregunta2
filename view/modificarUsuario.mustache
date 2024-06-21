@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/home.css">
+    <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
+    <title>Modificacion</title>
 <body class="d-flex align-items-center" >
 <div class="form-container">
     <form class="form" action="/PerfilUsuario/procesarModificacion" method="POST" enctype="multipart/form-data">
@@ -54,9 +63,12 @@
             </div>
         </div>
             <div class="boton">
+                <div class="botonVolver"><a href="/Login/toHome">Volver</a></div>
                 <button class="botonEditar" type="submit" name="enviar">Guardar Cambios</button>
             </div>
+
         {{/datos_usuario}}
+
     </form>
 </div>
 
@@ -245,7 +257,9 @@
     .boton{
         display: flex;
         align-items: center;
-        flex-direction: column
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        padding: 1em;
     }
     .botonEditar:hover {
         color: black;
@@ -271,6 +285,23 @@
         font-family: "Poppins", sans-serif;
         text-align: center;
     }
+
+    .botonVolver{
+        margin-bottom: 20px;
+        align-items: center;
+        margin-top: 1em;
+    }
+
+    .botonVolver a {
+        text-decoration: none;
+        color:black;
+        font-weight: bold;
+        border-radius: 1em ;
+        padding: 1em;
+        background-color: white;
+    }
+
+
 
 </style>
 </body>

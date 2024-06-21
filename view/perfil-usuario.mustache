@@ -12,11 +12,17 @@
             </div>
         {{/error}}
         <div class="datos">
+            <div class="imagenYqr">
             <div class="imagen">
                 <div> <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil"></div>
                 <div> <img class="img-fluid" src="/public/img/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR"></div>
 
             </div>
+            <div class="qr">
+                <img class="img-fluid" src="/public/images/profile_qrs/{{id}}_qr.png" alt="CódigoQR">
+            </div>
+            </div>
+
             <div class="nombrePrincipales">
                 <h1>¡Hola {{username}}!</h1><br>
                 <h3>Mail: {{correo}}</h3> <br>
@@ -25,10 +31,13 @@
                 <h3>Genero: {{genero}}</h3> <br>
                 <h3>Pais: {{pais}}</h3> <br>
                 <h3>Ciudad: {{ciudad}}</h3> <br>
+                <h3>Latitud: <span id="latitud">{{latitud}}</span></h3> <br>
+                <h3>Longitud: <span id="longitud">{{longitud}}</span></h3> <br>
             </div>
         </div>
 
         <div>
+
 
             <div class="map-container">
                 <p hidden>Latitud: <span id="latitud">{{latitud}}</span></p>
@@ -48,7 +57,9 @@
             </div>
 
 
+
         </div>
+
 
     </div>
 {{/datos_usuario}}
@@ -183,7 +194,9 @@
     }
 
     .imagen {
+
         margin-top: 2em;
+
     }
 
     .imagen img {
@@ -194,10 +207,12 @@
 
     .botonEditar {
         margin-bottom: 20px;
+
         display: flex;
         align-items: center;
         margin-top: 2em;
         justify-content: space-evenly;
+
     }
 
     .botonEditar a {
@@ -215,9 +230,36 @@
         border: 1px solid black;
     }
 
+    .botonVolver{
+        margin-bottom: 20px;
+        align-items: center;
+        margin-top: 1em;
+    }
+
+    .botonVolver a {
+        text-decoration: none;
+        color:black;
+        font-weight: bold;
+        border-radius: 1em ;
+        padding: 1em;
+        background-color: white;
+    }
+
+
+    .botones{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        padding: 1em;
+    }
+
+
+
     .datos h1 {
         font-size: 2rem;
         color: #1a202c;
+        text-align: center;
     }
 
     .datos h3 {
@@ -261,6 +303,13 @@
         width: 100%;
     }
 
+    .imagenYqr{
+        display: flex;
+        flex-direction: column;
+    }
 
+    .qr{
+        margin-top: 2em;
+    }
 
 </style>

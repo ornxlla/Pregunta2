@@ -98,6 +98,11 @@ class LoginController
     ///   ******************PreguntaController**************************************************
     ///    EL EDITOR puede revisar las preguntas reportadas, para aprobar o dar de baja
     ///    paso 1
+
+    public function funciones() {
+        $this->presenter->render("funcionesDelEditor");
+    }
+
     public function getPreguntasReportadas()
     {
         $preguntasReportadas = $this->model->obtenerPreguntasReportadas();
@@ -217,6 +222,234 @@ class LoginController
         header("Location: /Login/listadoGeneralPreguntas");
         exit();
     }
+
+// modificar pregunta  OK*************** Ver la duplicación de tematicas**************
+/*
+    public function mostrarFormularioModificarPregunta()
+    {
+        $idPregunta = $_POST['id_pregunta'] ?? null;
+
+        if (!$idPregunta) {
+            echo "Error: ID de pregunta no especificado.";
+            return;
+        }
+
+        $pregunta = $this->model->obtenerPreguntaPorId($idPregunta);
+        $dificultades = $this->model->obtenerDificultades();
+        $tematicas = $this->model->obtenerTematicas();
+
+        // Marcar la temática y dificultad seleccionada
+        foreach ($tematicas as &$tematica) {
+            if ($tematica['id_tematica'] == $pregunta['id_tematica']) {
+                $tematica['is_selected'] = true;
+            }
+        }
+        foreach ($dificultades as &$dificultad) {
+            if ($dificultad['id'] == $pregunta['id_dificultad']) {
+                $dificultad['is_selected'] = true;
+            }
+        }
+
+        $data = [
+            'pregunta' => $pregunta,
+            'dificultades' => $dificultades,
+            'tematicas' => $tematicas
+        ];
+
+        $this->presenter->render('ModificarPreguntaView', $data);
+    }
+
+    public function modificarPregunta()
+    {
+        $id_pregunta = $_POST['id_pregunta'];
+        $pregunta_texto = $_POST['pregunta_texto'];
+        $id_tematica = $_POST['id_tematica'];
+        $id_dificultad = $_POST['id_dificultad'];
+
+        $actualizado = $this->model->actualizarPregunta($id_pregunta, $pregunta_texto, $id_tematica, $id_dificultad);
+
+        if ($actualizado) {
+            echo "Pregunta actualizada correctamente.";
+        } else {
+            echo "Error al actualizar la pregunta.";
+        }
+
+        header('Location: /Login/listadoGeneralPreguntas');
+        exit();
+    }
+*/
+
+// 19/6 crear pregunta sugerida  ok ******
+
+    public function mostrarFormularioCrearPreguntaSugerida() {
+        $dificultades = $this->model->obtenerDificultades();
+        $tematicas = $this->model->obtenerTematicas();
+
+        $this->presenter->render('CrearPreguntaSugeridaView', ['dificultades' => $dificultades, 'tematicas' => $tematicas]);
+    }
+
+    public function crearPreguntaSugerida()
+    {
+        $pregunta_texto = $_POST['pregunta_texto'];
+        $id_tematica = $_POST['id_tematica'];
+        $id_dificultad = $_POST['id_dificultad'];
+        $respuestas = $_POST['respuestas'];
+        $respuesta_correcta = $_POST['respuesta_correcta'];
+
+        if ($pregunta_texto && $id_tematica && $id_dificultad && count($respuestas) === 4 && $respuesta_correcta !== null) {
+            $idPregunta = $this->model->insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica);
+
+            if ($idPregunta) {
+                foreach ($respuestas as $index => $respuesta_texto) {
+                    $es_correcta = ($index == $respuesta_correcta) ? 1 : 0;
+                    $this->model->insertarRespuesta($idPregunta, $respuesta_texto, $es_correcta);
+                }
+
+                header('Location: /Login/listadoGeneralPreguntas');
+                exit();
+            } else {
+                echo "Error: No se pudo insertar la pregunta.";
+            }
+        } else {
+            echo "Error: Por favor, complete todos los campos y asegúrese de marcar una respuesta correcta.";
+        }
+    }
+
+
+// mostrar modificar pregunta y respuesta ok
+
+
+    public function mostrarFormularioModificarPreguntaYRespuesta()
+    {
+
+        if (isset($_POST['id_pregunta'])) {
+            $idPregunta = $_POST['id_pregunta'];
+
+            $pregunta = $this->model->obtenerPreguntaPorId($idPregunta);
+            $respuestas = $this->model->obtenerRespuestasPorIdPregunta($idPregunta);
+            $dificultades = $this->model->obtenerDificultades();
+            $tematicas = $this->model->obtenerTematicas();
+
+            if ($pregunta && $respuestas) {
+                foreach ($tematicas as &$tematica) {
+                    if ($tematica['id_tematica'] == $pregunta['id_tematica']) {
+                        $tematica['selected'] = true;
+                    }
+                }
+                foreach ($dificultades as &$dificultad) {
+                    if ($dificultad['id'] == $pregunta['id_dificultad']) {
+                        $dificultad['selected'] = true;
+                    }
+                }
+
+                $this->presenter->render('ModificarPreguntaYRespuestaView', [
+                    'pregunta' => $pregunta,
+                    'respuestas' => $respuestas,
+                    'dificultades' => $dificultades,
+                    'tematicas' => $tematicas
+                ]);
+            } else {
+                echo "Error: No se encontró la pregunta o las respuestas.";
+            }
+        } else {
+            echo "Error: ID de la pregunta no especificado.";
+        }
+    }
+
+
+
+//metodo a revisar
+
+
+    public function actualizarPreguntaYRespuestas()
+    {
+        if (
+            isset($_POST['id_pregunta']) &&
+            isset($_POST['pregunta_texto']) &&
+            isset($_POST['id_tematica']) &&
+            isset($_POST['id_dificultad']) &&
+            isset($_POST['respuesta_correcta']) &&
+            isset($_POST['respuesta']) &&
+            isset($_POST['id_respuesta'])
+        ) {
+            $idPregunta = $_POST['id_pregunta'];
+            $preguntaTexto = $_POST['pregunta_texto'];
+            $idTematica = $_POST['id_tematica'];
+            $idDificultad = $_POST['id_dificultad'];
+            $respuestaCorrecta = $_POST['respuesta_correcta'];
+            $respuestas = $_POST['respuesta'];
+            $idRespuestas = $_POST['id_respuesta'];
+
+            // Actualizar la pregunta
+            $resultadoPregunta = $this->model->actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad);
+
+            // Actualizar las respuestas
+            $resultadoRespuestas = $this->model->actualizarRespuestas($idRespuestas, $respuestas, $respuestaCorrecta);
+
+            if ($resultadoPregunta && $resultadoRespuestas) {
+                echo "Pregunta y respuestas actualizadas correctamente.";
+            } else {
+                echo "Error al actualizar la pregunta o las respuestas.";
+            }
+        } else {
+            echo "Error: Faltan parámetros para actualizar la pregunta y respuestas.";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

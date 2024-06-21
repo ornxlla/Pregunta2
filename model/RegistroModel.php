@@ -16,6 +16,7 @@ class RegistroModel
         $this->database = $database;
     }
 
+
     public function getUsuarioRegistrados()
     {
         return $this->database->query('SELECT * FROM usuario');
@@ -43,6 +44,7 @@ class RegistroModel
         $stmt = $this->database->prepare($sql);
         if($stmt){
             $stmt->bind_param("issssssss", $id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud);
+
             return $stmt->execute();
         }else{
             return false;
