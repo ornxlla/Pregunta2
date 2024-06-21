@@ -100,24 +100,24 @@
     </tr>
     </thead>
     <tbody>
-    {{#preguntas}}
+    {{#preguntas_listado}}
         <tr>
             <td>{{id_pregunta}}</td>
-            <td>{{pregunta_texto}}</td>
+            <td>{{texto}}</td>
             <td>
-                <form action="/Login/aprobarPreguntaSugerida" method="POST">
+                <form action="/Pregunta/aprobarPreguntaSugerida" method="POST">
                     <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
                     <button type="submit">Aprobar</button>
                 </form>
             </td>
         </tr>
-    {{/preguntas}}
+    {{/preguntas_listado}}
     </tbody>
 </table>
 
 <br>
-<a href="/Login/listadoGeneralPreguntas">Listado de Preguntas General</a>
-<a href="/Login/funciones" class="panel-link">Panel de Control</a>
+<a href="/Pregunta/listadoGeneralPreguntas">Listado de Preguntas General</a>
+<a href="/Pregunta/getPanel" class="panel-link">Panel de Control</a>
 
 </body>
 </html>
