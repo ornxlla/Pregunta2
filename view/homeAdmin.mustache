@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../public/css/home.css">
     <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
     <title>Home</title>
+
 </head>
 <body>
 <header>
@@ -17,7 +18,7 @@
         {{#usuario}}
             <img class="imagenPerfil" src="/public/img/users/{{imagen_perfil}}">
             <a href="/PerfilUsuario">
-            <h1 class="probando">Mi perfil</h1>
+                <h1 class="probando">Mi perfil</h1>
             </a>
 
             <a href="/Login/cerrarSesion">
@@ -29,20 +30,56 @@
 </header>
 
 <main>
-    {{#usuario}}
-        <h1 class="puntaje">MI PUNTAJE: {{puntaje}}</h1>
 
-    <div class="buttons-container">
-        <a href="/Play" class="btn-custom">Nueva Partida</a>
-        <a href="/Ranking" class="btn-custom">Ranking</a>
-    </div>
-    {{/usuario}}
-    <h2 class="puntaje">Tus partidas</h2>
-    <ul>
-        {{# partidas }}
-            <li>{{ resultado }}</li>
-        {{/ partidas }}
-    </ul>
+    <h1 class="panel">PANEL DE ADMINISTRADOR</h1>
+   <div class="estadisticas">
+
+       <div class="datos">
+           <h2>Cantidad de jugadores:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Cantidad de partidas jugadas:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Cantidad de preguntas en el juego:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Cantidad de preguntas creadas:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Cantidad de usuarios nuevos:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Porcentaje de preguntas correctas por usuario</h2>
+           <div>
+
+           </div>
+       </div>
+
+       <div class="datos">
+           <h2>Usuarios por pais:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Cantidad de jugadores:</h2>
+       </div>
+
+       <div class="datos">
+           <h2>Cantidad de jugadores:</h2>
+       </div>
+
+
+   </div>
+
+
+
+
+
 </main>
 <footer>
     <div class="acomodarFooter">
@@ -58,11 +95,29 @@
 </html>
 
 <style>
+
+    .panel{
+        text-align: center;
+        color: black;
+        margin:1em;
+    }
+
+    .datos{
+        font-size: 1rem;
+        color: #4a5568;
+        margin-bottom: 5px;
+        border: 1px solid;
+        padding: 0.4em;
+        background-color: white;
+        text-align: left;
+        margin:1em;
+    }
+
     body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-image: url('/public/img/fondo.png');
+        background-color: white;
     }
 
     header {
@@ -88,15 +143,10 @@
         text-align: end;
     }
 
-
     img {
         display: block;
         margin: 0 auto;
         width: 200px;
-    }
-
-    h2 {
-        text-align: center;
     }
 
     button {
@@ -113,28 +163,6 @@
         background-color: #0077b6;
     }
 
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    ul li {
-        background-color: #ffffff;
-        padding: 10px;
-        margin: 5px 0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .puntaje {
-        text-align: center;
-        font-family: sans-serif;
-    }
-
-    .buttons-container {
-        text-align: center;
-        margin-top: 20px;
-    }
 
     .buttons-container button {
         margin: 0 10px;
@@ -161,31 +189,6 @@
         text-align: center;
     }
 
-    .puntaje{
-        color: white;
-        font-size: 1.5em;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        margin: 1em;
-    }
-
-    .btn-custom {
-        background-color: white;
-        color: black;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        text-decoration: none;
-    }
-
-    .btn-custom:hover {
-        background-color: black;
-        color: white;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        text-decoration: none;
-    }
-
 
     header {
         background-color: #f8f9fa;
@@ -210,4 +213,18 @@
         border-radius: 50%;
     }
 
+    .estadisticas{
+        margin: 20px auto;
+        max-width: 800px;
+        padding: 20px;
+        box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+        border-radius: 10px;
+        width: 100%;
+        margin-top: 3em;
+        margin-bottom: 6em;
+    }
+
 </style>
+
+
+

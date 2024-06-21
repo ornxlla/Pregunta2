@@ -13,7 +13,9 @@
         {{/error}}
         <div class="datos">
             <div class="imagen">
-                <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil">
+                <div> <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil"></div>
+                <div> <img class="img-fluid" src="/public/img/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR"></div>
+
             </div>
             <div class="nombrePrincipales">
                 <h1>¡Hola {{username}}!</h1><br>
@@ -27,7 +29,7 @@
         </div>
 
         <div>
-            <img class="img-fluid" src="/public/img/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR">
+
             <div class="map-container">
                 <p hidden>Latitud: <span id="latitud">{{latitud}}</span></p>
                 <p hidden>Longitud: <span id="longitud">{{longitud}}</span></p>
@@ -35,12 +37,17 @@
             </div>
         </div>
         <div class="botonEditar">
-            {{#boton-editar}}
-                <a href="/PerfilUsuario/modificarUsuario">Editar datos</a>
-            {{/boton-editar}}
+            <div>
+                <a href="/">Volver al home</a>
+            </div>
+
+            <div>
+                {{#boton-editar}}
+                    <a href="/PerfilUsuario/modificarUsuario">Editar datos</a>
+                {{/boton-editar}}
+            </div>
 
 
-            <a href="/">Volver al home</a>
         </div>
 
     </div>
@@ -155,10 +162,9 @@
 <style>
 
 
-    /* Estilo para la sección de información del usuario */
     .datos-container {
-        margin: 20px auto; /* Esto centrará el contenedor horizontalmente */
-        max-width: 800px; /* Define un ancho máximo para el contenedor */
+        margin: 20px auto;
+        max-width: 800px;
         background-color: #fff;
         padding: 20px;
         box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
@@ -170,28 +176,28 @@
 
     .datos {
         display: flex;
-        flex-direction: row; /* Alinear elementos verticalmente */
-        align-items: center; /* Centrar elementos horizontalmente */
+        flex-direction: row;
+        align-items: center;
         justify-content: space-around;
         margin-top: 0.5em;
     }
 
     .imagen {
-        margin-bottom: 20px; /* Espacio entre la imagen y el botón */
+        margin-top: 2em;
     }
 
     .imagen img {
-        width: 270px;
-        height: 270px;
-        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+
     }
 
     .botonEditar {
-        margin-bottom: 20px; /* Espacio entre el botón y la información */
+        margin-bottom: 20px;
         display: flex;
-        flex-direction: column-reverse;
         align-items: center;
-        margin-top: 1em;
+        margin-top: 2em;
+        justify-content: space-evenly;
     }
 
     .botonEditar a {
