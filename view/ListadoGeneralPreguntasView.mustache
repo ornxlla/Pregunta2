@@ -22,25 +22,18 @@
                 <th style="border: 1px solid #ddd; padding: 12px; text-align: center; background-color: #f2f2f2;">Acciones</th>
             </tr>
             </thead>
-            <tbody>
-            {{#preguntas_listado}}
+            {{#preguntas}}
                 <tr style="border: 1px solid #ddd;">
                     <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">{{id_pregunta}}</td>
                     <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">{{texto}}</td>
                     <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">
                         <form action="/Pregunta/mostrarFormularioModificarPreguntaYRespuesta" method="POST" style="display: inline;">
                             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit" style="background-color: #4CAF50; color: white; padding: 8px 16px; border: none; cursor: pointer; border-radius: 4px;">Modificar</button>
-                        </form>
-
-                        <form action="/Pregunta/eliminarPregunta" method="POST" style="display: inline; margin-left: 10px;">
-                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit" style="background-color: #f44336; color: white; padding: 8px 16px; border: none; cursor: pointer; border-radius: 4px;">Eliminar</button>
+                            <button type="submit">Modificar</button>
                         </form>
                     </td>
                 </tr>
-            {{/preguntas_listado}}
-            </tbody>
+            {{/preguntas}}
         </table>
 
         <br>

@@ -100,24 +100,32 @@
     </tr>
     </thead>
     <tbody>
-    {{#preguntas_listado}}
+    {{#preguntas_sugeridas}}
         <tr>
-            <td>{{id_pregunta}}</td>
-            <td>{{texto}}</td>
+            <td>{{id}}</td>
+            <td>{{pregunta}}</td>
             <td>
                 <form action="/Pregunta/aprobarPreguntaSugerida" method="POST">
-                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                    <input type="hidden" name="id_pregunta_sugerida" value="{{id}}">
+                    <input type="hidden" name="pregunta" value="{{pregunta}}">
+                    <input type="hidden" name="respuesta_correcta" value="{{respuesta_correcta}}">
+                    <input type="hidden" name="primera_respuesta_incorrecta" value="{{primera_respuesta_incorrecta}}">
+                    <input type="hidden" name="segunda_respuesta_incorrecta" value="{{segunda_respuesta_incorrecta}}">
+                    <input type="hidden" name="tercera_respuesta_incorrecta" value="{{tercera_respuesta_incorrecta}}">
+                    <input type="hidden" name="id_tematica" value="{{id_tematica}}">
+                    <input type="hidden" name="id_dificultad" value="{{id_dificultad}}">
                     <button type="submit">Aprobar</button>
                 </form>
             </td>
         </tr>
-    {{/preguntas_listado}}
+    {{/preguntas_sugeridas}}
     </tbody>
 </table>
 
 <br>
 <a href="/Pregunta/listadoGeneralPreguntas">Listado de Preguntas General</a>
 <a href="/Pregunta/getPanel" class="panel-link">Panel de Control</a>
+</body>
 
 </body>
 </html>

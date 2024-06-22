@@ -36,7 +36,8 @@ class PlayModel
                  FROM preguntas_listado AS preg
                  INNER JOIN tematicas as tem
                  ON preg.id_tematica = tem.id_tematica
-                 WHERE !EXISTS(
+                  WHERE preg.aprobado = 1
+                    AND !EXISTS (
                      SELECT part.*
                      FROM partida_clasica_respuestas as part
                      WHERE part.id_jugador = ?

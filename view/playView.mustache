@@ -174,7 +174,8 @@
                     <button type="submit" class="btn btn-lg btn-success mt-3 btn-11 w-50">Responder</button>
                 {{/error}}
             </form>
-{{/asdg}}
+
+    {{/asdg}}
             <div id="countdown" class="countdown-timer"></div>
 
             {{^error}}
@@ -182,6 +183,11 @@
             {{/error}}
         </div>
     </div>
+
+        <form class="d-flex flex-column align-items-center" action="/Pregunta/reportarPregunta" method="post">
+            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+            <button type="submit" class="btn btn-lg btn-success mt-3 btn-11 w-50">Reportar Pregunta</button>
+        </form>
     {{/pregunta}}
 </div>
 <script>
@@ -198,8 +204,34 @@
         }
     }
 
-</script>
 
+
+</script>
+<script>
+    function reportarPregunta(id_pregunta) {
+        var motivo = prompt("Ingrese el motivo de reporte:");
+        if (motivo !== null) {
+            var data = {
+                id_pregunta: id_pregunta,
+                motivo: motivo
+            };
+
+            // Envío de la solicitud AJAX
+            $.ajax({
+                type: "POST",
+                url: "/reportar-pregunta",
+                data: data,
+                success: function(response) {
+                    alert('Pregunta reportada exitosamente.');
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al reportar la pregunta.');
+                    console.error(error);
+                }
+            });
+        }
+    }
+</script>
         <script>
             function move() {
                 var elem = document.getElementById("myBar");

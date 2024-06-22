@@ -19,22 +19,22 @@
             </tr>
             </thead>
             <tbody>
-            {{#preguntas_listado}}
+            {{#preguntas_reportadas}}
                 <tr>
                     <td>{{id_pregunta}}</td>
                     <td>{{texto}}</td>
                     <td>
                         <form action="/Pregunta/aprobarPregunta" method="POST" style="display: inline;">
                             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit">Aprobar</button>
+                            <button type="submit">Borrar Reporte</button>
                         </form>
                         <form action="/Pregunta/darDeBajaPregunta" method="POST" style="display: inline;">
                             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit" class="button-danger">Dar de Baja</button>
+                            <button type="submit" class="button-danger">Borrar pregunta</button>
                         </form>
                     </td>
                 </tr>
-            {{/preguntas_listado}}
+            {{/preguntas_reportadas}}
             </tbody>
         </table>
         <br>
