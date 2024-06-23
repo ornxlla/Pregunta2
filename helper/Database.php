@@ -36,7 +36,9 @@ class Database
         return $this->conn->prepare($query);
     }
 
-    public function last_insert(){
+    public function last_insert()
+    {
         return mysqli_insert_id($this->conn);
     }
+
 }

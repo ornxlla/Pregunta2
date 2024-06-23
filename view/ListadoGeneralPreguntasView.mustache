@@ -31,6 +31,10 @@
                             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
                             <button type="submit">Modificar</button>
                         </form>
+                        <form action="/Pregunta/eliminarPregunta" method="POST" style="display: inline;">
+                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                            <button type="submit" class="button-danger">Borrar pregunta</button>
+                        </form>
                     </td>
                 </tr>
             {{/preguntas}}

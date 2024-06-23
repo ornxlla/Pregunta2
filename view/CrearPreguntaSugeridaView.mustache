@@ -9,7 +9,7 @@
 <body>
 <h1>Crear Pregunta Sugerida</h1>
 
-<form action="/Login/crearPreguntaSugerida" method="POST">
+<form action="/Pregunta/crearPreguntaSugerida" method="POST">
     <label for="pregunta_texto">Texto de la Pregunta:</label><br>
     <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required></textarea><br>
 
@@ -27,28 +27,60 @@
         {{/dificultades}}
     </select><br>
 
-    <label for="respuesta_1">Respuesta 1:</label>
-    <input type="text" name="respuestas[]" id="respuesta_1" required>
-    <input type="radio" name="respuesta_correcta" value="0" required> Correcta<br>
+    <div id="respuestas">
+        <label for="respuesta_0">Respuesta 1:</label>
+        <input type="text" name="respuestas[]" id="respuesta_0" required>
+        <input type="radio" name="respuesta_correcta" value="0" required> Correcta<br>
 
-    <label for="respuesta_2">Respuesta 2:</label>
-    <input type="text" name="respuestas[]" id="respuesta_2" required>
-    <input type="radio" name="respuesta_correcta" value="1"> Correcta<br>
+        <label for="respuesta_1">Respuesta 2:</label>
+        <input type="text" name="respuestas[]" id="respuesta_1" required>
+        <input type="radio" name="respuesta_correcta" value="1"> Correcta<br>
 
-    <label for="respuesta_3">Respuesta 3:</label>
-    <input type="text" name="respuestas[]" id="respuesta_3" required>
-    <input type="radio" name="respuesta_correcta" value="2"> Correcta<br>
+        <label for="respuesta_2">Respuesta 3:</label>
+        <input type="text" name="respuestas[]" id="respuesta_2" required>
+        <input type="radio" name="respuesta_correcta" value="2"> Correcta<br>
 
-    <label for="respuesta_4">Respuesta 4:</label>
-    <input type="text" name="respuestas[]" id="respuesta_4" required>
-    <input type="radio" name="respuesta_correcta" value="3"> Correcta<br>
-
+        <label for="respuesta_3">Respuesta 4:</label>
+        <input type="text" name="respuestas[]" id="respuesta_3" required>
+        <input type="radio" name="respuesta_correcta" value="3"> Correcta<br>
+    </div>
+    <button type="button" onclick="addRespuesta()">Agregar Respuesta</button><br><br>
     <button type="submit">Crear Pregunta Sugerida</button>
 </form>
 
 <br>
-<a href="/Login/listadoGeneralPreguntas">Volver al Listado de Preguntas General</a>
-<a href="/Login/funciones" class="panel-link">Panel de Control</a>
+<script>
+    let respuestaCount = 4;  // Inicialmente hay 4 respuestas
 
+    function addRespuesta() {
+        const respuestasDiv = document.getElementById('respuestas');
+
+        const label = document.createElement('label');
+        label.setAttribute('for', `respuesta_${respuestaCount}`);
+        label.textContent = `Respuesta ${respuestaCount + 1}:`;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'respuestas[]';
+        input.id = `respuesta_${respuestaCount}`;
+        input.required = true;
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'respuesta_correcta';
+        radio.value = respuestaCount;
+        radio.required = true;
+
+        const correctLabel = document.createTextNode(' Correcta');
+
+        respuestasDiv.appendChild(label);
+        respuestasDiv.appendChild(input);
+        respuestasDiv.appendChild(radio);
+        respuestasDiv.appendChild(correctLabel);
+        respuestasDiv.appendChild(document.createElement('br'));
+
+        respuestaCount++;
+    }
+</script>
 </body>
 </html>
