@@ -17,7 +17,11 @@ class LoginModel
 
     public function getDatosUser($id_user)
     {
-        $query = "SELECT * FROM datos_usuario WHERE id_usuario = '$id_user'";
+        $query = "SELECT data.*, login.rol
+                  FROM datos_usuario AS data
+                  INNER JOIN login AS login 
+                  ON data.id_usuario = login.id_usuario
+                  WHERE data.id_usuario = '$id_user'";
         return $this->database->query($query);
     }
 

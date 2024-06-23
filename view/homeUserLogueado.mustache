@@ -17,14 +17,22 @@
         </div>
         {{#usuario}}
             <img class="imagenPerfil" src="/public/img/users/{{imagen_perfil}}">
+            {{#editor}}
+            <a href="/Pregunta">
+                <h1 class="probando">Vista editor</h1>
+            </a>
+            {{/editor}}
+            {{#admin}}
+            <a href="/admin">
+                <h1 class="probando">Vista Admin</h1>
+            </a>
+            {{/admin}}
             <a href="/PerfilUsuario">
             <h1 class="probando">Mi perfil</h1>
             </a>
-
             <a href="/Login/cerrarSesion">
                 <h1 class="probando">Cerrar Sesion</h1>
             </a>
-
         {{/usuario}}
     </div>
 </header>
