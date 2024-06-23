@@ -1,29 +1,41 @@
 <?php
 class AdminController
 {
-    private $adminModel;
+    private $model;
     private $presenter;
 
-    public function __construct($presenter, $adminModel)
+    public function __construct($presenter, $model)
     {
         $this->presenter = $presenter;
-        $this->adminModel = $adminModel;
+        $this->model = $model;
+    }
+
+    public function get (){
+        echo "hola";
     }
 
 
     public function mostrarDatos()
     {
-        $totalUsers = $this->adminModel->getTotalUsers();
-        $preguntasTotales= $this->adminModel->getCantidadPreguntas();
-        $contadorUsuariosPais = $this->adminModel->getUsuariosPorPais();
+        $totalUsuarios = $this->model->getTotalUsuarios();
+        $preguntasTotales= $this->model->getCantidadPreguntas();
+        $contadorUsuariosPais = $this->model->getUsuariosPorPais();
+        $usuariosMenores=$this->model->usuariosMenores();
+        $usuariosAdultos=$this->model->usuariosAdultos();
+        $usuariosMayores=$this->model->usuariosMayores();
 
         $data = array(
-            "cantidad_usuarios" => $totalUsers,"preguntasTotales"=>$preguntasTotales,"contadosUsuariosPais"=>$contadorUsuariosPais,
+            "cantidad_usuarios" => $totalUsuarios,
+            "preguntasTotales"=>$preguntasTotales,
+            "contadorUsuariosPais"=>$contadorUsuariosPais,
+            "usuariosMenores"=>$usuariosMenores,
+            "usuariosAdultos"=>$usuariosAdultos,
+            "usuariosMayores"=>$usuariosMayores,
 
         );
 
 
-        $this->presenter->render('homeAdminView', $data);
+        $this->presenter->render('homeAdmin', $data);
     }
 }
 ?>
