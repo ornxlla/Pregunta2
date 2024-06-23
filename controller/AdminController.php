@@ -11,7 +11,7 @@ class AdminController
     }
 
     public function get (){
-        echo "hola";
+        $this->mostrarDatos();
     }
 
 
@@ -31,10 +31,7 @@ class AdminController
             "usuariosMenores"=>$usuariosMenores,
             "usuariosAdultos"=>$usuariosAdultos,
             "usuariosMayores"=>$usuariosMayores,
-
         );
-
-
         $this->presenter->render('homeAdmin', $data);
     }
 }

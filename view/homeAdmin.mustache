@@ -41,17 +41,21 @@
     <h1 class="panel">PANEL DE ADMINISTRADOR</h1>
    <div class="estadisticas">
 
-       <div class="datos">
-           <h2>Jugadores totales: {{cantidad_usuarios}}</h2>
-       </div>
+       {{#cantidad_usuarios}}
+           <div class="datos">
+               <h2>Jugadores totales: {{total_usuarios}}</h2>
+           </div>
+       {{/cantidad_usuarios}}
 
-       <div class="datos">
-           <h2>Partidas jugadas:</h2>
-       </div>
+           <div class="datos">
+               <h2>Partidas jugadas:</h2>
+           </div>
 
-       <div class="datos">
-           <h2>Preguntas en el juego: {{preguntasTotales}}</h2>
-       </div>
+       {{#preguntasTotales}}
+           <div class="datos">
+               <h2>Preguntas en el juego: {{preguntasTotales}}</h2>
+           </div>
+       {{/preguntasTotales}}
 
        <div class="datos">
            <h2>Preguntas creadas:</h2>
@@ -67,29 +71,30 @@
 
            </div>
        </div>
-
+       {{#contadorUsuariosPais}}
        <div class="datos">
-           <h2>Usuarios por pais:{{contadorUsuariosPais}}</h2>
+           <h2>Usuarios por pais:</h2>
+           <h3>{{pais}}: {{contadorUsuarios}}</h3>
        </div>
+       {{/contadorUsuariosPais}}
 
        <div class="datos">
            <h2>Usuarios por sexo</h2>
-           <h2>mujeres:</h2>
-           <h2>hombres:</h2>
+           <h2>Mujeres:</h2>
+           <h2>Hombres:</h2>
        </div>
-
        <div class="datos">
            <h2>Usuarios por edad</h2>
-           <h2>menores: {{usuariosMenores}}</h2>
-           <h2>adultos:{{usuariosAdultos}}</h2>
-           <h2>jubilados:{{usuariosMayores}}</h2>
+           {{#usuariosMenores}}
+               <h2>Menores: {{usuariosMenores}}</h2>
+           {{/usuariosMenores}}
+           {{#usuariosAdultos}}
+               <h2>Adultos: {{usuariosAdultos}}</h2>
+           {{/usuariosAdultos}}
+           {{#usuariosMayores}}
+               <h2>Jubilados: {{usuariosMayores}}</h2>
+           {{/usuariosMayores}}
        </div>
-
-
-       <div class="stats mt-3">
-           <button class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar Gráficos en PDF</button>
-       </div>
-
    </div>
 
 

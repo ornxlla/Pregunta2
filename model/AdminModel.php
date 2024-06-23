@@ -16,7 +16,7 @@ class AdminModel
     }
 
     public function getCantidadPreguntas(){
-        $query = "SELECT COUNT(id_pregunta) AS preguntasTotales FROM preguntas";
+        $query = "SELECT COUNT(id_pregunta) AS preguntasTotales FROM preguntas_listado";
         return $this->database->query($query);
     }
 
