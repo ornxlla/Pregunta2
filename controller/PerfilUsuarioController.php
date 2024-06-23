@@ -43,7 +43,7 @@ class PerfilUsuarioController
         if (isset($_SESSION["Session_id"])) {
             $data["datos_usuario"] = $this->obtenerDatosUsuario($_SESSION["Session_id"]);
             if($data["datos_usuario"] == false){
-                header("location:/");   //USUARIO NO EXISTE! Llevarlo a HOME
+                Redirect::root();   //USUARIO NO EXISTE! Llevarlo a HOME
             }
             $data["error"] = $errors;
             $this->presenter->render("modificarUsuario", $data);
@@ -66,8 +66,8 @@ class PerfilUsuarioController
             }
             $qrImg = $carpeta_destino . $id . "_qr.png";
 
-           QRcode::png($qrLink,$qrImg,QR_ECLEVEL_L,8);
-           $qr = QRcode::png($qrLink, $qrImg , QR_ECLEVEL_L, 4);
+           //QRcode::png($qrLink,$qrImg,QR_ECLEVEL_L,8);
+           //$qr = QRcode::png($qrLink, $qrImg , QR_ECLEVEL_L, 4);
             return $data;
         }
         return false;
@@ -162,6 +162,15 @@ class PerfilUsuarioController
         }
     }
 
+    public function iniciarDuelo(){
+        if(isset($_GET["id"])){
+            $_SESSION["duelo_id"] = $_GET["id"];
+            Redirect::to("/play/playDuelo");
+        }else{
+            Redirect::root();
+        }
+    }
+
 
 
     public function subirArchivo()
@@ -205,5 +214,7 @@ class PerfilUsuarioController
                 return "X";
         }
     }
+
+
 }
 ?>

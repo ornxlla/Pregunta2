@@ -12,9 +12,9 @@ class RankingModel
 
     public function getRanking()
 {
-    $query = "SELECT login.username, MAX(partida.puntos_jugador_1) AS max_puntos, datos_usuario.imagen_perfil, datos_usuario.id_usuario 
-              FROM partida 
-              JOIN login ON partida.id_jugador_1 = login.id_usuario 
+    $query = "SELECT login.username, MAX(partida.puntos) AS max_puntos, datos_usuario.imagen_perfil, datos_usuario.id_usuario 
+              FROM partida_clasica_general AS partida
+              JOIN login ON partida.id_jugador = login.id_usuario 
               JOIN datos_usuario ON login.id_usuario = datos_usuario.id_usuario
               GROUP BY login.username
               ORDER BY max_puntos DESC 

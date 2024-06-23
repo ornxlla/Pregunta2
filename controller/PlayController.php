@@ -133,4 +133,13 @@ class PlayController
         return $returnValue;
     }
 
+    /*--APARTADO DUELO--*/
+
+    public function playDuelo(){
+        echo $_SESSION["Session_id"] . " Vs " . $_SESSION["duelo_id"];
+    }
+
+    public function finalizar_duelo(){
+        unset($_SESSION["Session_id"]);
+    }
 }
