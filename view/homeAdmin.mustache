@@ -42,23 +42,23 @@
    <div class="estadisticas">
 
        <div class="datos">
-           <h2>Cantidad de jugadores:</h2>
+           <h2>Jugadores totales: {{cantidad_usuarios}}</h2>
        </div>
 
        <div class="datos">
-           <h2>Cantidad de partidas jugadas:</h2>
+           <h2>Partidas jugadas:</h2>
        </div>
 
        <div class="datos">
-           <h2>Cantidad de preguntas en el juego:</h2>
+           <h2>Preguntas en el juego: {{preguntasTotales}}</h2>
        </div>
 
        <div class="datos">
-           <h2>Cantidad de preguntas creadas:</h2>
+           <h2>Preguntas creadas:</h2>
        </div>
 
        <div class="datos">
-           <h2>Cantidad de usuarios nuevos:</h2>
+           <h2>Usuarios nuevos:</h2>
        </div>
 
        <div class="datos">
@@ -69,17 +69,26 @@
        </div>
 
        <div class="datos">
-           <h2>Usuarios por pais:</h2>
+           <h2>Usuarios por pais:{{cantidadUsuariosPais}}</h2>
        </div>
 
        <div class="datos">
-           <h2>Cantidad de jugadores:</h2>
+           <h2>Usuarios por sexo</h2>
+           <h2>mujeres:</h2>
+           <h2>hombres:</h2>
        </div>
 
        <div class="datos">
-           <h2>Cantidad de jugadores:</h2>
+           <h2>Usuarios por edad</h2>
+           <h2>menores:</h2>
+           <h2>edad media:</h2>
+           <h2>jubilados:</h2>
        </div>
 
+
+       <div class="stats mt-3">
+           <button class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar Gráficos en PDF</button>
+       </div>
 
    </div>
 
@@ -113,7 +122,7 @@
         border: 1px solid;
         padding: 0.4em;
         background-color: white;
-        text-align: left;
+        text-align: center;
         margin:1em;
     }
 
@@ -226,6 +235,19 @@
         width: 100%;
         margin-top: 3em;
         margin-bottom: 6em;
+    }
+
+    #download-button {
+        display: flex;
+        justify-content: center;
+    }
+
+    .stats {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+
     }
 
 </style>

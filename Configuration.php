@@ -8,18 +8,23 @@ use model\RegistroModel;
 //use controller\PlayController;
 //use model\PlayModel;
 
+//use controller\AdminController
+//user model\AdminModel
+
 include_once("controller/LoginController.php");
 include_once("controller/RegistroController.php");
 include_once("controller/PerfilUsuarioController.php");
 include_once ("controller/PlayController.php");
 include_once("controller/PreguntaController.php");
 include_once ("controller/RankingController.php");
+include_once("controller/AdminController.php");
 include_once("model/LoginModel.php");
 include_once("model/RegistroModel.php");
 include_once("model/PerfilUsuarioModel.php");
 include_once("model/PlayModel.php");
 include_once("model/PreguntaModel.php");
 include_once("model/RankingModel.php");
+include_once("model/AdminModel.php");
 
 include_once("helper/Database.php");
 include_once("helper/Router.php");
@@ -60,6 +65,11 @@ class Configuration
         return new PreguntaController(self::getPresenter(), self::getPreguntaModel());
     }
 
+    public static function getAdminController()
+    {
+        return new AdminController(self::getPresenter(), self::getAdminModel());
+    }
+
 
     // MODELS
     private static function getLoginModel()
@@ -91,6 +101,11 @@ class Configuration
     private static function getRankingModel()
     {
         return new RankingModel(self::getDatabase());
+    }
+
+    private static function getAdminModel()
+    {
+        return new AdminModel(self::getDatabase());
     }
 
 
