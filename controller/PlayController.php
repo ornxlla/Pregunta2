@@ -35,7 +35,6 @@ class PlayController
             if(isset($_SESSION["partida_iniciada"])){
                 //Apreto "Nueva partida" al tener una partida en progreso o recargo la pagina. Se realiza el proceso de finalizar partida.
                 $this->finalizar_partida();
-                //header("Location: /");
                 echo "adios!";
                 return;
             }
@@ -56,7 +55,7 @@ class PlayController
         }
         $data["aux_pregunta_elegida"] = $this->elegirPregunta($data["aux_preguntas"]["listaPreguntas"]);
 
-        $data["pregunta"] = $this->unificarDatosPregunta($data["aux_pregunta_elegida"],$data["aux_preguntas"]["dificultadPreguntas"]);
+        $data["pregunta"] = $this->unificarDatosPregunta($data["aux_pregunta_elegida"]);
         $data["respuesta"] = $this->model->obtenerRespuestas($data["pregunta"]["id_pregunta"]);
         shuffle($data["respuesta"]);
 
@@ -107,19 +106,15 @@ class PlayController
         return $listaPreguntas[$idMagico];
     }
 
-    public function unificarDatosPregunta($elegida, $lista){
+    public function unificarDatosPregunta($elegida){
         $datos = [];
         $datos["id_pregunta"] = $elegida["id_pregunta"];
         $datos["texto_pregunta"] = $elegida["texto"];
         $datos["tematica"] = $elegida["tematica"];
-
-        for ($i = 0; $i < count($lista); $i++){
-            if($lista[$i]["id_pregunta"] == $datos["id_pregunta"]){
-                $datos["id_dificultad"] = $lista[$i]["dificultad"];
-                $datos["texto_dificultad"] = $lista[$i]["texto_dificultad"];
-                $datos["puntos_pregunta"] = $lista[$i]["puntos_correcto"];
-            }
-        }
+        $aux = $this->model->obtenerDificultadPreguntas($elegida["id_pregunta"]);
+        $datos["id_dificultad"] = $aux[0]["dificultad"];
+        $datos["texto_dificultad"] = $aux[0]["texto_dificultad"];
+        $datos["puntos_pregunta"] = $aux[0]["puntos_correcto"];
         return $datos;
     }
 

@@ -42,8 +42,8 @@ class LoginController
 
                                 $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $correo, $rol);
                                 if ($sesionIniciada === PHP_SESSION_ACTIVE) {
-
-                                    $this->redireccionarPorRol($rol);
+                                    Redirect::root();
+                                    //$this->redireccionarPorRol($rol);
                                 } else {
                                     $data["error"] = "Error al iniciar sesión.";
                                     $this->presenter->render("LoginView", $data);
@@ -86,6 +86,14 @@ class LoginController
     {
         $data['usuario'] = $this->model->getDatosUser($_SESSION["Session_id"]);
         if (!empty($data['usuario'])) {
+            switch($data['usuario'][0]['rol']){
+                case "2":
+                    $data['usuario']['editor'] = true;
+                    break;
+                case "3":
+                    $data['usuario']['admin'] = true;
+                    break;
+            }
             $this->presenter->render("homeUserLogueado", $data);
         } else {
             $this->cerrarSesion();

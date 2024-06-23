@@ -11,7 +11,7 @@ class PreguntaController
         $this->model = $model;
     }
 
-    public function getPanel()
+    public function get()
     {
         $this->presenter->render('homeEditor');
     }

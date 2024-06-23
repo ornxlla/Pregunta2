@@ -26,7 +26,6 @@ class PlayModel
     public function obtenerPreguntas_clasico($idPartida, $idUsuario)
     {
         $data["listaPreguntas"] = $this->obtenerListaPreguntas($idPartida, $idUsuario);
-        $data["dificultadPreguntas"] = $this->obtenerDificultadPreguntas();
 
         return $data;
     }
@@ -62,12 +61,13 @@ class PlayModel
         return null;
     }
 
-    public function obtenerDificultadPreguntas(){
-        $sql = "SELECT id_pregunta, COUNT(id) as 'veces_llamado', SUM(acertado) as 'veces_acertado' 
+    public function obtenerDificultadPreguntas($id_pregunta){
+        $sql = "SELECT COUNT(id) as 'veces_llamado', SUM(acertado) as 'veces_acertado' 
                 FROM partida_clasica_respuestas 
-                GROUP BY id_pregunta";
+                WHERE id_pregunta = ?";
         $stmt = $this->database->prepare($sql);
         if ($stmt) {
+            $stmt->bind_param("i", $id_pregunta);
             $stmt->execute();
             $result = $stmt->get_result();
             $data = [];
@@ -84,7 +84,6 @@ class PlayModel
 
     public function calcularDificultadPregunta($estadisticas){
         $data = [];
-        $data["id_pregunta"] = $estadisticas["id_pregunta"];
         //Si la pregunta es nueva (0 llamadas), se considerara como "Indefinido" y se dara 100 puntos
         if($estadisticas["veces_llamado"] == 0){
             $data["dificultad"] = 0;
