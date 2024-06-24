@@ -1,119 +1,47 @@
-<title>Preguntas Sugeridas por Usuarios</title>
-<style>
-    html, body {
-        width: 100%;
-        height: 100%;
-    }
-
-    body {
-        background-image: url('/public/img/registro.jpg');
-        background-size: cover;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: #1a202c;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        background-color: #fff;
-        box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
-        border-radius: 10px;
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f2f2f2;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-
-    tr:hover {
-        background-color: #f1f1f1;
-    }
-
-    form {
-        display: inline;
-        margin-right: 10px;
-    }
-
-    button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-
-    button:hover {
-        background-color: #45a049;
-    }
-
-    a {
-        display: block;
-        margin-top: 20px;
-        text-align: center;
-        color: #1a202c;
-        text-decoration: none;
-    }
-
-    a:hover {
-        color: #0d6efd;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Sugeridas por Usuarios</title>
+    <link rel="stylesheet" href="/public/css/login.css">
 </head>
 <body>
-<h1>Preguntas Sugeridas por Usuarios</h1>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Pregunta</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#preguntas_sugeridas}}
-        <tr>
-            <td>{{id_pregunta}}</td>
-            <td>{{texto}}</td>
-            <td>
-                <form action="/Pregunta/aprobarPreguntaSugerida" method="POST">
-                    <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                    <button type="submit">Aprobar</button>
-                </form>
-            </td>
-        </tr>
-    {{/preguntas_sugeridas}}
-    </tbody>
-</table>
+<div class="page-container">
+    <h1 class="page-title">Preguntas Sugeridas por Usuarios</h1>
 
-<br>
-<a href="/Pregunta/listadoGeneralPreguntas">Listado de Preguntas General</a>
-<a href="/Pregunta" class="panel-link">Panel de Control</a>
-</body>
+    <div class="table-container">
+        <table class="question-table">
+            <thead>
+            <tr>
+                <th class="table-header">ID</th>
+                <th class="table-header">Pregunta</th>
+                <th class="table-header">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#preguntas_sugeridas}}
+                <tr>
+                    <td>{{id_pregunta}}</td>
+                    <td>{{texto}}</td>
+                    <td>
+                        <form action="/Pregunta/aprobarPreguntaSugerida" method="POST">
+                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                            <button type="submit" class="action-button">Aprobar</button>
+                        </form>
+                    </td>
+                </tr>
+            {{/preguntas_sugeridas}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="links-container">
+        <a href="/Pregunta/listadoGeneralPreguntas" class="page-link">Listado de Preguntas General</a>
+        <a href="/Pregunta" class="page-link">Panel de Control</a>
+    </div>
+</div>
 
 </body>
 </html>

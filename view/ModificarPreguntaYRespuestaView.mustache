@@ -4,45 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Pregunta y Respuestas</title>
+    <link rel="stylesheet" href="/public/css/login.css">
 </head>
-<body style="width: 100%; height: 100%; background-image: url('/public/img/registro.jpg'); background-size: cover;">
-<div style="display: flex; justify-content: center; align-items: center; margin: 5%;">
-    <div style="max-width: 800px; width: 100%; background-color: #fff; padding: 20px; box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185); border-radius: 10px;">
+<body class="background-image">
+<div class="modificar-pregunta-container">
+    <div class="modificar-pregunta-form">
         <h1>Modificar Pregunta y Respuestas</h1>
 
         {{#pregunta}}
-        <form action="/Pregunta/actualizarPreguntaYRespuestas" method="POST">
-            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+            <form action="/Pregunta/actualizarPreguntaYRespuestas" method="POST">
 
-            <!-- Textarea para modificar la pregunta -->
-            <textarea name="pregunta_texto">{{texto}}</textarea>
+                <!-- Input hidden para el ID de la pregunta -->
+                <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+
+                <!-- Textarea para modificar la pregunta -->
+                <div class="input-group">
+                    <label for="pregunta_texto">Texto de la Pregunta:</label>
+                    <textarea id="pregunta_texto" name="pregunta_texto" class="input-textarea">{{texto}}</textarea>
+                </div>
+
+                <!-- Selección de temática -->
+                <div class="input-group">
+                    <label for="id_tematica">Tema:</label>
+                    <select id="id_tematica" name="id_tematica" class="input-select">
+                        {{#tematicas}}
+                            <option value="{{id_tematica}}" {{#is_selected}}selected{{/is_selected}}>{{nombre}}</option>
+                        {{/tematicas}}
+                    </select>
+                </div>
+
+                <!-- Selección de dificultad -->
+                <div class="input-group">
+                    <label for="id_dificultad">Dificultad:</label>
+                    <select id="id_dificultad" name="id_dificultad" class="input-select">
+                        {{#dificultades}}
+                            <option value="{{id}}" {{#is_selected}}selected{{/is_selected}}>{{nombre}}</option>
+                        {{/dificultades}}
+                    </select>
+                </div>
+
+                <!-- Respuestas a modificar -->
+                {{#respuestas}}
+                    <div class="input-group">
+                        <input type="radio" name="respuesta_correcta" value="{{id_respuesta}}" {{#is_correcta}}checked{{/is_correcta}}>
+                        <input type="text" name="respuesta[]" value="{{texto}}" class="input-text">
+                        <input type="hidden" name="id_respuesta[]" value="{{id_respuesta}}">
+                    </div>
+                {{/respuestas}}
+
+                <!-- Botón para enviar el formulario -->
+                <button type="submit" class="button-submit">Guardar cambios</button>
+            </form>
         {{/pregunta}}
-
-        <!-- Selección de temática -->
-        <select name="id_tematica">
-            {{#tematicas}}
-                <option value="{{id_tematica}}" {{#is_selected}}selected{{/is_selected}}>{{nombre}}</option>
-            {{/tematicas}}
-        </select>
-
-        <!-- Selección de dificultad -->
-        <select name="id_dificultad">
-            {{#dificultades}}
-                <option value="{{id}}" {{#is_selected}}selected{{/is_selected}}>{{nombre}}</option>
-            {{/dificultades}}
-        </select>
-
-        <!-- Respuestas a modificar -->
-        {{#respuestas}}
-            <div>
-                <input type="radio" name="respuesta_correcta" value="{{id_respuesta}}" {{#is_correcta}}checked{{/is_correcta}}>
-                <input type="text" name="respuesta[]" value="{{texto}}">
-                <input type="hidden" name="id_respuesta[]" value="{{id_respuesta}}">
-            </div>
-        {{/respuestas}}
-
-        <button type="submit">Guardar cambios</button>
-    </form>
     </div>
 </div>
 </body>

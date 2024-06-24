@@ -4,48 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control</title>
-    <link rel="stylesheet" href="/public/css/styles.css">
-
-
+    <link rel="stylesheet" href="/public/css/login.css">
 </head>
 <body>
 
-<div style="display: flex; justify-content: center; align-items: center; margin: 5%;">
-    <div style="max-width: 800px; width: 100%; background-color: #fff; padding: 20px; box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185); border-radius: 10px;">
-        <h1 style="text-align: center; font-size: 2rem; margin-bottom: 20px; color: #1a202c;">Listado General de Preguntas</h1>
+<div class="container">
+    <div class="panel">
+        <h1>Listado General de Preguntas</h1>
 
-        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-            <thead>
-            <tr>
-                <th style="border: 1px solid #ddd; padding: 12px; text-align: left; background-color: #f2f2f2;">ID</th>
-                <th style="border: 1px solid #ddd; padding: 12px; text-align: left; background-color: #f2f2f2;">Pregunta</th>
-                <th style="border: 1px solid #ddd; padding: 12px; text-align: center; background-color: #f2f2f2;">Acciones</th>
-            </tr>
-            </thead>
-            {{#preguntas}}
-                <tr style="border: 1px solid #ddd;">
-                    <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">{{id_pregunta}}</td>
-                    <td style="border: 1px solid #ddd; padding: 12px; text-align: left;">{{texto}}</td>
-                    <td style="border: 1px solid #ddd; padding: 12px; text-align: center;">
-                        <form action="/Pregunta/mostrarFormularioModificarPreguntaYRespuesta" method="POST" style="display: inline;">
-                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit">Modificar</button>
-                        </form>
-                        <form action="/Pregunta/eliminarPregunta" method="POST" style="display: inline;">
-                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit" class="button-danger">Borrar pregunta</button>
-                        </form>
-                    </td>
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Pregunta</th>
+                    <th>Acciones</th>
                 </tr>
-            {{/preguntas}}
-        </table>
+                </thead>
+                <tbody>
+                {{#preguntas}}
+                    <tr>
+                        <td>{{id_pregunta}}</td>
+                        <td>{{texto}}</td>
+                        <td class="actions-cell">
+                            <form action="/Pregunta/mostrarFormularioModificarPreguntaYRespuesta" method="POST">
+                                <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                                <button type="submit">Modificar</button>
+                            </form>
+                            <form action="/Pregunta/eliminarPregunta" method="POST">
+                                <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                                <button type="submit" class="button-danger">Borrar </button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/preguntas}}
+                </tbody>
+            </table>
+        </div>
 
-        <br>
-        <a href="/Pregunta/getPreguntasReportadas" style="display: block; margin-top: 20px; color: #1a202c; text-decoration: none; text-align: center;">Preguntas Reportadas</a>
-        <br>
-        <a href="/Pregunta/getPreguntasSugeridas" style="display: block; margin-top: 20px; color: #1a202c; text-decoration: none; text-align: center;">Preguntas Sugeridas</a>
-        <a href="/Pregunta" style="display: block; margin-top: 20px; color: #1a202c; text-decoration: none; text-align: center;">Panel de Control</a>
+        <a href="/Pregunta/getPreguntasReportadas" class="link-options">Preguntas Reportadas</a>
+        <a href="/Pregunta/getPreguntasSugeridas" class="link-options">Preguntas Sugeridas</a>
+        <a href="/Pregunta" class="link-options">Panel de Control</a>
     </div>
 </div>
+
 </body>
 </html>

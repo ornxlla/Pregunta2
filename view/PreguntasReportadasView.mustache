@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas Reportadas</title>
-    <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/login.css">
 </head>
 <body>
-<div class="container">
+
+<div class="page-container">
     <div class="table-container">
-        <h1>Preguntas Reportadas</h1>
-        <table>
+        <h1 class="page-title">Preguntas Reportadas</h1>
+        <table class="question-table">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Pregunta</th>
-                <th>Acciones</th>
+                <th class="table-header">ID</th>
+                <th class="table-header">Pregunta</th>
+                <th class="table-header">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -24,13 +25,13 @@
                     <td>{{id_pregunta}}</td>
                     <td>{{texto}}</td>
                     <td>
-                        <form action="/Pregunta/aprobarPregunta" method="POST" style="display: inline;">
+                        <form action="/Pregunta/aprobarPregunta" method="POST" class="action-form">
                             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit">Borrar Reporte</button>
+                            <button type="submit" class="action-button">Borrar Reporte</button>
                         </form>
-                        <form action="/Pregunta/darDeBajaPregunta" method="POST" style="display: inline;">
+                        <form action="/Pregunta/darDeBajaPregunta" method="POST" class="action-form">
                             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit" class="button-danger">Borrar pregunta</button>
+                            <button type="submit" class="action-button button-danger">Borrar pregunta</button>
                         </form>
                     </td>
                 </tr>
@@ -38,10 +39,10 @@
             </tbody>
         </table>
         <br>
-        <a href="/Pregunta/listadoGeneralPreguntas">Listado de Preguntas General</a>
-        <a href="/Pregunta" class="panel-link">Panel de Control</a>
-
+        <a href="/Pregunta/listadoGeneralPreguntas" class="page-link">Listado de Preguntas General</a>
+        <a href="/Pregunta" class="page-link">Panel de Control</a>
     </div>
 </div>
+
 </body>
 </html>
