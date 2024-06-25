@@ -88,12 +88,13 @@ class LoginController
         if (!empty($data['usuario'])) {
             switch($data['usuario'][0]['rol']){
                 case "2":
-                    $data['usuario']['editor'] = true;
+                    $data['editor'] = true;
                     break;
                 case "3":
-                    $data['usuario']['admin'] = true;
+                    $data['admin'] = true;
                     break;
             }
+
             $this->presenter->render("homeUserLogueado", $data);
         } else {
             $this->cerrarSesion();

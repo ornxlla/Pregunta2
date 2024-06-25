@@ -4,59 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Pregunta Sugerida</title>
-    <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="../public/css/estilos.css">
+
 </head>
-<body>
-<h1 class="titulo">Crear Pregunta Sugerida</h1>
+<body class="bodyPreguntaSugerida">
+<h1 class="crearPreguntaSugerida">CREAR PREGUNTA SUGERIDA</h1>
 
-<form action="/Pregunta/crearPreguntaSugerida" method="POST" class="crear-pregunta-form">
-    <div class="input-group">
-        <label for="pregunta_texto">Texto de la Pregunta:</label><br>
-        <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required></textarea><br>
-    </div>
+<form action="/Pregunta/crearPreguntaSugerida" method="POST" class="formCrearPreguntaSug">
+    <label for="pregunta_texto">Texto de la Pregunta:</label><br>
+    <textarea id="pregunta_texto" name="pregunta_texto" rows="4" cols="50" required></textarea><br>
 
-    <div class="input-group">
-        <label for="id_tematica">Tema:</label>
-        <select id="id_tematica" name="id_tematica">
-            {{#tematicas}}
-                <option value="{{id_tematica}}">{{nombre}}</option>
-            {{/tematicas}}
-        </select><br>
-    </div>
+    <label for="id_tematica">Tema:</label>
+    <select id="id_tematica" name="id_tematica">
+        {{#tematicas}}
+            <option value="{{id_tematica}}">{{nombre}}</option>
+        {{/tematicas}}
+    </select><br>
 
-    <div class="input-group">
-        <label for="id_dificultad">Dificultad:</label>
-        <select id="id_dificultad" name="id_dificultad">
-            {{#dificultades}}
-                <option value="{{id}}">{{nombre}}</option>
-            {{/dificultades}}
-        </select><br>
-    </div>
+    <label for="id_dificultad">Dificultad:</label>
+    <select id="id_dificultad" name="id_dificultad">
+        {{#dificultades}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/dificultades}}
+    </select><br>
 
     <div id="respuestas">
-        <div class="input-group respuesta">
-            <label for="respuesta_0">Respuesta 1:</label>
-            <input type="text" name="respuestas[]" id="respuesta_0" required>
-            <input type="radio" name="respuesta_correcta" value="0" required> Correcta<br>
-        </div>
-        <div class="input-group respuesta">
-            <label for="respuesta_1">Respuesta 2:</label>
-            <input type="text" name="respuestas[]" id="respuesta_1" required>
-            <input type="radio" name="respuesta_correcta" value="1"> Correcta<br>
-        </div>
-        <div class="input-group respuesta">
-            <label for="respuesta_2">Respuesta 3:</label>
-            <input type="text" name="respuestas[]" id="respuesta_2" required>
-            <input type="radio" name="respuesta_correcta" value="2"> Correcta<br>
-        </div>
-        <div class="input-group respuesta">
-            <label for="respuesta_3">Respuesta 4:</label>
-            <input type="text" name="respuestas[]" id="respuesta_3" required>
-            <input type="radio" name="respuesta_correcta" value="3"> Correcta<br>
-        </div>
+        <label for="respuesta_0">Respuesta 1:</label>
+        <input type="text" name="respuestas[]" id="respuesta_0" required>
+        <input type="radio" name="respuesta_correcta" value="0" required> Correcta<br>
+
+        <label for="respuesta_1">Respuesta 2:</label>
+        <input type="text" name="respuestas[]" id="respuesta_1" required>
+        <input type="radio" name="respuesta_correcta" value="1"> Correcta<br>
+
+        <label for="respuesta_2">Respuesta 3:</label>
+        <input type="text" name="respuestas[]" id="respuesta_2" required>
+        <input type="radio" name="respuesta_correcta" value="2"> Correcta<br>
+
+        <label for="respuesta_3">Respuesta 4:</label>
+        <input type="text" name="respuestas[]" id="respuesta_3" required>
+        <input type="radio" name="respuesta_correcta" value="3"> Correcta<br>
     </div>
-    <button type="button" class="btn-agregar" onclick="addRespuesta()">Agregar Respuesta</button><br><br>
-    <button type="submit" class="btn-submit">Crear Pregunta Sugerida</button>
+    <button type="button" onclick="addRespuesta()">Agregar Respuesta</button><br><br>
+    <button type="submit">Crear Pregunta Sugerida</button>
 </form>
 
 <br>
@@ -65,9 +55,6 @@
 
     function addRespuesta() {
         const respuestasDiv = document.getElementById('respuestas');
-
-        const div = document.createElement('div');
-        div.className = 'input-group respuesta';
 
         const label = document.createElement('label');
         label.setAttribute('for', `respuesta_${respuestaCount}`);
@@ -87,11 +74,11 @@
 
         const correctLabel = document.createTextNode(' Correcta');
 
-        div.appendChild(label);
-        div.appendChild(input);
-        div.appendChild(radio);
-        div.appendChild(correctLabel);
-        respuestasDiv.appendChild(div);
+        respuestasDiv.appendChild(label);
+        respuestasDiv.appendChild(input);
+        respuestasDiv.appendChild(radio);
+        respuestasDiv.appendChild(correctLabel);
+        respuestasDiv.appendChild(document.createElement('br'));
 
         respuestaCount++;
     }

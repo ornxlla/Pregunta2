@@ -37,19 +37,26 @@ class RegistroModel
         }
     }
 
-    public function altaUsuario_datos($id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud){
-        $sql = "INSERT INTO datos_usuario (id_usuario, nombre, nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+
+    public function altaUsuario_datos($id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud) {
+        // Obtener la fecha actual
+        $fecha_registro = date('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO datos_usuario (id_usuario, nombre, nacimiento, genero, imagen_perfil, pais, ciudad, latitud, longitud, fecha_registro)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->database->prepare($sql);
-        if($stmt){
-            $stmt->bind_param("issssssss", $id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud);
+        if ($stmt) {
+            $stmt->bind_param("isssssssss", $id_usuario, $nombre, $nacimiento, $genero, $imagen_perfil, $pais, $ciudad, $latitud, $longitud, $fecha_registro);
 
             return $stmt->execute();
-        }else{
+        } else {
             return false;
         }
     }
+
 
     public function obtenerUsuario($username){
         $query = "SELECT id_usuario FROM login WHERE username = ?";
