@@ -2,18 +2,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
 </head>
-<body class="d-flex align-items-center" >
+<body class="d-flex align-items-center bodyPerfilUsuario" >
 
 {{#datos_usuario}}
-    <div class="datos-container">
+    <div class="datos-containerPerfilUsuario">
         {{#error}}
-            <div class="error-message">
+            <div class="error-messagePerfilUsuario">
                 <h1>{{error}}</h1>
             </div>
         {{/error}}
-        <div class="datos">
+        <div class="datosPerfilUsuario">
             <div class="imagenYqr">
-            <div class="imagen">
+            <div class="imagenPerfilUsuario">
                 <div> <img src="/public/img/users/{{imagen_perfil}}" alt="Imagen de perfil"></div>
                 <div> <img class="img-fluid" src="/public/img/profile_qrs/{{id_usuario}}_qr.png" alt="CódigoQR"></div>
 
@@ -48,7 +48,7 @@
                 <div id="map"></div>
             </div>
         </div>
-        <div class="botonEditar">
+        <div class="botonEditarPerfilUsuario">
             <div>
                 <a href="/">Volver al home</a>
             </div>
@@ -173,7 +173,7 @@
 <style>
 
 
-    .datos-container {
+    .datos-containerPerfilUsuario {
         margin: 20px auto;
         max-width: 800px;
         background-color: #fff;
@@ -185,7 +185,7 @@
         margin-bottom:6em;
     }
 
-    .datos {
+    .datosPerfilUsuario {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -193,19 +193,19 @@
         margin-top: 0.5em;
     }
 
-    .imagen {
+    .imagenPerfilUsuario {
 
         margin-top: 2em;
 
     }
 
-    .imagen img {
+    .imagenPerfilUsuario img {
         width: 200px;
         height: 200px;
 
     }
 
-    .botonEditar {
+    .botonEditarPerfilUsuario {
         margin-bottom: 20px;
 
         display: flex;
@@ -215,7 +215,7 @@
 
     }
 
-    .botonEditar a {
+    .botonEditarPerfilUsuario a {
         text-decoration: none;
         color: white;
         font-weight: bold;
@@ -224,19 +224,19 @@
         background-color: black;
     }
 
-    .botonEditar a:hover {
+    .botonEditarPerfilUsuario a:hover {
         color: black;
         background-color: white;
         border: 1px solid black;
     }
 
-    .botonVolver{
+    .botonVolverPerfilUsuario{
         margin-bottom: 20px;
         align-items: center;
         margin-top: 1em;
     }
 
-    .botonVolver a {
+    .botonVolverPerfilUsuario a {
         text-decoration: none;
         color:black;
         font-weight: bold;
@@ -256,13 +256,13 @@
 
 
 
-    .datos h1 {
+    .datosPerfilUsuario h1 {
         font-size: 2rem;
         color: #1a202c;
         text-align: center;
     }
 
-    .datos h3 {
+    .datosPerfilUsuario h3 {
         font-size: 1rem;
         color: #4a5568;
         margin-bottom: 5px;
@@ -272,7 +272,7 @@
 
 
 
-    body{
+    .bodyPerfilUsuario{
         background-image: url("/public/img/fondo.png");
         background-repeat: no-repeat;
         background-size: cover;

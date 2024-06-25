@@ -1,0 +1,989 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    background-image: url('/public/img/fondo.png');
+    background-size: cover;
+}
+
+
+/*bienvenidoUserValidado*/
+
+.confirmaCorreo {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    padding: 5em;
+    font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.botonEditar {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.botonEditar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: black;
+}
+
+.botonEditar a:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.bienvenido{
+    font-weight: bold;
+    font-size:1.5em;
+}
+
+
+.bodyBienvenidaUser{
+    background-image: url('../img/fondoRegistro.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*crearPreguntaSugeridaa*/
+
+.bodyPreguntaSugerida{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    background-image: url("/public/img/fondo.png");
+}
+
+
+.crearPreguntaSugerida{
+    font-size: 2rem;
+    color:white;
+    text-align: center;
+    margin-top: 1em;
+}
+
+
+.formCrearPreguntaSug{
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.formCrearPreguntaSug label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.formCrearPreguntaSug select, form input[type="text"], form textarea {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #cbd5e0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.formCrearPreguntaSug button {
+    padding: 1em 2em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.formCrearPreguntaSug button:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.formCrearPreguntaSug #respuestas {
+    margin-top: 1em;
+}
+
+.formCrearPreguntaSug #respuestas label {
+    margin-top: 0.5em;
+}
+
+.formCrearPreguntaSug #respuestas input[type="text"] {
+    margin-bottom: 0.5em;
+}
+
+.formCrearPreguntaSug #respuestas input[type="radio"] {
+    margin-right: 0.5em;
+}
+
+
+.formCrearPreguntaSug button[type="button"] {
+    padding: 0.5em 1em;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 1em;
+}
+
+.formCrearPreguntaSug button[type="button"]:hover {
+    background-color: #63b3ed;
+}
+
+footer {
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+/*home admin*/
+
+
+.panelHomeAdmin{
+    text-align: center;
+    color: white;
+    margin:1em;
+}
+
+.datosHomeAdmin{
+    font-size: 1rem;
+    color: #4a5568;
+    margin-bottom: 5px;
+    border: 1px solid;
+    padding: 0.4em;
+    background-color: white;
+    text-align: center;
+    margin:1em;
+}
+
+.bodyHomeAdmin{
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.headerHomeAdmin{
+    background-color: white;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.probando {
+    color: black;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header h1 {
+    margin: 2em;
+    font-size: 24px;
+    text-align: end;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+}
+
+button {
+    background-color: #00b4d8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0077b6;
+}
+
+
+.buttons-container button {
+    margin: 0 10px;
+}
+
+
+.acomodarFooter {
+    margin: 1rem;
+    align-items: center;
+}
+
+.drev {
+    color:#343434;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+}
+
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.header-content img {
+    margin-right: 20px;
+}
+
+.probando {
+    margin: 0;
+}
+
+.imagenPerfil{
+    width: 70px;
+    border-radius: 50%;
+}
+
+.estadisticas{
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 3em;
+    margin-bottom: 6em;
+    background-color: white;
+}
+
+#download-button {
+    display: flex;
+    justify-content: center;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+
+}
+
+.btn-custom {
+
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em 1em;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+/*homeEditor*/
+
+.bodyHomeEditor {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+
+.panel-containerHomeEditor {
+    margin: 20px auto;
+    max-width: 800px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 3em;
+    margin-bottom: 6em;
+}
+
+
+.panel-containerHomeEditor h1 {
+    font-size: 2rem;
+    color: #1a202c;
+    text-align: center;
+}
+
+
+.button-containerHomeEditor {
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    flex-direction: column;
+}
+
+.buttonHomeEditor {
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em 2em;
+    margin: 1em;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+
+.buttonHomeEditor:hover {
+    color:white;
+    background-color: black;
+    border: 1px solid white;
+}
+
+
+.botonEditarHomeEditor {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin-top: 2em;
+    justify-content: center;
+}
+
+.botonEditarHomeEditor a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: black;
+}
+
+.botonEditarHomeEditor a:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+/*homeUserLogueado*/
+
+
+
+header {
+    background-color: white;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.probando {
+    color: black;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1em;
+}
+
+header h1 {
+    margin: 2em;
+    font-size: 24px;
+    text-align: end;
+}
+
+
+img {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+}
+
+h2 {
+    text-align: center;
+}
+
+button {
+    background-color: #00b4d8;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0077b6;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #ffffff;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.puntaje {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.buttons-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.buttons-container button {
+    margin: 0 10px;
+}
+
+
+
+.drev {
+    color:#343434;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+}
+
+.puntaje{
+    color: white;
+    font-size: 1.5em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    margin: 1em;
+}
+
+.btn-custom {
+
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em 1em;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+
+.btn-custom:hover {
+    background-color: black;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    text-decoration: none;
+}
+
+
+header {
+    background-color: #f8f9fa;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.header-content img {
+    margin-right: 20px;
+}
+
+.probando {
+    margin: 0;
+}
+
+.imagenPerfil{
+    width: 70px;
+    border-radius: 50%;
+}
+
+/*listadoGeneralPreguntas*/
+
+.containerListadoGeneral{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:2em;
+
+}
+
+.panelListadoGeneral{
+    max-width: 800px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    border-radius: 10px;
+}
+
+.panelListadoGeneral h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #1a202c;
+}
+
+.table-containerListadoGeneral {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.tableListadoGeneral{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+.actions-cell form {
+    display: inline;
+    margin-right: 10px;
+}
+
+.actions-cell button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.actions-cell button:hover {
+    background-color: #45a049;
+}
+
+.actions-cell .button-danger {
+    background-color: #f44336;
+}
+
+.actions-cell .button-danger:hover {
+    background-color: #d32f2f;
+}
+
+.link-options {
+    display: block;
+    margin-top: 20px;
+    color: #4caf50;
+    text-decoration: none;
+    text-align: center;
+}
+
+.link-options:hover {
+    text-decoration: underline;
+}
+
+/*loginView*/
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    background-image: url("/public/img/fondo.png");
+    background-size: cover;
+}
+
+.error-messageLogin {
+    margin: 1rem auto;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 2px solid red;
+    background-color: white;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 0.7em;
+    color: #e22424;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 100%;
+}
+
+
+.error-message h1{
+    font-size: 1.5em;
+}
+
+.form {
+    max-width: 320px;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #1a202c;
+}
+.iniciarSesion{
+    font-size: 1.5em;
+}
+.inputLogin {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 1rem;
+    color: #4a5568;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s ease-in-out;
+}
+.inputLogin:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 2px #cbd5e0;
+}
+.inputLogin:valid {
+    border: 1px solid ;
+}
+.inputLogin:invalid {
+    border: 1px solid rgba(14, 14, 14, 0.205);
+}
+
+/*modificarPreguntaYresp*/
+
+.modificar-pregunta-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modificar-pregunta-form {
+    margin: 2em;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    border-radius: 10px;
+}
+
+.modificar-pregunta-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modificar-pregunta-form .input-group {
+    margin-bottom: 15px;
+}
+
+.modificar-pregunta-form .input-group label {
+    font-weight: bold;
+    display: block;
+}
+
+.modificar-pregunta-form .input-group input[type="text"],
+.modificar-pregunta-form .input-group textarea,
+.modificar-pregunta-form .input-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.modificar-pregunta-form .input-group input[type="radio"] {
+    margin-right: 10px;
+}
+
+.modificar-pregunta-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modificar-pregunta-form button:hover {
+    background-color: #45a049;
+}
+
+/*modif usuario*/
+
+/*perfilUsuario*/
+
+/*play*/
+
+/*preguntasReportadasYsugeridas*/
+
+
+.page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    border-radius: 10px;
+    margin-top: 2em;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #1a202c;
+    margin-top:2em;
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+.question-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.table-header {
+    padding: 12px;
+    text-align: left;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+}
+
+
+.question-table tbody tr {
+    border: 1px solid #ddd;
+}
+
+.question-table tbody td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.action-button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.action-button:hover {
+    background-color: #45a049;
+}
+
+.link-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.page-link {
+    padding: 10px;
+    display: inline-block;
+    margin: 0 10px;
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.page-link:hover {
+    text-decoration: underline;
+}
+
+/*raking*/
+
+.bodyRanking {
+    font-family: Arial, sans-serif;
+    background-image: url('/public/img/fondo.png');
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    border-radius: 10px;
+}
+
+.main h1 {
+    text-align: center;
+    color: #1a202c;
+    margin-bottom: 20px;
+}
+
+.primer-usuario, ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.primer-usuario {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.primer-usuario h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #1a202c;
+}
+
+.primer-usuario img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    border: 4px solid #e2e8f0;
+}
+
+.primer-usuario p {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.primer-usuario a img {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+ul li {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+ul li h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #2d3748;
+    flex: 1;
+}
+
+.perfil{
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 50%;
+    border: 4px solid #e2e8f0;
+}
+
+ul li p {
+    font-size: 1rem;
+    color: #4a5568;
+    margin: 2em;
+}
+
+ul li a img {
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+}
+
+.otrosUser{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+/*registro*/
+
+/*usuarioRegistrado*/
+
+.confirmaCorreo {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    padding: 5em;
+    font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.graciasXreg{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+.botonEditar {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.botonEditar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: black;
+}
+
+.botonEditar a:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}

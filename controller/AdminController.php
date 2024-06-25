@@ -1,4 +1,8 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
 class AdminController
 {
     private $model;
@@ -23,6 +27,12 @@ class AdminController
         $usuariosMenores=$this->model->usuariosMenores();
         $usuariosAdultos=$this->model->usuariosAdultos();
         $usuariosMayores=$this->model->usuariosMayores();
+        $nuevosUsuarios=$this->model->nuevosUsuarios();
+        $usuariosGeneroF=$this->model->usuariosGeneroF();
+        $usuariosGeneroM=$this->model->usuariosGeneroM();
+        $preguntasCreadas=$this->model->preguntasCreadas();
+        $partidasClasicas=$this->model->partidasClasicas();
+        $partidasDuelo=$this->model->partidasDuelo();
 
         $data = array(
             "cantidad_usuarios" => $totalUsuarios,
@@ -31,8 +41,71 @@ class AdminController
             "usuariosMenores"=>$usuariosMenores,
             "usuariosAdultos"=>$usuariosAdultos,
             "usuariosMayores"=>$usuariosMayores,
+            "nuevosUsuarios"=>$nuevosUsuarios,
+            "usuariosGeneroF"=>$usuariosGeneroF,
+            "usuariosGeneroM"=>$usuariosGeneroM,
+            "preguntasCreadas"=>$preguntasCreadas,
+            "partidasClasicas"=>$partidasClasicas,
+            "partidasDuelo"=>$partidasDuelo,
         );
         $this->presenter->render('homeAdmin', $data);
     }
+
+
+
+    public function generarPDF()
+    {
+        // Obtener datos necesarios para el PDF desde el modelo
+        $data = [
+            'title' => 'Reporte de Usuarios',
+            'title' => 'Reporte de Usuarios',
+            'totalUsuarios' => $this->model->getTotalUsuarios(),
+            'preguntasTotales' => $this->model->getCantidadPreguntas(),
+            'usuariosPorPais' => $this->model->getUsuariosPorPais(),
+            'usuariosMenores' => $this->model->usuariosMenores(),
+            'usuariosAdultos' => $this->model->usuariosAdultos(),
+            'usuariosMayores' => $this->model->usuariosMayores(),
+            'nuevosUsuarios' => $this->model->nuevosUsuarios(),
+            'usuariosGeneroF' => $this->model->usuariosGeneroF(),
+            'usuariosGeneroM' => $this->model->usuariosGeneroM(),
+            'preguntasCreadas' => $this->model->preguntasCreadas(),
+            'partidasClasicas' => $this->model->partidasClasicas(),
+            'partidasDuelo' => $this->model->partidasDuelo(),
+        ];
+
+        // Configuracion
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $dompdf = new Dompdf($options);
+
+
+        $html = $this->renderToString('homeAdmin', $data); // Ejemplo de método en el presentador para renderizar vista
+
+        $dompdf->loadHtml($html);
+
+
+        $dompdf->setPaper('A4', 'portrait');
+
+
+        $dompdf->render();
+
+
+        $dompdf->stream('reporte_usuarios.pdf', [
+            'Attachment' => true // Forzar la descarga
+        ]);
+    }
+
+    private function renderToString($viewName, $data)
+    {
+        $mustache = new Mustache_Engine([
+            'loader' => new Mustache_Loader_FilesystemLoader(__DIR__ . '/../view'),
+        ]);
+
+        $template = $mustache->loadTemplate($viewName . '.mustache');
+        return $template->render($data);
+    }
+
+
 }
+
 ?>

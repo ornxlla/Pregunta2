@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../public/css/home.css">
+    <link rel="stylesheet" href="../public/css/estilos.css">
     <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
     <title>Home</title>
 
 </head>
-<body>
-<header>
+<body class="bodyHomeAdmin">
+<header class="headerHomeAdmin">
     <div class="header-content">
         <div>
             <img src="/public/img/logo.png" alt="Logo">
@@ -26,64 +26,80 @@
             </a>
 
         {{/usuario}}
+        <div class="botonEditar">
+            <div>
+                <a href="/" class="btn-custom">Volver al home</a>
+            </div>
+        </div>
     </div>
 </header>
 
 <main>
 
-    <div class="botonEditar">
-        <div>
-            <a href="/">Volver al home</a>
-        </div>
-    </div>
 
 
-    <h1 class="panel">PANEL DE ADMINISTRADOR</h1>
+
+    <h1 class="panelHomeAdmin">PANEL DE ADMINISTRADOR</h1>
    <div class="estadisticas">
 
        {{#cantidad_usuarios}}
-           <div class="datos">
+           <div class="datosHomeAdmin">
                <h2>Jugadores totales: {{total_usuarios}}</h2>
            </div>
        {{/cantidad_usuarios}}
 
-           <div class="datos">
-               <h2>Partidas jugadas:</h2>
+
+           <div class="datosHomeAdmin">
+               <h2>Partidas jugadas: </h2>
+                   {{#partidasClasicas}}<h2>Clasica:{{partidasClasicas}}</h2>{{/partidasClasicas}}
+               {{#partidasDuelo}}<h2>Duelo:{{partidasDuelo}}</h2>{{/partidasDuelo}}
+
            </div>
 
        {{#preguntasTotales}}
-           <div class="datos">
+           <div class="datosHomeAdmin">
                <h2>Preguntas en el juego: {{preguntasTotales}}</h2>
            </div>
        {{/preguntasTotales}}
 
-       <div class="datos">
-           <h2>Preguntas creadas:</h2>
+       {{#preguntasCreadas}}
+       <div class="datosHomeAdmin">
+           <h2>Preguntas creadas: {{preguntasCreadas}}</h2>
        </div>
+       {{/preguntasCreadas}}
 
-       <div class="datos">
-           <h2>Usuarios nuevos:</h2>
+
+       {{#nuevosUsuarios}}
+       <div class="datosHomeAdmin">
+           <h2>Usuarios nuevos: {{nuevosUsuarios}}</h2>
        </div>
+       {{/nuevosUsuarios}}
 
-       <div class="datos">
+       <div class="datosHomeAdmin">
            <h2>Porcentaje de preguntas correctas por usuario</h2>
            <div>
 
            </div>
        </div>
+
+
+       <div class="datosHomeAdmin">
        {{#contadorUsuariosPais}}
-       <div class="datos">
            <h2>Usuarios por pais:</h2>
            <h3>{{pais}}: {{contadorUsuarios}}</h3>
-       </div>
        {{/contadorUsuariosPais}}
-
-       <div class="datos">
-           <h2>Usuarios por sexo</h2>
-           <h2>Mujeres:</h2>
-           <h2>Hombres:</h2>
        </div>
-       <div class="datos">
+
+
+
+       <div class="datosHomeAdmin">
+           <h2>Usuarios por genero</h2>
+           {{#usuariosGeneroF}} <h2>Femenino:{{usuariosGeneroF}}</h2> {{/usuariosGeneroF}}
+           {{#usuariosGeneroM}} <h2>Masculino:{{usuariosGeneroM}}</h2> {{/usuariosGeneroM}}
+       </div>
+
+
+       <div class="datosHomeAdmin">
            <h2>Usuarios por edad</h2>
            {{#usuariosMenores}}
                <h2>Menores: {{usuariosMenores}}</h2>
@@ -95,6 +111,11 @@
                <h2>Jubilados: {{usuariosMayores}}</h2>
            {{/usuariosMayores}}
        </div>
+
+       <div class="stats mt-3">
+           <a href="/Admin/generarPDF" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar Gráficos en PDF</a>
+       </div>
+
    </div>
 
 
@@ -112,150 +133,7 @@
 </body>
 </html>
 
-<style>
 
-    .panel{
-        text-align: center;
-        color: black;
-        margin:1em;
-    }
-
-    .datos{
-        font-size: 1rem;
-        color: #4a5568;
-        margin-bottom: 5px;
-        border: 1px solid;
-        padding: 0.4em;
-        background-color: white;
-        text-align: center;
-        margin:1em;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: white;
-    }
-
-    header {
-        background-color: white;
-        color: white;
-        padding-left: 20px;
-        padding-right: 20px;
-        text-align: center;
-    }
-
-    .probando {
-        color: black;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    header h1 {
-        margin: 2em;
-        font-size: 24px;
-        text-align: end;
-    }
-
-    img {
-        display: block;
-        margin: 0 auto;
-        width: 200px;
-    }
-
-    button {
-        background-color: #00b4d8;
-        color: #ffffff;
-        border: none;
-        padding: 10px 20px;
-        margin: 10px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    button:hover {
-        background-color: #0077b6;
-    }
-
-
-    .buttons-container button {
-        margin: 0 10px;
-    }
-
-
-    footer {
-        background-color: white;
-        width: 100%;
-        box-sizing: border-box;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-    }
-
-    .acomodarFooter {
-        margin: 1rem;
-        align-items: center;
-    }
-
-    .drev {
-        color:#343434;
-        font-family: "Poppins", sans-serif;
-        text-align: center;
-    }
-
-
-    header {
-        background-color: #f8f9fa;
-    }
-
-    .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between
-    }
-
-    .header-content img {
-        margin-right: 20px;
-    }
-
-    .probando {
-        margin: 0;
-    }
-
-    .imagenPerfil{
-        width: 70px;
-        border-radius: 50%;
-    }
-
-    .estadisticas{
-        margin: 20px auto;
-        max-width: 800px;
-        padding: 20px;
-        box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
-        border-radius: 10px;
-        width: 100%;
-        margin-top: 3em;
-        margin-bottom: 6em;
-    }
-
-    #download-button {
-        display: flex;
-        justify-content: center;
-    }
-
-    .stats {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100px;
-
-    }
-
-</style>
 
 
 
