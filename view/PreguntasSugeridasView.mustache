@@ -11,30 +11,44 @@
 <div class="page-container">
     <h1 class="page-title">Preguntas Sugeridas por Usuarios</h1>
 
-    <div class="table-container">
-        <table class="question-table">
-            <thead>
-            <tr>
-                <th class="table-header">ID</th>
-                <th class="table-header">Pregunta</th>
-                <th class="table-header">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#preguntas_sugeridas}}
+    <div class="container">
+        <div class="lobby-container">
+
+            <table id="sugerencia-tabla" class="responsive-table">
+                <thead>
                 <tr>
-                    <td>{{id_pregunta}}</td>
-                    <td>{{texto}}</td>
-                    <td>
-                        <form action="/Pregunta/aprobarPreguntaSugerida" method="POST">
-                            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-                            <button type="submit" class="action-button">Aprobar</button>
-                        </form>
-                    </td>
+                    <th>ID Pregunta</th>
+                    <th>Pregunta</th>
+                    <th>Respuestas</th>
+                    <th>Acciones</th>
                 </tr>
-            {{/preguntas_sugeridas}}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {{#preguntas_sugeridas}}
+                    <tr>
+                        <td>{{id_pregunta}}</td>
+                        <td>{{pregunta}}</td>
+                        <td>
+                            <ul>
+                                {{#respuestas}}
+                                    <li>{{respuesta}}</li>
+                                {{/respuestas}}
+                                {{^respuestas}}
+                                    <li>No hay respuestas</li>
+                                {{/respuestas}}
+                            </ul>
+                        </td>
+                        <td>
+                            <form action="/Pregunta/aprobarPreguntaSugerida" method="POST">
+                                <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+                                <button type="submit" class="action-button">Aprobar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/preguntas_sugeridas}}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="links-container">

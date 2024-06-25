@@ -166,7 +166,44 @@ class PreguntaModel
         $stmt->bind_param("sii", $respuestaTexto, $esCorrecta, $idRespuesta);
         return $stmt->execute();
     }
+
+    public function listarPreguntasSugeridas()
+    {
+        $query = "SELECT pl.id_pregunta, pl.texto AS pregunta, rl.id_respuesta, rl.texto AS respuesta
+              FROM preguntas_listado pl
+              LEFT JOIN respuesta_listado rl ON pl.id_pregunta = rl.id_pregunta
+              WHERE pl.es_sugerida = 1";
+        $result = $this->database->query($query);
+        if (!$result) {
+            die('Error en la consulta: ' . $this->database->error);
+        }
+        // Organizar los resultados en un formato adecuado para la vista
+        $preguntas = [];
+        foreach ($result as $row) {
+            $idPregunta = $row['id_pregunta'];
+            if (!isset($preguntas[$idPregunta])) {
+                $preguntas[$idPregunta] = [
+                    'id_pregunta' => $idPregunta,
+                    'pregunta' => $row['pregunta'],
+                    'respuestas' => []
+                ];
+            }
+
+            // Agregar la respuesta solo si existe
+            if ($row['id_respuesta']) {
+                $preguntas[$idPregunta]['respuestas'][] = [
+                    'id_respuesta' => $row['id_respuesta'],
+                    'respuesta' => $row['respuesta']
+                ];
+            }
+        }
+
+        return array_values($preguntas);
+    }
+
+
 }
+
 ?>
 
 

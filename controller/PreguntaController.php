@@ -126,7 +126,7 @@ class PreguntaController
     public function getPreguntasSugeridas()
     {
 
-        $data['preguntas_sugeridas'] = $this->model->obtenerPreguntasSugeridas();
+        $data['preguntas_sugeridas'] = $this->model->listarPreguntasSugeridas();
         $this->presenter->render('PreguntasSugeridasView', $data);
     }
 
@@ -255,6 +255,13 @@ class PreguntaController
         // Redireccionar después de realizar las operaciones
         header("Location: /Pregunta/listadoGeneralPreguntas");
         exit;
+    }
+
+
+    public function listarPreguntasSugeridas()
+    {
+        $data['sugeridas'] = $this->model->listarPreguntasSugeridas();
+        $this->presenter->render('PreguntasSugeridasView', $data);
     }
 
 }
