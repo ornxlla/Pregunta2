@@ -177,7 +177,7 @@ class PreguntaModel
         if (!$result) {
             die('Error en la consulta: ' . $this->database->error);
         }
-        // Organizar los resultados en un formato adecuado para la vista
+        //  Organizar los resultados en un formato adecuado para la vista
         $preguntas = [];
         foreach ($result as $row) {
             $idPregunta = $row['id_pregunta'];

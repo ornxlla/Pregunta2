@@ -264,5 +264,6 @@ class PreguntaController
         $this->presenter->render('PreguntasSugeridasView', $data);
     }
 
+
 }
 
