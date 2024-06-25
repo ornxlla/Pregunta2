@@ -273,13 +273,11 @@ button:hover {
 
 .estadisticas{
     margin: 20px auto;
-    max-width: 800px;
     padding: 20px;
     box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
     border-radius: 10px;
-    width: 100%;
-    margin-top: 3em;
-    margin-bottom: 6em;
+    width: 55%;
+    padding-bottom: 3em;
     background-color: white;
 }
 
@@ -312,6 +310,21 @@ button:hover {
     border: 1px solid black;
 }
 
+.usuarioPorcentaje{
+    border: 3px solid green;
+    margin: 3em;
+}
+
+.h2Admin{
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.h2AdminTipo{
+    font-size: 1em;
+
+}
 /*homeEditor*/
 
 .bodyHomeEditor {

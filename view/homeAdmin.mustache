@@ -44,48 +44,53 @@
 
        {{#cantidad_usuarios}}
            <div class="datosHomeAdmin">
-               <h2>Jugadores totales: {{total_usuarios}}</h2>
+               <h2 class="h2Admin">JUGADORES TOTALES:</h2>{{total_usuarios}}
            </div>
        {{/cantidad_usuarios}}
 
 
            <div class="datosHomeAdmin">
-               <h2>Partidas jugadas: </h2>
-                   {{#partidasClasicas}}<h2>Clasica:{{partidasClasicas}}</h2>{{/partidasClasicas}}
-               {{#partidasDuelo}}<h2>Duelo:{{partidasDuelo}}</h2>{{/partidasDuelo}}
+               <h2 class="h2Admin">PARTIDAS JUGADAS: </h2>
+                   {{#partidasClasicas}}<h2 class="h2AdminTipo">Clasica: {{partidasClasicas}} </h2> {{/partidasClasicas}}
+               {{#partidasDuelo}}<h2 class="h2AdminTipo">Duelo: {{partidasDuelo}}</h2>{{/partidasDuelo}}
 
            </div>
 
        {{#preguntasTotales}}
            <div class="datosHomeAdmin">
-               <h2>Preguntas en el juego: {{preguntasTotales}}</h2>
+               <h2 class="h2Admin">PREGUNTAS EN EL JUEGO:</h2> {{preguntasTotales}}
            </div>
        {{/preguntasTotales}}
 
        {{#preguntasCreadas}}
        <div class="datosHomeAdmin">
-           <h2>Preguntas creadas: {{preguntasCreadas}}</h2>
+           <h2 class="h2Admin">PREGUNTAS CREADAS:</h2> {{preguntasCreadas}}
        </div>
        {{/preguntasCreadas}}
 
 
        {{#nuevosUsuarios}}
        <div class="datosHomeAdmin">
-           <h2>Usuarios nuevos: {{nuevosUsuarios}}</h2>
+           <h2 class="h2Admin">USUARIOS NUEVOS:</h2>{{nuevosUsuarios}}
        </div>
        {{/nuevosUsuarios}}
 
        <div class="datosHomeAdmin">
-           <h2>Porcentaje de preguntas correctas por usuario</h2>
-           <div>
+           <h2 class="h2Admin">PORCENTAJE DE PREGUNTAS CORRECTAS</h2>
+           {{#porcentajeRespUser}}
+               <div class="usuarioPorcentaje">
+                   <h3>{{nombre_usuario}}</h3>
+                   <img src="/public/img/users/{{imagen_perfil}}" class="imagenPerfil">
+                   <div>{{porcentaje_correctas}} %</div>
+               </div>
+           {{/porcentajeRespUser}}
 
-           </div>
        </div>
 
 
        <div class="datosHomeAdmin">
        {{#contadorUsuariosPais}}
-           <h2>Usuarios por pais:</h2>
+           <h2 class="h2Admin">USUARIOS POR PAIS:</h2>
            <h3>{{pais}}: {{contadorUsuarios}}</h3>
        {{/contadorUsuariosPais}}
        </div>
@@ -93,28 +98,30 @@
 
 
        <div class="datosHomeAdmin">
-           <h2>Usuarios por genero</h2>
-           {{#usuariosGeneroF}} <h2>Femenino:{{usuariosGeneroF}}</h2> {{/usuariosGeneroF}}
-           {{#usuariosGeneroM}} <h2>Masculino:{{usuariosGeneroM}}</h2> {{/usuariosGeneroM}}
+           <h2 class="h2Admin">USUARIOS POR GENERO</h2>
+           {{#usuariosGeneroF}} <h2 class="h2AdminTipo">Femenino: {{usuariosGeneroF}}</h2> {{/usuariosGeneroF}}
+           {{#usuariosGeneroM}} <h2 class="h2AdminTipo">Masculino: {{usuariosGeneroM}}</h2> {{/usuariosGeneroM}}
        </div>
 
 
        <div class="datosHomeAdmin">
-           <h2>Usuarios por edad</h2>
+           <h2 class="h2Admin">USUARIOS POR EDAD</h2>
            {{#usuariosMenores}}
-               <h2>Menores: {{usuariosMenores}}</h2>
+               <h2 class="h2AdminTipo">Menores: {{usuariosMenores}}</h2>
            {{/usuariosMenores}}
            {{#usuariosAdultos}}
-               <h2>Adultos: {{usuariosAdultos}}</h2>
+               <h2 class="h2AdminTipo">Adultos: {{usuariosAdultos}}</h2>
            {{/usuariosAdultos}}
            {{#usuariosMayores}}
-               <h2>Jubilados: {{usuariosMayores}}</h2>
+               <h2 class="h2AdminTipo">Jubilados: {{usuariosMayores}}</h2>
            {{/usuariosMayores}}
        </div>
 
        <div class="stats mt-3">
-           <a href="/Admin/generarPDF" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar Gráficos en PDF</a>
+           <a href="/Admin/generarPDF" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar PDF</a>
+           <a href="/Admin/graficos" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Ver graficos</a>
        </div>
+
 
    </div>
 
