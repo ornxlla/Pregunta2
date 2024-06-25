@@ -24,7 +24,8 @@
       <path value="$PROJECT_DIR$/vendor/dompdf/php-svg-lib" />
       <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
       <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
-      <path value="$PROJECT_DIR$/vendor/jpgraph-example/jpgraph" />
+      <path value="$PROJECT_DIR$/vendor/jpgraph/docs" />
+      <path value="$PROJECT_DIR$/vendor/jpgraph/src" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
