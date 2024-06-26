@@ -96,13 +96,12 @@ class PreguntaController
     {
         $pregunta_texto = $_POST['pregunta_texto'];
         $id_tematica = $_POST['id_tematica'];
-        $id_dificultad = $_POST['id_dificultad'];
         $respuestas = $_POST['respuestas'];
         $respuesta_correcta_index = $_POST['respuesta_correcta'];
 
         // Validar que haya al menos una respuesta y que se haya seleccionado la respuesta correcta
-        if ($pregunta_texto && $id_tematica && $id_dificultad && count($respuestas) > 1 && $respuesta_correcta_index !== null) {
-            $idPregunta = $this->model->insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica);
+        if ($pregunta_texto && $id_tematica && count($respuestas) > 1 && $respuesta_correcta_index !== null) {
+            $idPregunta = $this->model->insertarPreguntaSugerida($pregunta_texto, $id_tematica);
 
             if ($idPregunta) {
                 foreach ($respuestas as $index => $respuesta_texto) {
@@ -158,7 +157,6 @@ class PreguntaController
 
             $pregunta = $this->model->obtenerPreguntaPorId($idPregunta);
             $respuestas = $this->model->obtenerRespuestasPorIdPregunta($idPregunta);
-            $dificultades = $this->model->obtenerDificultades();
             $tematicas = $this->model->obtenerTematicas();
 
             if ($pregunta && $respuestas) {
@@ -169,18 +167,11 @@ class PreguntaController
                         $tematica['is_selected'] = false;
                     }
                 }
-                foreach ($dificultades as &$dificultad) {
-                    if ($dificultad['id'] == $pregunta['id_dificultad']) {
-                        $dificultad['is_selected'] = true;
-                    } else {
-                        $dificultad['is_selected'] = false;
-                    }
-                }
+
 
                 $this->presenter->render('ModificarPreguntaYRespuestaView', [
                     'pregunta' => $pregunta,
                     'respuestas' => $respuestas,
-                    'dificultades' => $dificultades,
                     'tematicas' => $tematicas
                 ]);
             } else {
@@ -198,7 +189,6 @@ class PreguntaController
             isset($_POST['id_pregunta']) &&
             isset($_POST['pregunta_texto']) &&
             isset($_POST['id_tematica']) &&
-            isset($_POST['id_dificultad']) &&
             isset($_POST['respuesta_correcta']) &&
             isset($_POST['respuesta']) &&
             isset($_POST['id_respuesta'])
@@ -206,13 +196,12 @@ class PreguntaController
             $idPregunta = $_POST['id_pregunta'];
             $preguntaTexto = $_POST['pregunta_texto'];
             $idTematica = $_POST['id_tematica'];
-            $idDificultad = $_POST['id_dificultad'];
             $respuestaCorrecta = $_POST['respuesta_correcta'];
             $respuestas = $_POST['respuesta'];
             $idRespuestas = $_POST['id_respuesta'];
 
             // Actualizar la pregunta
-            $resultadoPregunta = $this->model->actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad);
+            $resultadoPregunta = $this->model->actualizarPregunta($idPregunta, $preguntaTexto, $idTematica);
 
             // Verificar si la pregunta se actualizó correctamente
             if ($resultadoPregunta) {

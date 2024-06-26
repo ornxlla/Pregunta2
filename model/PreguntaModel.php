@@ -86,13 +86,13 @@ class PreguntaModel
     }
 
 
-    public function insertarPreguntaSugerida($pregunta_texto, $id_dificultad, $id_tematica)
+    public function insertarPreguntaSugerida($pregunta_texto, $id_tematica)
     {
         $query = "INSERT INTO preguntas_listado (texto, id_dificultad, id_tematica, aprobado, es_sugerida)
-              VALUES (?, ?, ?, 0, 1)";
+              VALUES (?, 0, ?, 0, 1)";
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("sii", $pregunta_texto, $id_dificultad, $id_tematica);
+        $stmt->bind_param("si", $pregunta_texto, $id_tematica);
 
         if ($stmt->execute()) {
             return $this->database->last_insert();
@@ -150,11 +150,11 @@ class PreguntaModel
         return $respuestas;
     }
 
-    public function actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad)
+    public function actualizarPregunta($idPregunta, $preguntaTexto, $idTematica)
     {
-        $query = "UPDATE preguntas_listado SET texto = ?, id_tematica = ?, id_dificultad = ? WHERE id_pregunta = ?";
+        $query = "UPDATE preguntas_listado SET texto = ?, id_tematica = ?, id_dificultad = 0 WHERE id_pregunta = ?";
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("siii", $preguntaTexto, $idTematica, $idDificultad, $idPregunta);
+        $stmt->bind_param("sii", $preguntaTexto, $idTematica, $idPregunta);
         return $stmt->execute();
     }
 
