@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../public/css/estilos.css">
     <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
     <title>Home</title>
-
 </head>
 <body class="bodyUserLogueado">
 <header>
@@ -18,17 +17,17 @@
         {{#usuario}}
             <img class="imagenPerfil" src="/public/img/users/{{imagen_perfil}}">
             {{#editor}}
-            <a href="/Pregunta">
-                <h1 class="probando">PANEL EDITOR</h1>
-            </a>
+                <a href="/Pregunta">
+                    <h1 class="probando">PANEL EDITOR</h1>
+                </a>
             {{/editor}}
             {{#admin}}
-            <a href="/admin">
-                <h1 class="probando">PANEL ADMIN</h1>
-            </a>
+                <a href="/admin">
+                    <h1 class="probando">PANEL ADMIN</h1>
+                </a>
             {{/admin}}
             <a href="/PerfilUsuario">
-            <h1 class="probando">PERFIL</h1>
+                <h1 class="probando">PERFIL</h1>
             </a>
             <a href="/Login/cerrarSesion">
                 <h1 class="probando">CERRAR SESION</h1>
@@ -40,25 +39,25 @@
 <main>
     {{#usuario}}
         <h1 class="puntaje">MI PUNTAJE: {{puntaje}}</h1>
-    <div class="buttons-container">
-        <a href="/Play" class="btn-custom">Nueva Partida</a>
-        <a href="/Ranking" class="btn-custom">Ranking</a>
-        <a href="/Pregunta/mostrarFormularioCrearPreguntaSugerida" class="btn-custom">Sugerir pregunta</a>
-    </div>
+        <div class="buttons-container">
+            <a href="/Play" class="btn-custom">Nueva Partida</a>
+            <a href="/Ranking" class="btn-custom">Ranking</a>
+            <a href="/Pregunta/mostrarFormularioCrearPreguntaSugerida" class="btn-custom">Sugerir pregunta</a>
+        </div>
     {{/usuario}}
     <h2 class="puntaje">PARTIDAS</h2>
     <ul>
-        {{# partidas }}
-            <li>{{ resultado }}</li>
-        {{/ partidas }}
+        {{#partidas}}
+            <li>Puntos: {{puntos}}, Fecha: {{fecha}}, Jugador: {{username}}</li>
+        {{/partidas}}
+        {{^partidas}}
+            <li>No has jugado ninguna partida aún.</li>
+        {{/partidas}}
     </ul>
-
-
 </main>
 <footer>
     <div class="acomodarFooter">
         <div class="seccion1Footer">
-
         </div>
         <div class="drev">
             <p>Derechos Reservados ©2024 Preguntados. Todos los derechos reservados.</p>
@@ -67,7 +66,3 @@
 </footer>
 </body>
 </html>
-
-<style>
-
-</style>

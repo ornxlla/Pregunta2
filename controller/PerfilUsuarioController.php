@@ -28,6 +28,7 @@ class PerfilUsuarioController
     public function buscarUsuario(){
         if(isset($_GET["id"]) && isset($_SESSION["Session_id"])){
             $id_usuario = $_GET["id"];
+            $data['partidas'] = $this->model->getPartidas($id_usuario);
             $data["datos_usuario"] = $this->obtenerDatosUsuario($id_usuario);
             if($data["datos_usuario"] == false){
                 Redirect::root();   //USUARIO NO EXISTE! Llevarlo a HOME

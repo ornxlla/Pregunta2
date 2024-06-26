@@ -25,6 +25,17 @@ class LoginModel
         return $this->database->query($query);
     }
 
+
+    public function getPartidas($id_user) {
+        $query = "SELECT pcg.puntos, pcg.fecha, login.username 
+              FROM partida_clasica_general AS pcg
+              JOIN login AS login
+              ON pcg.id_jugador = login.id_usuario 
+              WHERE pcg.id_jugador = '$id_user'
+              ORDER BY pcg.fecha DESC
+              LIMIT 3";
+        return $this->database->query($query);
+    }
 // *********************** PreguntaMODEL:*********************************
 //PREGUNTAS REPORTADAS: puede revisar las preguntas reportadas, para aprobar o dar de baja
 

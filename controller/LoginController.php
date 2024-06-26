@@ -82,11 +82,10 @@ class LoginController
         return session_status();
     }
 
-    public function toHome()
-    {
+    public function toHome() {
         $data['usuario'] = $this->model->getDatosUser($_SESSION["Session_id"]);
         if (!empty($data['usuario'])) {
-            switch($data['usuario'][0]['rol']){
+            switch ($data['usuario'][0]['rol']) {
                 case "2":
                     $data['editor'] = true;
                     break;
@@ -94,6 +93,8 @@ class LoginController
                     $data['admin'] = true;
                     break;
             }
+
+            $data['partidas'] = $this->model->getPartidas($_SESSION["Session_id"]);
 
             $this->presenter->render("homeUserLogueado", $data);
         } else {

@@ -26,7 +26,17 @@
                 <h1>¡Hola {{username}}!</h1><br>
             {{/boton-editar}}
             {{^boton-editar}}
+
                 <h1>Perfil de {{username}}</h1><br>
+                <h2 class="puntaje">PARTIDAS</h2>
+                <ul>
+                    {{#partidas}}
+                        <li>Puntos: {{puntos}}, Fecha: {{fecha}}, Jugador: {{username}}</li>
+                    {{/partidas}}
+                    {{^partidas}}
+                        <li>No has jugado ninguna partida aún.</li>
+                    {{/partidas}}
+                </ul>
             {{/boton-editar}}
                 <h3>Mail: {{correo}}</h3> <br>
                 <h3>Nombre completo: {{nombre}}</h3> <br>

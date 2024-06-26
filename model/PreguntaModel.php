@@ -150,7 +150,6 @@ class PreguntaModel
         return $respuestas;
     }
 
-
     public function actualizarPregunta($idPregunta, $preguntaTexto, $idTematica, $idDificultad)
     {
         $query = "UPDATE preguntas_listado SET texto = ?, id_tematica = ?, id_dificultad = ? WHERE id_pregunta = ?";
@@ -174,10 +173,13 @@ class PreguntaModel
               LEFT JOIN respuesta_listado rl ON pl.id_pregunta = rl.id_pregunta
               WHERE pl.es_sugerida = 1";
         $result = $this->database->query($query);
-        if (!$result) {
-            die('Error en la consulta: ' . $this->database->error);
+
+        // Verifica si la consulta falló
+        if ($result === false) {
+            die('Error en la consulta');
         }
-        //  Organizar los resultados en un formato adecuado para la vista
+
+        // Organiza los resultados en un formato adecuado para la vista
         $preguntas = [];
         foreach ($result as $row) {
             $idPregunta = $row['id_pregunta'];
@@ -189,7 +191,7 @@ class PreguntaModel
                 ];
             }
 
-            // Agregar la respuesta solo si existe
+            // Agrega la respuesta solo si existe
             if ($row['id_respuesta']) {
                 $preguntas[$idPregunta]['respuestas'][] = [
                     'id_respuesta' => $row['id_respuesta'],
@@ -197,13 +199,9 @@ class PreguntaModel
                 ];
             }
         }
-
         return array_values($preguntas);
     }
-
 
 }
 
 ?>
-
-

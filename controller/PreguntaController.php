@@ -125,11 +125,15 @@ class PreguntaController
 
     public function getPreguntasSugeridas()
     {
-
         $data['preguntas_sugeridas'] = $this->model->listarPreguntasSugeridas();
+
+        // Si no hay preguntas sugeridas, se asigna un array vacío
+        if (empty($data['preguntas_sugeridas'])) {
+            $data['preguntas_sugeridas'] = [];
+        }
+
         $this->presenter->render('PreguntasSugeridasView', $data);
     }
-
 
     public function aprobarPreguntaSugerida()
     {
@@ -186,9 +190,6 @@ class PreguntaController
             echo "Error: ID de la pregunta no especificado.";
         }
     }
-
-
-    //metodo a revisar
 
 
     public function actualizarPreguntaYRespuestas()
@@ -257,13 +258,4 @@ class PreguntaController
         exit;
     }
 
-
-    public function listarPreguntasSugeridas()
-    {
-        $data['sugeridas'] = $this->model->listarPreguntasSugeridas();
-        $this->presenter->render('PreguntasSugeridasView', $data);
-    }
-
-
 }
-
