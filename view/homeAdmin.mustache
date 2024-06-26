@@ -42,11 +42,19 @@
     <h1 class="panelHomeAdmin">PANEL DE ADMINISTRADOR</h1>
    <div class="estadisticas">
 
-       {{#cantidad_usuarios}}
+       <form action="/Admin/mostrarDatosPorFechas" method="POST">
+           <label for="fechaInicio">Fecha de inicio:</label>
+           <input type="date" id="fechaInicio" name="fechaInicio" required>
+           <label for="fechaFin">Fecha de fin:</label>
+           <input type="date" id="fechaFin" name="fechaFin" required>
+           <button type="submit">Mostrar datos</button>
+       </form>
+
+
            <div class="datosHomeAdmin">
-               <h2 class="h2Admin">JUGADORES TOTALES:</h2>{{total_usuarios}}
+       <h2 class="h2Admin">JUGADORES TOTALES:</h2> {{#cantidad_usuarios}}  {{total_usuarios}} {{/cantidad_usuarios}}
            </div>
-       {{/cantidad_usuarios}}
+
 
 
            <div class="datosHomeAdmin">
@@ -56,24 +64,25 @@
 
            </div>
 
-       {{#preguntasTotales}}
+
            <div class="datosHomeAdmin">
-               <h2 class="h2Admin">PREGUNTAS EN EL JUEGO:</h2> {{preguntasTotales}}
+          <h2 class="h2Admin">PREGUNTAS EN EL JUEGO:</h2> {{#preguntasTotales}} {{preguntasTotales}} {{/preguntasTotales}}
            </div>
-       {{/preguntasTotales}}
 
-       {{#preguntasCreadas}}
+
+
        <div class="datosHomeAdmin">
-           <h2 class="h2Admin">PREGUNTAS CREADAS:</h2> {{preguntasCreadas}}
+           <h2 class="h2Admin">PREGUNTAS CREADAS:</h2> {{#preguntasCreadas}} {{preguntasCreadas}} {{/preguntasCreadas}}
        </div>
-       {{/preguntasCreadas}}
 
 
-       {{#nuevosUsuarios}}
+
+
        <div class="datosHomeAdmin">
-           <h2 class="h2Admin">USUARIOS NUEVOS:</h2>{{nuevosUsuarios}}
+           <h2 class="h2Admin">USUARIOS NUEVOS:</h2>
+       {{#nuevosUsuarios}}  {{nuevosUsuarios}}  {{/nuevosUsuarios}}
        </div>
-       {{/nuevosUsuarios}}
+
 
        <div class="datosHomeAdmin">
            <h2 class="h2Admin">PORCENTAJE DE PREGUNTAS CORRECTAS</h2>
@@ -89,9 +98,9 @@
 
 
        <div class="datosHomeAdmin">
-       {{#contadorUsuariosPais}}
            <h2 class="h2Admin">USUARIOS POR PAIS:</h2>
-           <h3>{{pais}}: {{contadorUsuarios}}</h3>
+       {{#contadorUsuariosPais}}
+           <h3 class="pais">{{pais}}: {{contadorUsuarios}}</h3>
        {{/contadorUsuariosPais}}
        </div>
 
@@ -119,7 +128,7 @@
 
        <div class="stats mt-3">
            <a href="/Admin/generarPDF" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar PDF</a>
-           <a href="" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Ver graficos</a>
+           <a href="/Admin/graficos" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Ver graficos</a>
        </div>
 
 
