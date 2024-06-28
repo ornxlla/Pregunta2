@@ -30,7 +30,6 @@
 
         <label for="email" class="label">Correo electrónico</label>
         <input type="email" id="email" name="email" required class="input" placeholder="usuario123@gmail.com">
-
         <label for="password" class="label">Contraseña</label>
         <input type="password" id="password" name="password" required class="input" placeholder="*****">
         <div class="password-info" id="password-info">La contraseña debe tener al menos 6 caracteres, incluyendo al menos una letra y un número.</div>
@@ -43,7 +42,7 @@
 
 
 
-       <div class="map-container">
+        <div class="map-container">
             <label for="map" class="label">País y Ciudad</label>
             <div id="map" style="width: 100%; height: 300px; margin: 20px 0;"></div>
             <input type="hidden" id="latitud" name="latitud" value="">
@@ -51,6 +50,7 @@
             <input type="hidden" id="pais" name="pais" value="">
             <input type="hidden" id="ciudad" name="ciudad" value="">
         </div>
+
 
         <div id="map">
 
@@ -91,10 +91,19 @@
     function validateForm() {
         var password = document.getElementById("password").value;
         var confirmPassword = document.getElementById("confirm_password").value;
+        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
+        if (!passwordPattern.test(password)) {
+            alert("La contraseña debe tener al menos 6 caracteres, incluyendo al menos una letra y un número.");
+            return false;
+        }
+
         if (password !== confirmPassword) {
             alert("Las contraseñas no coinciden.");
             return false;
         }
+
+
         return true;
     }
 

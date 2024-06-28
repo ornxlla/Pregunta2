@@ -47,29 +47,26 @@ class RegistroController
             if (!empty($_POST["nombre"]) && !empty($_POST["username"]) && !empty($_POST["year"])
                 && !empty($_POST["genero"]) && !empty($_POST["email"]) && !empty($_POST["password"])
                 && !empty($_POST["latitud"]) && !empty($_POST["longitud"])) {
+
                 $nombre = ucfirst($_POST["nombre"]);
                 $username = strtolower($_POST["username"]);
                 $year = $_POST["year"];
-                //$genero = $_POST["genero"];
                 $genero = $this->obtenerLetraGenero($_POST["genero"]);
                 $email = $_POST["email"];
                 $password = $_POST["password"];
                 $latitud = $_POST["latitud"];
                 $longitud = $_POST["longitud"];
-                $pais = "Argentina"; // Por ahora lo dejamos así
-                $ciudad = "Buenos Aires"; // Por ahora lo dejamos así
+                $pais = $_POST["pais"];
+                $ciudad = $_POST["ciudad"];
 
                 $estadoImagen = $this->subirArchivo();
                 if ($estadoImagen != 2) {
                     $nombreImagen = $_FILES["imagen"]["name"];
                     $resultado = $this->nuevoUsuario($nombre, $username, $year, $genero, $email, $password, $pais, $ciudad, $nombreImagen, $latitud, $longitud);
                     if ($resultado) {
-
                         $data["altaOk"] = "Los datos fueron ingresados correctamente. Se ha enviado un correo electrónico de confirmación.";
                         $this->presenter->render("usuarioRegistradoView", $data);
-
                     } else {
-
                         $data["error"] = "No se pudo enviar el correo electrónico de confirmación. ";
                         $this->presenter->render("registroView", $data);
                     }
