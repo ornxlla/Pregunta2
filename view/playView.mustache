@@ -38,7 +38,7 @@
                         <label class="radio-button py-2" for="{{id_respuesta}}">{{texto}}</label>
                     {{/respuesta}}
                     </div>
-                    <button type="submit" class="btn btn-lg btn-success mt-3 btn-11 w-50" id="responder" name="responder">Responder</button>
+                    <button type="submit" class="botonEnviar" id="responder" name="responder">Responder</button>
                 </form>
                 <div id="countdown" class="countdown-timer"></div>
             </div>
@@ -75,7 +75,7 @@
                 {{/error}}
 
                 {{^error}}
-                    <button type="submit" class="btn btn-lg btn-success mt-3 btn-11 w-50 botonEnviar">Responder</button>
+                    <button type="submit" class="botonEnviar">Responder</button>
                 {{/error}}
             </form>
 
@@ -86,31 +86,16 @@
                 <a class="botonEnviar" href="/Play/finalizar_partida">Finalizar partida</a>
             {{/error}}
         </div>
-    </div>
-
-        <form class="d-flex flex-column align-items-center" action="/Pregunta/reportarPregunta" method="post">
+        <form class="reportar" action="/Pregunta/reportarPregunta" method="post">
             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
             <button type="submit" class="botonEnviar">Reportar Pregunta</button>
         </form>
+    </div>
+
+
     {{/pregunta}}
 </div>
-<script>
-    function seleccionarRespuesta(idRespuesta) {
-        var respuestaSeleccionada = document.getElementById('radio-' + idRespuesta);
-        respuestaSeleccionada.classList.add('respuesta-seleccionada');
 
-
-        var respuestas = document.getElementsByClassName('radio-container');
-        for (var i = 0; i < respuestas.length; i++) {
-            if (respuestas[i].id !== 'radio-' + idRespuesta) {
-                respuestas[i].classList.remove('respuesta-seleccionada');
-            }
-        }
-    }
-
-
-
-</script>
 <script>
     function reportarPregunta(id_pregunta) {
         var motivo = prompt("Ingrese el motivo de reporte:");
@@ -187,6 +172,9 @@
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .contesta {
         color: black
@@ -196,14 +184,7 @@
         border-radius: 5px;
         text-align: center;
     }
-    .radio-container {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        padding: 10px;
-        text-align: center;
-        background-color: white;
-    }
+
     .radio-button {
         display: block;
         margin-bottom: 10px;
@@ -212,6 +193,7 @@
         line-height: 24px;
         background-color: black;
         color: white;
+        text-align: center;
 
     }
     .radio-button input {
@@ -240,17 +222,23 @@
         text-decoration: none;
         color: #000000;
         font-weight: bold;
-        border-radius: 5px;
+        border-radius: 1em;
         padding: 1em;
         background-color: #ffffff;
         align-items: center;
         font-size: 1.2em;
     }
 
+    .botonEnviar:hover{
+        background-color: #09a909;
+        color: white;
+    }
+
     .card-text {
         text-align: center;
         font-weight: bold;
         font-size: 1.5em;
+        text-decoration: underline;
     }
     .dificultad {
         text-align: center;
@@ -260,12 +248,16 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
-    .respuesta-seleccionada {
-        background-color: #05c005 !important;
-    }
+
 
     #formularioPlay{
         display:flex;
         flex-direction: column;
     }
+
+    .reportar{
+        display: grid;
+    }
+
+
 </style>

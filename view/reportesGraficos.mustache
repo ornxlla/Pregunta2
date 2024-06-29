@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Reportes Graficos</title>
+</head>
+<body>
+
+<h1>REPORTES GRAFICOS</h1>
+
+<div class="botonEditar">
+
+        <a href="/" class="btn-custom">Volver al home</a>
+
+
+</div>
+<div class="graficos">
+
+
+
+<h2>Preguntas Totales</h2>
+<img src="../public/img/graficoPreguntasTotales.png" class="grafico" alt="GráficoPreguntasTotales">
+
+<h2>Usuarios por genero</h2>
+<img src="../public/img/graficoGenero.png" class="grafico" alt="GráficoGeneros">
+
+<h2>Usuarios por edad</h2>
+<img src="../public/img/graficoUsuariosPorEdad.png" class="grafico" alt="GráficoUserEdad">
+
+
+<h2>Usuarios totales</h2>
+<img src="../public/img/graficoTotalUsuarios.png" class="grafico" alt="GráficoUserTotales">
+
+<h2>Preguntas creadas</h2>
+<img src="../public/img/graficoPreguntasCreadas.png" class="grafico" alt="PreguntasCreadas">
+
+<h2>Partidas</h2>
+<img src="../public/img/graficoPartidas.png" class="grafico" alt="Partidas">
+
+<h2>Preguntas correctas por usuario</h2>
+<img src="../public/img/graficoPorcentajeRespUser.png" class="grafico" alt="PreguntasCorrectas">
+
+    <h2>Usuarios por pais</h2>
+    <img src="../public/img/graficoUsuariosPorPais.png" class="grafico" alt="userPorPais">
+
+</div>
+</body>
+</html>
+
+<style>
+    h1{
+        text-align: center;
+        padding: 0.5em;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .graficos{
+        display: flex;
+        flex-direction: column;
+        /* width: 50%; */
+        align-items: center;
+    }
+
+    img{
+        border: 2px solid;
+    }
+
+    h2{
+        text-decoration: underline;
+    }
+
+    .botonEditar a{
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 1em;
+        padding: 1em;
+        background-color: black;
+        margin-left:1em;
+    }
+
+</style>

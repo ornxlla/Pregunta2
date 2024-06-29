@@ -46,7 +46,7 @@
         </div>
     {{/usuario}}
     <h2 class="puntaje">PARTIDAS</h2>
-    <ul>
+    <ul class="puntosPartidas">
         {{#partidas}}
             <li>Puntos: {{puntos}}, Fecha: {{fecha}}, Jugador: {{username}}</li>
         {{/partidas}}
@@ -66,3 +66,24 @@
 </footer>
 </body>
 </html>
+
+<style>
+    .puntosPartidas {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+        margin: 0 auto;
+        border: 2px solid white;
+        padding: 2em;
+        border-radius: 1em;
+        background-color: cadetblue;
+    }
+
+    .puntosPartidas li {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+</style>

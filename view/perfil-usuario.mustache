@@ -27,16 +27,9 @@
             {{/boton-editar}}
             {{^boton-editar}}
 
-                <h1>Perfil de {{username}}</h1><br>
-                <h2 class="puntaje">PARTIDAS</h2>
-                <ul>
-                    {{#partidas}}
-                        <li>Puntos: {{puntos}}, Fecha: {{fecha}}, Jugador: {{username}}</li>
-                    {{/partidas}}
-                    {{^partidas}}
-                        <li>No has jugado ninguna partida aún.</li>
-                    {{/partidas}}
-                </ul>
+                <h1>PERFIL DE {{username}}</h1><br>
+
+
             {{/boton-editar}}
                 <h3>Mail: {{correo}}</h3> <br>
                 <h3>Nombre completo: {{nombre}}</h3> <br>
@@ -46,6 +39,19 @@
                 <h3>Ciudad: {{ciudad}}</h3> <br>
                 <h3>Latitud: <span id="latitud">{{latitud}}</span></h3> <br>
                 <h3>Longitud: <span id="longitud">{{longitud}}</span></h3> <br>
+
+
+                <h2 class="partidas">Partidas realizadas</h2>
+                <div class="conteinerPartidas">
+                <ul>
+                    {{#partidas}}
+                        <li>Puntos: {{puntos}}, Fecha: {{fecha}}, Jugador: {{username}}</li>
+                    {{/partidas}}
+                    {{^partidas}}
+                        <li>No has jugado ninguna partida aún.</li>
+                    {{/partidas}}
+                </ul>
+                </div>
             </div>
         </div>
 
@@ -322,5 +328,18 @@
     .qr{
         margin-top: 2em;
     }
+
+    .partidas{
+        text-align: center;
+        font-size: 1.5em;
+        text-decoration: underline;
+    }
+
+    .conteinerPartidas{
+        border: 1px solid black;
+        padding: 1em;
+        margin-bottom: 1em;
+    }
+
 
 </style>

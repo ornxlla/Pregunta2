@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte administrativo</title>
+</head>
+<body>
+<div class="container">
+    <h1>Reporte</h1>
+
+    <div class="section">
+        <h2 class="section-title">Partidas Jugadas</h2>
+        <p>{{ partidasJugadas }}</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Preguntas en el Juego</h2>
+        <p>{{ preguntasEnJuego }}</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Preguntas Creadas</h2>
+        <p>{{ preguntasCreadas }}</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Usuarios Nuevos</h2>
+        <p>{{ nuevosUsuarios }}</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Porcentaje de Preguntas Correctas</h2>
+        <p>{{ porcentajePreguntasCorrectas }}</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Usuarios por País</h2>
+        <table class="data-table">
+            <thead>
+            <tr>
+                <th>País</th>
+                <th>Cantidad de Usuarios</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{# usuariosPorPais }}
+                <tr>
+                    <td>{{ pais }}</td>
+                    <td>{{ cantidad }}</td>
+                </tr>
+            {{/ usuariosPorPais }}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Usuarios por Género</h2>
+        <p>Femenino: {{ usuariosGeneroF }}</p>
+        <p>Masculino: {{ usuariosGeneroM }}</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Usuarios por Edad</h2>
+        <p>Menores: {{ usuariosMenores }}</p>
+        <p>Adultos: {{ usuariosAdultos }}</p>
+        <p>Mayores: {{ usuariosMayores }}</p>
+    </div>
+</div>
+</body>
+</html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin: 20px;
+    }
+    .section {
+        margin-bottom: 20px;
+    }
+    .section-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .data-table th, .data-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+</style>
+

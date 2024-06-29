@@ -34,10 +34,6 @@
     </div>
 </header>
 
-<main>
-
-
-
 
     <h1 class="panelHomeAdmin">PANEL DE ADMINISTRADOR</h1>
    <div class="estadisticas">
@@ -48,7 +44,12 @@
            <label for="fechaFin">Fecha de fin:</label>
            <input type="date" id="fechaFin" name="fechaFin" required>
            <button type="submit">Mostrar datos</button>
+
+
+           <a href="/Admin/mostrarGraficos" class="btn btn-light btn-outline-secondary px-20px" id="download-button" target="_blank">Ver gráficos</a>
+
        </form>
+       <a href="/Admin/generarPdf" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar PDF</a>
 
 
            <div class="datosHomeAdmin">
@@ -126,16 +127,13 @@
            {{/usuariosMayores}}
        </div>
 
-       <div class="stats mt-3">
-           <a href="/Admin/generarPDF" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar PDF</a>
-           <a href="/Admin/graficos" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Ver graficos</a>
-       </div>
+
 
 
    </div>
 
 
-</main>
+
 <footer>
     <div class="acomodarFooter">
         <div class="seccion1Footer">

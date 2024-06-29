@@ -2,16 +2,13 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    background-image: url('/public/img/fondo.png');
+    background-image: url('../img/fondo.png');
     background-size: cover;
 }
-
-
 /*bienvenidoUserValidado*/
-
 .confirmaCorreo {
     background-color: white;
-    padding: 20px;
+    padding: 20px;body
     border-radius: 10px;
     width: 80%;
     max-width: 700px;
@@ -70,16 +67,12 @@ body, html {
     background-color: #f8f9fa;
     background-image: url("/public/img/fondo.png");
 }
-
-
 .crearPreguntaSugerida{
     font-size: 2rem;
     color:white;
     text-align: center;
     margin-top: 1em;
 }
-
-
 .formCrearPreguntaSug{
     max-width: 800px;
     margin: 20px auto;
@@ -88,14 +81,12 @@ body, html {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
-
 .formCrearPreguntaSug label {
     display: block;
     margin-bottom: 0.5em;
     font-weight: bold;
     color: #4a5568;
 }
-
 .formCrearPreguntaSug select, form input[type="text"], form textarea {
     width: 100%;
     padding: 0.5em;
@@ -104,7 +95,6 @@ body, html {
     border-radius: 4px;
     box-sizing: border-box;
 }
-
 .formCrearPreguntaSug button {
     padding: 1em 2em;
     background-color: black;
@@ -165,8 +155,6 @@ footer {
 }
 
 /*home admin*/
-
-
 .panelHomeAdmin{
     text-align: center;
     color: white;
@@ -279,6 +267,7 @@ button:hover {
     width: 55%;
     padding-bottom: 3em;
     background-color: white;
+    margin-bottom: 5em;
 }
 
 #download-button {
@@ -309,36 +298,22 @@ button:hover {
     background-color: white;
     border: 1px solid black;
 }
-
 .usuarioPorcentaje{
     border: 3px solid green;
     margin: 3em;
 }
-
 .h2Admin{
     text-decoration: underline;
     font-weight: bold;
     font-size: 1em;
 }
-
 .h2AdminTipo{
     font-size: 1em;
-
 }
-
 .pais{
     font-size: 1em;
 }
 /*homeEditor*/
-
-.bodyHomeEditor {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-}
-
-
 .panel-containerHomeEditor {
     margin: 20px auto;
     max-width: 800px;
@@ -350,22 +325,17 @@ button:hover {
     margin-top: 3em;
     margin-bottom: 6em;
 }
-
-
 .panel-containerHomeEditor h1 {
     font-size: 2rem;
     color: #1a202c;
     text-align: center;
 }
-
-
 .button-containerHomeEditor {
     display: flex;
     justify-content: center;
     margin-top: 1em;
     flex-direction: column;
 }
-
 .buttonHomeEditor {
     text-decoration: none;
     font-weight: bold;
@@ -374,20 +344,15 @@ button:hover {
     margin: 1em;
     transition: background-color 0.3s, color 0.3s;
     text-align: center;
-
     color: black;
     background-color: white;
     border: 1px solid black;
 }
-
-
 .buttonHomeEditor:hover {
     color:white;
     background-color: black;
     border: 1px solid white;
 }
-
-
 .botonEditarHomeEditor {
     margin-bottom: 20px;
     display: flex;
@@ -395,7 +360,6 @@ button:hover {
     margin-top: 2em;
     justify-content: center;
 }
-
 .botonEditarHomeEditor a {
     text-decoration: none;
     color: white;
@@ -404,16 +368,12 @@ button:hover {
     padding: 1em;
     background-color: black;
 }
-
 .botonEditarHomeEditor a:hover {
     color: black;
     background-color: white;
     border: 1px solid black;
 }
 /*homeUserLogueado*/
-
-
-
 header {
     background-color: white;
     color: white;
@@ -421,7 +381,6 @@ header {
     padding-right: 20px;
     text-align: center;
 }
-
 .probando {
     color: black;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -431,14 +390,11 @@ header {
     transition: background-color 0.3s, color 0.3s;
     font-size: 1em;
 }
-
 header h1 {
     margin: 2em;
     font-size: 24px;
     text-align: end;
 }
-
-
 img {
     display: block;
     margin: 0 auto;
@@ -489,9 +445,6 @@ ul li {
 .buttons-container button {
     margin: 0 10px;
 }
-
-
-
 .drev {
     color:#343434;
     font-family: "Poppins", sans-serif;
@@ -520,16 +473,12 @@ ul li {
     background-color: white;
     border: 1px solid black;
 }
-
-
 .btn-custom:hover {
     background-color: black;
     color: white;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     text-decoration: none;
 }
-
-
 header {
     background-color: #f8f9fa;
 }
@@ -552,8 +501,6 @@ header {
     width: 70px;
     border-radius: 50%;
 }
-
-
 /*listadoGeneralPreguntas*/
 
 .containerListadoGeneral{
@@ -563,7 +510,6 @@ header {
     margin:2em;
 
 }
-
 .panelListadoGeneral{
     max-width: 800px;
     width: 100%;
@@ -641,16 +587,6 @@ th, td {
 }
 
 /*loginView*/
-
-html, body {
-    width: 100%;
-    height: 100%;
-}
-body {
-    background-image: url("/public/img/fondo.png");
-    background-size: cover;
-}
-
 .error-messageLogin {
     margin: 1rem auto;
     padding: 0.5rem;
@@ -682,6 +618,7 @@ body {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    margin-top: 10em;
 }
 .title {
     text-align: center;
@@ -775,15 +712,6 @@ body {
     background-color: #45a049;
 }
 
-/*modif usuario*/
-
-/*perfilUsuario*/
-
-/*play*/
-
-/*preguntasReportadasYsugeridas*/
-
-
 .page-container {
     max-width: 800px;
     margin: 0 auto;
@@ -862,12 +790,6 @@ body {
 
 /*raking*/
 
-.bodyRanking {
-    font-family: Arial, sans-serif;
-    background-image: url('/public/img/fondo.png');
-    margin: 0;
-    padding: 0;
-}
 
 .main {
     max-width: 800px;
@@ -877,29 +799,24 @@ body {
     box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
     border-radius: 10px;
 }
-
 .main h1 {
     text-align: center;
     color: #1a202c;
     margin-bottom: 20px;
 }
-
 .primer-usuario, ul {
     list-style-type: none;
     padding: 0;
 }
-
 .primer-usuario {
     text-align: center;
     margin-bottom: 40px;
 }
-
 .primer-usuario h2 {
     font-size: 2rem;
     margin-bottom: 10px;
     color: #1a202c;
 }
-
 .primer-usuario img {
     width: 150px;
     height: 150px;
@@ -907,19 +824,16 @@ body {
     border-radius: 50%;
     border: 4px solid #e2e8f0;
 }
-
 .primer-usuario p {
     font-size: 1.2rem;
     color: #4a5568;
     margin-bottom: 10px;
 }
-
 .primer-usuario a img {
     width: 100px;
     height: 100px;
     margin-top: 10px;
 }
-
 ul li {
     margin-bottom: 20px;
     padding: 15px;
@@ -929,14 +843,12 @@ ul li {
     display: flex;
     align-items: center;
 }
-
 ul li h3 {
     font-size: 1.5rem;
     margin-bottom: 5px;
     color: #2d3748;
     flex: 1;
 }
-
 .perfil{
     width: 100px;
     height: 100px;
@@ -944,7 +856,6 @@ ul li h3 {
     border-radius: 50%;
     border: 4px solid #e2e8f0;
 }
-
 ul li p {
     font-size: 1rem;
     color: #4a5568;
@@ -956,17 +867,11 @@ ul li a img {
     height: 100px;
     margin-left: auto;
 }
-
 .otrosUser{
     text-align: center;
     font-weight: bold;
     font-size: 1em;
 }
-
-/*registro*/
-
-/*usuarioRegistrado*/
-
 .confirmaCorreo {
     background-color: white;
     padding: 20px;
@@ -978,7 +883,6 @@ ul li a img {
     font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-
 .graciasXreg{
     font-size: 1.5em;
     font-weight: bold;
@@ -990,7 +894,6 @@ ul li a img {
     align-items: center;
     margin-top: 2em;
 }
-
 .botonEditar a {
     text-decoration: none;
     color: white;
@@ -999,7 +902,6 @@ ul li a img {
     padding: 1em;
     background-color: black;
 }
-
 .botonEditar a:hover {
     color: black;
     background-color: white;
