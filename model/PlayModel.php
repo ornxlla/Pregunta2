@@ -23,7 +23,43 @@ class PlayModel
         }
     }
 
-    public function obtenerPreguntas_clasico($idPartida, $idUsuario)
+    public function obtenerDificultadUsuario($idUsuario){
+        $sql = "SELECT COUNT(id) as 'veces_respondido', SUM(acertado) as 'veces_acertado'
+                FROM partida_clasica_respuestas 
+                WHERE id_jugador = ?";
+
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("i", $idUsuario);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            if ($result) {
+                while($row = $result->fetch_assoc()){
+                    if($row["veces_respondido"] <= 10){          //No contesto lo suficiente para salir de MODO FACIL
+                        $data = 1;
+                    }else{
+                        if($row["veces_acertado"] <= 10){        //No contesto lo suficiente para salir de MODO FACIL
+                            $data = 1;
+                        }else{
+                            //$calculo = ($row["veces_respondido"] * $row["veces_acertado"]) / 100;
+                            $calculo = $row["veces_acertado"] / $row["veces_respondido"];
+                            if($calculo > 0.70){                //Promedio de +70% Acertado = Bastante habilidoso -> Mandarle una dificil
+                                $data = 3;
+                            } elseif ($calculo < 0.30){         //Promedio de -30% Acertado = No tan bueno -> Mandarle una facil
+                                $data = 1;
+                            }else{                               //Entre 30% y 70% -> Intermedio
+                                $data = 2;
+                            }
+                        }
+                    }
+                }
+                return $data;
+            }
+        }
+    }
+
+    public function obtenerPreguntas_clasico($idPartida, $idUsuario, $dificultad)
     {
         $data["listaPreguntas"] = $this->obtenerListaPreguntas($idPartida, $idUsuario);
 
@@ -82,6 +118,18 @@ class PlayModel
         }
     }
 
+    public function actualizarDificultadPregunta($id_pregunta){
+        $datosAux = $this->obtenerDificultadPreguntas($id_pregunta);
+        $sql = "UPDATE preguntas_listado SET id_dificultad = ? WHERE id_pregunta = ?";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $datosAux[0]["dificultad"],$id_pregunta);
+            return $stmt->execute();
+        } else {
+            return null;
+        }
+    }
+
     public function calcularDificultadPregunta($estadisticas){
         $data = [];
         //Si la pregunta es nueva (0 llamadas), se considerara como "Indefinido" y se dara 100 puntos
@@ -100,7 +148,8 @@ class PlayModel
             $data["puntos_correcto"] = 100;
             $data["texto_dificultad"] = "Dificil";
         }else {
-            $estadistica = ($estadisticas["veces_llamado"] * $estadisticas["veces_acertado"]) / 100;
+            //$estadistica = ($estadisticas["veces_llamado"] * $estadisticas["veces_acertado"]) / 100;
+            $estadistica = $estadisticas["veces_acertado"] / $estadisticas["veces_llamado"];
             if ($estadistica > 0.70) {    //Mas del 70% acertado = Facil
                 $data["dificultad"] = 1;
                 $data["puntos_correcto"] = 25;

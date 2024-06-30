@@ -42,16 +42,21 @@ class PlayController
             $_SESSION["partida_iniciada"] = true;
             $horaInicio = date('Y-m-d H:i:s');
             $idPartidaIniciada = $this->model->iniciarPartida_clasico($_SESSION["Session_id"], $horaInicio);
+            $dificultadUsuario = $this->model->obtenerDificultadUsuario($_SESSION["Session_id"]);
 
+            $_SESSION["dificultadUsuario"] = $dificultadUsuario;
             $_SESSION["puntosPartida"] = 0;
             $_SESSION["idPartida"] = $idPartidaIniciada;
         }
-        $data["aux_preguntas"] = $this->model->obtenerPreguntas_clasico($idPartidaIniciada, $_SESSION["Session_id"]);
+        $data["aux_preguntas"] = $this->model->obtenerPreguntas_clasico($idPartidaIniciada, $_SESSION["Session_id"],$_SESSION["dificultadUsuario"]);
         if(empty($data["aux_preguntas"]["listaPreguntas"])){
             echo "Se terminaron las preguntas!";
             //TO-DO Logica en caso de que se terminen las preguntas - Por ahora, terminara forzosamente la partida
             $this->finalizar_partida();
             return;
+        }
+        if($_SESSION["puntosPartida"] > 300){
+            $_SESSION["dificultadUsuario"] = $this->actualizarDificultad($_SESSION["puntosPartida"],  $_SESSION["dificultadUsuario"] );
         }
         $data["aux_pregunta_elegida"] = $this->elegirPregunta($data["aux_preguntas"]["listaPreguntas"]);
 
@@ -76,10 +81,10 @@ class PlayController
                 $_SESSION["proxima_pregunta"] = true;
                 //Ingresar en bbdd que se respondio la pregunta.
                 $aux = $this->model->preguntaRespondida($_SESSION["Session_id"], $_SESSION["idPartida"], $_SESSION["pregunta_enviada"], 1);
-
+                $aux2 = $this->model->actualizarDificultadPregunta($_SESSION["pregunta_enviada"]);
                 Redirect::to("/play");
             }else{
-                echo "Respuesta incorrecta!";
+                //echo "Respuesta incorrecta!";
                 $aux = $this->model->preguntaRespondida($_SESSION["Session_id"], $_SESSION["idPartida"], $_SESSION["pregunta_enviada"], 0);
                 $this->finalizar_partida();
             }
@@ -96,6 +101,7 @@ class PlayController
         unset($_SESSION["respuesta"]);
         unset($_SESSION["tiempo_inicial"]);
         unset($_SESSION["puntosPartida"]);
+        unset($_SESSION["dificultadUsuario"]);
         $this->presenter->render("partidaTerminadaView", $data);
     }
 
@@ -126,6 +132,17 @@ class PlayController
             }
         }
         return $returnValue;
+    }
+
+    public function actualizarDificultad($puntaje, $id_dificultad){
+        $newDificultad = $id_dificultad;
+        if($puntaje > 300 && $id_dificultad < 2){
+            $newDificultad = 2;
+        }
+        if($puntaje > 600 && $id_dificultad < 3){
+            $newDificultad = 3;
+        }
+        return $newDificultad;
     }
 
     /*--APARTADO DUELO--*/
