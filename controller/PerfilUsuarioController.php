@@ -57,18 +57,16 @@ class PerfilUsuarioController
         $data = $this->model->getDataUsuario($id);
         if(!empty($data)){
             $data["genero"] = $this->obtenerGenero($data["genero"]);
-
-
             $qrLink = "http://localhost/PerfilUsuario/buscarUsuario?id=" . $id;
+            $carpeta_destino = "public/img/profile_qrs/";
 
-              $carpeta_destino = "public/img/profile_qrs/";
             if (!file_exists($carpeta_destino)) {
                 mkdir($carpeta_destino, 0777, true);
             }
             $qrImg = $carpeta_destino . $id . "_qr.png";
 
-           QRcode::png($qrLink,$qrImg,QR_ECLEVEL_L,8);
-           $qr = QRcode::png($qrLink, $qrImg , QR_ECLEVEL_L, 4);
+            QRcode::png($qrLink,$qrImg,QR_ECLEVEL_L,8);
+            $qr = QRcode::png($qrLink, $qrImg , QR_ECLEVEL_L, 4);
             return $data;
         }
         return false;
@@ -165,7 +163,7 @@ class PerfilUsuarioController
 
     public function iniciarDuelo(){
         if(isset($_GET["id"])){
-            $_SESSION["duelo_id"] = $_GET["id"];
+            $_SESSION["rival_id"] = $_GET["id"];
             Redirect::to("/play/playDuelo");
         }else{
             Redirect::root();

@@ -20,15 +20,22 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card mt-3">
+                {{#duelo}}
+                <div class="card-body">
+                    <p class="card-text">Testing Duelo</p>
+                    <p class="card-text">{{jugador1_nombre}} / {{jugador1_puntaje}}</p>
+                    <p class="card-text">{{jugador2_nombre}} / {{jugador2_puntaje}}</p>
+                </div>
+                {{/duelo}}
                 <div class="card-body">
                         <p class="card-text">{{texto_pregunta}}</p>
                         <p class="dificultad">Dificultad de la pregunta: {{texto_dificultad}}</p>
                 </div>
-
+                {{#puntaje}}
                 <div class="card-body">
                     <p class="card-text">Puntaje actual: {{puntaje}} </p>
                 </div>
-
+                {{/puntaje}}
                 <form class="card-body d-flex flex-column align-items-center" method="post" enctype="multipart/form-data"
                       action="/Play/proximaPregunta">
                     <input type="hidden" name="id_pregunta" id="id_pregunta" value="{{id_pregunta}}">
@@ -42,44 +49,6 @@
                 </form>
                 <div id="countdown" class="countdown-timer"></div>
             </div>
-{{#asdg}}
-            <form class="card-body d-flex flex-column align-items-center" method="post" enctype="multipart/form-data"
-                  action="
-              {{^error}}
-                /Play/validar_respuesta
-              {{/error}}
-        ">
-                <input type="hidden" name="id_pregunta" id="id_pregunta" value="{{id_pregunta}}">
-                <div class=" col-10 btn-group-vertical align-self-center" role="group">
-                    {{#respuesta}}
-                        {{^error}}
-                            <input class="btn-check" type="radio" name="id_respuesta" id="radio-{{id_respuesta}}" onclick="seleccionarRespuesta('{{id_respuesta}}')"
-                                   value="{{correcta}}-{{id_respuesta}}">
-                            <label class="radio-button py-2" for="{{id_respuesta}}">
-                                {{respuesta_texto}}
-                            </label>
-                        {{/error}}
-                        {{#error}}
-                            <label class="col-12 text-center alert border-dark correcta-{{correcta}} text-dark fw-bold"
-                                   for="{{id_respuesta}}">
-                                {{respuesta_texto}}
-                            </label>
-                        {{/error}}
-                    {{/respuesta}}
-                </div>
-                {{#error}}
-                    <div class="col-10 col-lg-4 mt-3 mb-3 text-center align-self-center" id="error_activado">
-                        <p class="alert alert-danger text-center"> {{.}} </p>
-                        <a href="/Play/finalizar_partida" class="btn btn-lg btn-warning btn-11">Volver al lobby</a>
-                    </div>
-                {{/error}}
-
-                {{^error}}
-                    <button type="submit" class="botonEnviar">Responder</button>
-                {{/error}}
-            </form>
-
-    {{/asdg}}
             <div id="countdown" class="countdown-timer"></div>
 
             {{^error}}
@@ -143,7 +112,12 @@
                         clearInterval(id);
                         alert("¡Tiempo agotado!");
                         // Puedes agregar aquí cualquier otra acción que desees cuando el tiempo se agote
-                        window.location.replace("/Play/finalizar_partida")
+                        let aux_url = window.location.href
+                        if(aux_url.includes("")){
+                            window.location.replace("/Play/playDuelo");
+                        }else{
+                            window.location.replace("/Play/finalizar_partida");
+                        }
                     }
                 }
 

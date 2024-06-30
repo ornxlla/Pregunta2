@@ -59,19 +59,22 @@ class PlayModel
         }
     }
 
+
+
     public function obtenerPreguntas_clasico($idPartida, $idUsuario, $dificultad)
     {
-        $data["listaPreguntas"] = $this->obtenerListaPreguntas($idPartida, $idUsuario);
+        $data["listaPreguntas"] = $this->obtenerListaPreguntas($idPartida, $idUsuario, $dificultad);
 
         return $data;
     }
 
-    public function obtenerListaPreguntas($idPartida, $idUsuario){
+    public function obtenerListaPreguntas($idPartida, $idUsuario, $dificultad){
         $sql = "SELECT preg.id_pregunta, preg.texto, tem.nombre AS tematica
                  FROM preguntas_listado AS preg
                  INNER JOIN tematicas as tem
                  ON preg.id_tematica = tem.id_tematica
                   WHERE preg.aprobado = 1
+                    AND preg.id_dificultad < ?
                     AND !EXISTS (
                      SELECT part.*
                      FROM partida_clasica_respuestas as part
@@ -81,7 +84,7 @@ class PlayModel
                  )";
         $stmt = $this->database->prepare($sql);
         if ($stmt) {
-            $stmt->bind_param("ii", $idUsuario, $idPartida );
+            $stmt->bind_param("iii", $dificultad ,$idUsuario, $idPartida );
             $stmt->execute();
             $result = $stmt->get_result();
             $data = [];
@@ -192,6 +195,80 @@ class PlayModel
         if ($stmt) {
             $stmt->bind_param("isi", $puntos,  $hora_final, $id_partida);
             return $stmt->execute();
+        } else {
+            return null;
+        }
+    }
+
+    /*--APARTADO DUELO--*/
+    public function iniciarPartida_duelo($id_jug1, $id_jug2,$horaInicio)
+    {
+        $sql = "insert into partida_duelo_general (id_jug1, id_jug2, hora_inicio) values (?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("iis", $id_jug1, $id_jug2 ,$horaInicio);
+            $stmt->execute();
+            return $stmt->insert_id;
+        } else {
+            return null;
+        }
+    }
+
+    public function obtenerPreguntas_duelo($idPartida)
+    {
+        $data["listaPreguntas"] = $this->obtenerListaPreguntas_duelo($idPartida, 3);
+
+        return $data;
+    }
+
+    public function obtenerListaPreguntas_duelo($idPartida, $dificultad){
+        $sql = "SELECT preg.id_pregunta, preg.texto, tem.nombre AS tematica
+                 FROM preguntas_listado AS preg
+                 INNER JOIN tematicas as tem
+                 ON preg.id_tematica = tem.id_tematica
+                  WHERE preg.aprobado = 1
+                    AND preg.id_dificultad < ?
+                    AND !EXISTS (
+                     SELECT part.*
+                     FROM partida_duelo_respuestas as part
+                     WHERE part.id_partida = ?
+                     AND part.id_pregunta = preg.id_pregunta
+                 )";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $dificultad , $idPartida );
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $data = [];
+            if ($result) {
+                $i = 0;
+                while($row = $result->fetch_assoc()){
+                    $data[$i] = $row;
+                    $i = $i + 1;
+                }
+                return $data;
+            }
+        }
+        return null;
+    }
+    public function finalizarDuelo($id_partida, $puntos_jug1, $puntos_jug2, $hora_final){
+        $sql = "UPDATE partida_duelo_general SET puntos_jug1 = ? , puntos_jug2 = ? , hora_fin = ? WHERE id = ?";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("iisi", $puntos_jug1, $puntos_jug2,  $hora_final, $id_partida);
+            return $stmt->execute();
+        } else {
+            return null;
+        }
+    }
+
+    public function preguntaRespondida_duelo($id_jugador, $id_partida, $id_pregunta, $acertada){
+        $sql = "insert into partida_duelo_respuestas (id_jugador, id_partida, id_pregunta, acertado) values (?, ?, ?, ?)";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("iiii", $id_jugador, $id_partida, $id_pregunta, $acertada);
+            $stmt->execute();
+            return $stmt->insert_id;
         } else {
             return null;
         }
