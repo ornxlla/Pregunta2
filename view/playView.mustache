@@ -22,7 +22,6 @@
             <div class="card mt-3">
                 {{#duelo}}
                 <div class="card-body">
-                    <p class="card-text">Testing Duelo</p>
                     <p class="card-text">{{jugador1_nombre}} / {{jugador1_puntaje}}</p>
                     <p class="card-text">{{jugador2_nombre}} / {{jugador2_puntaje}}</p>
                 </div>
@@ -51,9 +50,9 @@
             </div>
             <div id="countdown" class="countdown-timer"></div>
 
-            {{^error}}
+            {{^duelo}}
                 <a class="botonEnviar" href="/Play/finalizar_partida">Finalizar partida</a>
-            {{/error}}
+            {{/duelo}}
         </div>
         <form class="reportar" action="/Pregunta/reportarPregunta" method="post">
             <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
@@ -113,7 +112,7 @@
                         alert("¡Tiempo agotado!");
                         // Puedes agregar aquí cualquier otra acción que desees cuando el tiempo se agote
                         let aux_url = window.location.href
-                        if(aux_url.includes("")){
+                        if(aux_url.includes("playDuelo")){
                             window.location.replace("/Play/playDuelo");
                         }else{
                             window.location.replace("/Play/finalizar_partida");
