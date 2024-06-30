@@ -360,9 +360,9 @@ class AdminController
     public function generarPdf()
     {
 
-        //DEBE ,MANDAR LOS DATOS DE MOSTRARDATOSPORFECHA() A LA VISTA VISTAPDF.MUSTACHE !!
+        //DEBE ,MANDAR LOS DATOS DE MOSTRARDATOSPORFECHA() A LA VISTA VIDT
+        require_once 'vendor/autoload.php';
 
-  
         $html = file_get_contents('C:\xampp\htdocs\Pregunta2\view\vistaPdf.mustache');
 
         $options = new Options();

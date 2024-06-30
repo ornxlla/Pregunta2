@@ -13,19 +13,27 @@
     </div>
     {{#pregunta}}
     <div class="text-center">
-        <div class="text-center card">
-                <h2 class="mb-2 mt-3 py-4 text-center border rounded contesta">{{tematica}}</h2>
+        <div class="text-center card tema{{tematica}}">
+            <h2 class="tema-{{tematica}}">{{tematica}}</h2>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card mt-3">
                 {{#duelo}}
-                <div class="card-body">
-                    <p class="card-text">{{jugador1_nombre}} / {{jugador1_puntaje}}</p>
-                    <p class="card-text">{{jugador2_nombre}} / {{jugador2_puntaje}}</p>
-                </div>
+                    <div class="card-body jugadores">
+                        <div>
+                            <p class="card-text jugador1">{{jugador1_nombre}} : {{jugador1_puntaje}}</p>
+                            <img src="../public/img/users/{{jugador1_foto}}" class="imgDuelo" alt="{{jugador1_nombre}} Foto de perfil">
+                        </div>
+
+                        <div>
+                            <p class="card-text jugador2">{{jugador2_nombre}} : {{jugador2_puntaje}}</p>
+                            <img src="../public/img/users/{{jugador2_foto}}" class="imgDuelo" alt="{{jugador2_nombre}} Foto de perfil">
+                        </div>
+                    </div>
                 {{/duelo}}
+
                 <div class="card-body">
                         <p class="card-text">{{texto_pregunta}}</p>
                         <p class="dificultad">Dificultad de la pregunta: {{texto_dificultad}}</p>
@@ -126,7 +134,11 @@
             window.onload = function() {
                 move();
             };
-        </script>
+
+
+
+
+</script>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -167,6 +179,8 @@
         background-color: black;
         color: white;
         text-align: center;
+        padding: 1em;
+        border-radius: 5px;
 
     }
     .radio-button input {
@@ -222,7 +236,6 @@
         background-size: cover;
     }
 
-
     #formularioPlay{
         display:flex;
         flex-direction: column;
@@ -230,6 +243,81 @@
 
     .reportar{
         display: grid;
+    }
+
+    .imgDuelo{
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+        border-radius: 50%;
+        border: 4px solid #e2e8f0;
+    }
+
+    .jugadores{
+        display: flex;
+        justify-content: center;
+    }
+
+    .jugador1{
+        padding: 0.5em;
+        margin: 0.5em;
+    }
+
+    .jugador2{
+        padding: 0.5em;
+        margin: 0.5em;
+    }
+
+    .temaGeografía {
+        background-color: #1937a1;
+        color: white;
+        font-weight:bold;
+    }
+
+    .temaHistoria {
+        background-color: #cbcb35;
+        color: white;
+        font-weight:bold;
+
+    }
+
+    .temaCiencias{
+        background-color: #47a922;
+        color: white;
+        font-weight:bold;
+    }
+
+    .temaEntretenimiento{
+        background-color: #f823c5;
+        color: white;
+        font-weight:bold;
+
+    }
+
+    .temaArte{
+        background-color: #a41818;
+        color: white;
+        font-weight:bold;
+    }
+
+    .temaMatemáticas{
+        background-color:salmon;
+        color: white;
+        font-weight:bold;
+
+    }
+
+    .temaDeportes{
+        background-color: orange;
+        color: white;
+        font-weight:bold;
+
+    }
+
+    .temaQuímica{
+        background-color: greenyellow;
+        color: white;
+        font-weight:bold;
     }
 
 

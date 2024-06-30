@@ -74,7 +74,7 @@ class PlayModel
                  INNER JOIN tematicas as tem
                  ON preg.id_tematica = tem.id_tematica
                   WHERE preg.aprobado = 1
-                    AND preg.id_dificultad < ?
+                    AND preg.id_dificultad <= ?
                     AND !EXISTS (
                      SELECT part.*
                      FROM partida_clasica_respuestas as part
