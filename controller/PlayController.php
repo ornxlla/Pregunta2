@@ -224,11 +224,18 @@ class PlayController
         $this->presenter->render("playView", $data);
     }
 
+
+
     public function datosVistaDuelo(){
-        $data["jugador1_nombre"] = $_SESSION["Session_id"];
+
+        $aux = $this->model->obtenerDatosJugadores($_SESSION["Session_id"], $_SESSION["rival_id"]);
+
+        $data["jugador1_nombre"] = $aux["jug1_nombre"];
+        $data["jugador1_foto"] = $aux["jug1_perfil"];
         $data["jugador1_puntaje"] = $_SESSION["puntosJug1"];
 
-        $data["jugador2_nombre"] = $_SESSION["rival_id"];
+        $data["jugador2_nombre"] = $aux["jug2_nombre"];
+        $data["jugador2_foto"] = $aux["jug2_perfil"];
         $data["jugador2_puntaje"] = $_SESSION["puntosJug2"];
 
         return $data;
@@ -242,7 +249,7 @@ class PlayController
                 $decision = $numeroMagico % 10; // Dificultad no definida = 10% chance que el bot acierte
                 break;
             case 1:
-                $decision = 1;                  // Dificultad Facil = 100% chance que el bot acierte
+                $decision = 0;                  // Dificultad Facil = 100% chance que el bot acierte
                 break;
             case 2:
                 $decision = $numeroMagico % 2;  // Dificultad Media = 50% chance que el bot acierte

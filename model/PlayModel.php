@@ -273,4 +273,18 @@ class PlayModel
             return null;
         }
     }
+
+    public function obtenerDatosJugadores($id_jug1,$id_jug2){
+        $sql = "SELECT jug1.nombre AS 'jug1_nombre', jug1.imagen_perfil AS 'jug1_perfil', jug2.nombre AS 'jug2_nombre', jug2.imagen_perfil AS 'jug2_perfil'
+                FROM datos_usuario AS jug1
+                JOIN datos_usuario AS jug2 ON jug2.id_usuario = ?
+                WHERE jug1.id_usuario = ? ";
+        $stmt = $this->database->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("ii", $id_jug2 ,$id_jug1);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_assoc();
+        }
+    }
 }
