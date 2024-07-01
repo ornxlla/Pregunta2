@@ -49,7 +49,7 @@
            <a href="/Admin/mostrarGraficos" class="btn btn-light btn-outline-secondary px-20px" id="download-button" target="_blank">Ver gráficos</a>
 
        </form>
-       <a href="/Admin/generarPdf" class="btn btn-light btn-outline-secondary px-20px" id="download-button">Descargar PDF</a>
+
 
 
            <div class="datosHomeAdmin">
@@ -128,7 +128,12 @@
        </div>
 
 
-
+       <form action="/Admin/generarPdf" method="POST">
+           <label for="fechaInicio">Fecha de inicio:</label>
+           <input type="date" id="fechaInicio" name="fechaInicio" required>
+           <label for="fechaFin">Fecha de fin:</label>
+           <input type="date" id="fechaFin" name="fechaFin" required>
+           <button type="submit">GenerarPDF</button>
 
    </div>
 

@@ -20,9 +20,13 @@ class AdminController
 
     public function get()
     {
-        $this->mostrarDatosPorFechas();
+        $this->mostrarHome();
     }
 //-----------------------------------------------------------------------------------*/
+public function mostrarHome(){
+        $this->presenter->render('homeAdmin');
+}
+
     public function mostrarDatosPorFechas()
     {
         $data = [];
@@ -47,7 +51,6 @@ class AdminController
 
             $this->generarGraficos($data, $fechaInicio, $fechaFin);
         }
-
         $this->presenter->render('homeAdmin', $data);
         return $data;
     }
@@ -341,43 +344,58 @@ class AdminController
         $graph->xaxis->SetTickLabels($labels); // Etiquetas para las barras en el eje x
         $graph->xaxis->title->Set("Países");
         $graph->yaxis->title->Set("Cantidad de Usuarios");
-
-        // Ruta donde se guardará la imagen del gráfico
         $rutaImagen = $_SERVER['DOCUMENT_ROOT'] . '../public/img/graficoUsuariosPorPais.png';
 
-        // Eliminar la imagen previa si existe
         if (file_exists($rutaImagen)) {
             unlink($rutaImagen);
         }
-
-        // Generar y guardar el gráfico como imagen
         $graph->Stroke($rutaImagen);
-
         return '../public/img/graficoUsuariosPorPais.png';
     }
-
     //---------------------------------------------------------------------------------------------
     public function generarPdf()
     {
+        $data = [];
 
-        //DEBE ,MANDAR LOS DATOS DE MOSTRARDATOSPORFECHA() A LA VISTA VIDT
-        require_once 'vendor/autoload.php';
+        if (isset($_POST['fechaInicio'], $_POST['fechaFin'])) {
+            $fechaInicio = $_POST['fechaInicio'];
+            $fechaFin = $_POST['fechaFin'];
 
-        $html = file_get_contents('C:\xampp\htdocs\Pregunta2\view\vistaPdf.mustache');
+            $data['preguntasTotales'] = $this->model->getPreguntasTotales($fechaInicio, $fechaFin);
+            $data['cantidad_usuarios'] = $this->model->getTotalUsuarios($fechaInicio, $fechaFin);
+            $data['contadorUsuariosPais'] = $this->model->getUsuariosPorPais($fechaInicio, $fechaFin);
+            $data['usuariosMenores'] = $this->model->usuariosMenores($fechaInicio, $fechaFin);
+            $data['usuariosAdultos'] = $this->model->usuariosAdultos($fechaInicio, $fechaFin);
+            $data['usuariosMayores'] = $this->model->usuariosMayores($fechaInicio, $fechaFin);
+            $data['nuevosUsuarios'] = $this->model->nuevosUsuarios($fechaInicio, $fechaFin);
+            $data['usuariosGeneroF'] = $this->model->usuariosGeneroF($fechaInicio, $fechaFin);
+            $data['usuariosGeneroM'] = $this->model->usuariosGeneroM($fechaInicio, $fechaFin);
+            $data['preguntasCreadas'] = $this->model->preguntasCreadas($fechaInicio, $fechaFin);
+            $data['partidasClasicas'] = $this->model->partidasClasicas($fechaInicio, $fechaFin);
+            $data['partidasDuelo'] = $this->model->partidasDuelo($fechaInicio, $fechaFin);
+            $data['porcentajeRespUser'] = $this->model->porcentajeRespUser($fechaInicio, $fechaFin);
+        }
 
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-        $dompdf = new Dompdf($options);
+        $vista = __DIR__ . '/../view/vistaPdf.mustache';
 
-        // Cargar el HTML en Dompdf
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $dompdf->stream("reporte_administrador.pdf", [
-            "Attachment" => true
-        ]);
+        if (file_exists($vista)) {
+
+            $mustache = new Mustache_Engine;
+            $html = file_get_contents($vista);
+            $rendered = $mustache->render($html, $data);
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($rendered);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            $dompdf->stream("reporte_administrador.pdf", [
+                "Attachment" => true
+            ]);
+        } else {
+            echo "Error: No se encontró el archivo de la vista.";
+        }
     }
-
 //-----------------------------------------------------------------------------------------------
     public function mostrarGraficos(){
         $this->presenter->render('reportesGraficos');

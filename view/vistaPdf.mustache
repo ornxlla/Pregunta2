@@ -2,96 +2,119 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reporte administrativo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte PDF - Datos Estadísticos</title>
 </head>
 <body>
-<div class="container">
-    <h1>Reporte</h1>
+<h1>Reporte PDF - Datos Estadísticos</h1>
 
-    <div class="section">
-        <h2 class="section-title">Partidas Jugadas</h2>
-        <p>{{ partidasJugadas }}</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Preguntas en el Juego</h2>
-        <p>{{ preguntasEnJuego }}</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Preguntas Creadas</h2>
-        <p>{{ preguntasCreadas }}</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Usuarios Nuevos</h2>
-        <p>{{ nuevosUsuarios }}</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Porcentaje de Preguntas Correctas</h2>
-        <p>{{ porcentajePreguntasCorrectas }}</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Usuarios por País</h2>
-        <table class="data-table">
-            <thead>
-            <tr>
-                <th>País</th>
-                <th>Cantidad de Usuarios</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{# usuariosPorPais }}
-                <tr>
-                    <td>{{ pais }}</td>
-                    <td>{{ cantidad }}</td>
-                </tr>
-            {{/ usuariosPorPais }}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Usuarios por Género</h2>
-        <p>Femenino: {{ usuariosGeneroF }}</p>
-        <p>Masculino: {{ usuariosGeneroM }}</p>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Usuarios por Edad</h2>
-        <p>Menores: {{ usuariosMenores }}</p>
-        <p>Adultos: {{ usuariosAdultos }}</p>
-        <p>Mayores: {{ usuariosMayores }}</p>
-    </div>
+<h2>Resumen General</h2>
+<div class="report-section">
+    <p>Preguntas Totales: {{#preguntasTotales}}{{ preguntasTotales }}{{/preguntasTotales}}</p>
+    <p>Cantidad de Usuarios Registrados: {{#cantidad_usuarios}}{{ total_usuarios }}{{/cantidad_usuarios}}</p>
 </div>
+
+<h2>Usuarios por Edad</h2>
+<div class="report-section">
+    <p>Usuarios Menores de Edad: {{#usuariosMenores}}{{ usuariosMenores }}{{/usuariosMenores}}</p>
+    <p>Usuarios Adultos: {{#usuariosAdultos}}{{ usuariosAdultos }}{{/usuariosAdultos}}</p>
+    <p>Usuarios Mayores de Edad: {{#usuariosMayores}}{{ usuariosMayores }}{{/usuariosMayores}}</p>
+</div>
+
+<h2>Usuarios por Género</h2>
+<div class="report-section">
+    <p>Usuarios Género Femenino: {{#usuariosGeneroF}}{{ usuariosGeneroF }}{{/usuariosGeneroF}}</p>
+    <p>Usuarios Género Masculino: {{#usuariosGeneroM}}{{ usuariosGeneroM }}{{/usuariosGeneroM}}</p>
+</div>
+
+<h2>Nuevos Usuarios Registrados</h2>
+<div class="report-section">
+    <p>Nuevos Usuarios: {{#nuevosUsuarios}}{{ nuevosUsuarios }}{{/nuevosUsuarios}}</p>
+</div>
+
+<h2>Detalles por País</h2>
+<div class="report-section">
+    <table>
+        <thead>
+        <tr>
+            <th>País</th>
+            <th>Cantidad de Usuarios</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#contadorUsuariosPais}}
+            <tr>
+                <td>{{ pais }}</td>
+                <td>{{ contadorUsuarios }}</td>
+            </tr>
+        {{/contadorUsuariosPais}}
+        </tbody>
+    </table>
+</div>
+
+<h2>Estadísticas de Juego</h2>
+<div class="report-section">
+    <p>Preguntas Creadas: {{#preguntasCreadas}}{{ preguntasCreadas }}{{/preguntasCreadas}}</p>
+    <p>Partidas Clásicas Jugadas: {{#partidasClasicas}}{{ partidasClasicas }}{{/partidasClasicas}}</p>
+    <p>Partidas de Duelo Jugadas: {{#partidasDuelo}}{{ partidasDuelo }}{{/partidasDuelo}}</p>
+</div>
+
+<h2>Porcentaje de Respuestas Correctas por Usuario</h2>
+<div class="report-section">
+    {{#porcentajeRespUser}}
+        <div class="usuarioPorcentaje">
+            <h3>{{ nombre_usuario }}</h3>
+            <div>{{ porcentaje_correctas }} %</div>
+        </div>
+    {{/porcentajeRespUser}}
+</div>
+
 </body>
 </html>
+
 
 <style>
     body {
         font-family: Arial, sans-serif;
-    }
-    .container {
+        line-height: 1.6;
         margin: 20px;
     }
-    .section {
-        margin-bottom: 20px;
-    }
-    .section-title {
-        font-size: 20px;
-        font-weight: bold;
+    h1 {
+        text-align: center;
+        color: #333;
         text-decoration: underline;
     }
-    .data-table {
+    h2 {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    p {
+        margin: 5px 0;
+    }
+    table {
         width: 100%;
         border-collapse: collapse;
+        margin-bottom: 20px;
     }
-    .data-table th, .data-table td {
-        border: 1px solid #ccc;
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+    th, td {
         padding: 8px;
         text-align: left;
     }
+    th {
+        background-color: #f2f2f2;
+    }
+    .usuarioPorcentaje {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .usuarioPorcentaje h3 {
+        margin-top: 0;
+        color: #555;
+    }
 </style>
-
