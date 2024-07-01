@@ -1,0 +1,144 @@
+.datos-containerPerfilUsuario {
+    margin: 20px auto;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+    border-radius: 10px;
+    width: 100%;
+    margin-top:3em;
+    margin-bottom:6em;
+}
+
+.datosPerfilUsuario {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 0.5em;
+}
+
+.imagenPerfilUsuario {
+
+    margin-top: 2em;
+
+}
+
+.imagenPerfilUsuario img {
+    width: 200px;
+    height: 200px;
+
+}
+
+.botonEditarPerfilUsuario {
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    margin-top: 2em;
+    justify-content: space-evenly;
+
+}
+
+.botonEditarPerfilUsuario a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: black;
+}
+
+.botonEditarPerfilUsuario a:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.botonVolverPerfilUsuario{
+    margin-bottom: 20px;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.botonVolverPerfilUsuario a {
+    text-decoration: none;
+    color:black;
+    font-weight: bold;
+    border-radius: 1em ;
+    padding: 1em;
+    background-color: white;
+}
+
+
+.botones{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 1em;
+}
+
+
+
+.datosPerfilUsuario h1 {
+    font-size: 2rem;
+    color: #1a202c;
+    text-align: center;
+}
+
+.datosPerfilUsuario h3 {
+    font-size: 1rem;
+    color: #4a5568;
+    margin-bottom: 5px;
+    border: 1px solid;
+    padding:0.4em;
+}
+
+
+footer {
+    background-color: white;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.acomodarFooter {
+    margin: 1rem;
+    align-items: center;
+}
+
+.drev {
+    color:#343434;
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+.imagenYqr{
+    display: flex;
+    flex-direction: column;
+}
+
+.qr{
+    margin-top: 2em;
+}
+
+.partidas{
+    text-align: center;
+    font-size: 1.5em;
+    text-decoration: underline;
+}
+
+.conteinerPartidas{
+    border: 1px solid black;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+

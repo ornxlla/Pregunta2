@@ -35,22 +35,55 @@ public function mostrarHome(){
             $fechaInicio = $_POST['fechaInicio'];
             $fechaFin = $_POST['fechaFin'];
 
-            $data['preguntasTotales'] = $this->model->getPreguntasTotales($fechaInicio, $fechaFin);
-            $data['cantidad_usuarios'] = $this->model->getTotalUsuarios($fechaInicio, $fechaFin);
-            $data['contadorUsuariosPais'] = $this->model->getUsuariosPorPais($fechaInicio, $fechaFin);
-            $data['usuariosMenores'] = $this->model->usuariosMenores($fechaInicio, $fechaFin);
-            $data['usuariosAdultos'] = $this->model->usuariosAdultos($fechaInicio, $fechaFin);
-            $data['usuariosMayores'] = $this->model->usuariosMayores($fechaInicio, $fechaFin);
-            $data['nuevosUsuarios'] = $this->model->nuevosUsuarios($fechaInicio, $fechaFin);
-            $data['usuariosGeneroF'] = $this->model->usuariosGeneroF($fechaInicio, $fechaFin);
-            $data['usuariosGeneroM'] = $this->model->usuariosGeneroM($fechaInicio, $fechaFin);
-            $data['preguntasCreadas'] = $this->model->preguntasCreadas($fechaInicio, $fechaFin);
-            $data['partidasClasicas'] = $this->model->partidasClasicas($fechaInicio, $fechaFin);
-            $data['partidasDuelo'] = $this->model->partidasDuelo($fechaInicio, $fechaFin);
-            $data['porcentajeRespUser'] = $this->model->porcentajeRespUser($fechaInicio, $fechaFin);
+            // Inicializar el flag de datos vacíos
+            $emptyData = false;
 
-            $this->generarGraficos($data, $fechaInicio, $fechaFin);
+            $data['preguntasTotales'] = $this->model->getPreguntasTotales($fechaInicio, $fechaFin);
+            if (empty($data['preguntasTotales'])) $emptyData = true;
+
+            $data['cantidad_usuarios'] = $this->model->getTotalUsuarios($fechaInicio, $fechaFin);
+            if (empty($data['cantidad_usuarios'])) $emptyData = true;
+
+            $data['contadorUsuariosPais'] = $this->model->getUsuariosPorPais($fechaInicio, $fechaFin);
+            if (empty($data['contadorUsuariosPais'])) $emptyData = true;
+
+            $data['usuariosMenores'] = $this->model->usuariosMenores($fechaInicio, $fechaFin);
+            if (empty($data['usuariosMenores'])) $emptyData = true;
+
+            $data['usuariosAdultos'] = $this->model->usuariosAdultos($fechaInicio, $fechaFin);
+            if (empty($data['usuariosAdultos'])) $emptyData = true;
+
+            $data['usuariosMayores'] = $this->model->usuariosMayores($fechaInicio, $fechaFin);
+            if (empty($data['usuariosMayores'])) $emptyData = true;
+
+            $data['nuevosUsuarios'] = $this->model->nuevosUsuarios($fechaInicio, $fechaFin);
+            if (empty($data['nuevosUsuarios'])) $emptyData = true;
+
+            $data['usuariosGeneroF'] = $this->model->usuariosGeneroF($fechaInicio, $fechaFin);
+            if (empty($data['usuariosGeneroF'])) $emptyData = true;
+
+            $data['usuariosGeneroM'] = $this->model->usuariosGeneroM($fechaInicio, $fechaFin);
+            if (empty($data['usuariosGeneroM'])) $emptyData = true;
+
+            $data['preguntasCreadas'] = $this->model->preguntasCreadas($fechaInicio, $fechaFin);
+            if (empty($data['preguntasCreadas'])) $emptyData = true;
+
+            $data['partidasClasicas'] = $this->model->partidasClasicas($fechaInicio, $fechaFin);
+            if (empty($data['partidasClasicas'])) $emptyData = true;
+
+            $data['partidasDuelo'] = $this->model->partidasDuelo($fechaInicio, $fechaFin);
+            if (empty($data['partidasDuelo'])) $emptyData = true;
+
+            $data['porcentajeRespUser'] = $this->model->porcentajeRespUser($fechaInicio, $fechaFin);
+            if (empty($data['porcentajeRespUser'])) $emptyData = true;
+
+            if ($emptyData) {
+                echo "<script>alert('No hay datos para las fechas seleccionadas');</script>";
+            } else {
+                $this->generarGraficos($data, $fechaInicio, $fechaFin);
+            }
         }
+
         $this->presenter->render('homeAdmin', $data);
         return $data;
     }

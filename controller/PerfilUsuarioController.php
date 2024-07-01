@@ -56,6 +56,7 @@ class PerfilUsuarioController
     public function obtenerDatosUsuario($id){
         $data = $this->model->getDataUsuario($id);
         if(!empty($data)){
+            $data['partidas'] = $this->model->getPartidas($id);
             $data["genero"] = $this->obtenerGenero($data["genero"]);
             $qrLink = "http://localhost/PerfilUsuario/buscarUsuario?id=" . $id;
             $carpeta_destino = "public/img/profile_qrs/";

@@ -36,9 +36,30 @@ class LoginModel
               LIMIT 3";
         return $this->database->query($query);
     }
-// *********************** PreguntaMODEL:*********************************
-//PREGUNTAS REPORTADAS: puede revisar las preguntas reportadas, para aprobar o dar de baja
 
+    public function getDuelos($id_user)
+    {
+        $query = "
+        SELECT 
+            pdg.puntos_jug1, 
+            pdg.puntos_jug2, 
+            pdg.fecha, 
+            login1.username AS username_jug1, 
+            login2.username AS username_jug2
+        FROM 
+            partida_duelo_general AS pdg
+        JOIN 
+            login AS login1 ON pdg.id_jug1 = login1.id_usuario
+        JOIN 
+            login AS login2 ON pdg.id_jug2 = login2.id_usuario
+        WHERE 
+            pdg.id_jug1 = '$id_user' OR pdg.id_jug2 = '$id_user'
+        ORDER BY 
+            pdg.fecha DESC
+        LIMIT 2";
+
+        return $this->database->query($query);
+    }
 
 
 

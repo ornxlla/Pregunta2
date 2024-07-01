@@ -15,16 +15,11 @@
         {{#pregunta}}
             <form action="/Pregunta/actualizarPreguntaYRespuestas" method="POST">
 
-                <!-- Input hidden para el ID de la pregunta -->
                 <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
-
-                <!-- Textarea para modificar la pregunta -->
                 <div class="input-group">
                     <label for="pregunta_texto">Texto de la Pregunta:</label>
                     <textarea id="pregunta_texto" name="pregunta_texto" class="input-textarea">{{texto}}</textarea>
                 </div>
-
-                <!-- Selección de temática -->
                 <div class="input-group">
                     <label for="id_tematica">Tema:</label>
                     <select id="id_tematica" name="id_tematica" class="input-select">
@@ -33,9 +28,6 @@
                         {{/tematicas}}
                     </select>
                 </div>
-
-
-                <!-- Respuestas a modificar -->
                 {{#respuestas}}
                     <div class="input-group">
                         <input type="radio" name="respuesta_correcta" value="{{id_respuesta}}" {{#is_correcta}}checked{{/is_correcta}}>
@@ -43,8 +35,6 @@
                         <input type="hidden" name="id_respuesta[]" value="{{id_respuesta}}">
                     </div>
                 {{/respuestas}}
-
-                <!-- Botón para enviar el formulario -->
                 <button type="submit" class="button-submit">Guardar cambios</button>
             </form>
         {{/pregunta}}

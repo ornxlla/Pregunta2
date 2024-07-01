@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/estilos.css">
+    <link rel="stylesheet" href="../public/css/homeUserLogueado.css">
     <link rel="icon" href="../public/assets/favicon.ico" type="image/x-icon">
     <title>Home</title>
 </head>
@@ -38,7 +39,7 @@
 
 <main>
     {{#usuario}}
-        <h1 class="puntaje">MI PUNTAJE: {{puntaje}}</h1>
+        <h1 class="puntaje">¡Hola, bienvenid@!</h1>
         <div class="buttons-container">
             <a href="/Play" class="btn-custom">Nueva Partida</a>
             <a href="/Ranking" class="btn-custom">Ranking</a>
@@ -50,10 +51,18 @@
         {{#partidas}}
             <li>Puntos: {{puntos}}, Fecha: {{fecha}}, Jugador: {{username}}</li>
         {{/partidas}}
+
         {{^partidas}}
             <li>No has jugado ninguna partida aún.</li>
         {{/partidas}}
     </ul>
+
+    <h2 class="puntaje">DUELOS</h2>
+    <ul class="puntosPartidas">
+        {{#duelos}}
+            <li>Jugador: {{username_jug1}} Puntos: {{puntos_jug1}} - Jugador: {{username_jug2}} Puntos: {{puntos_jug2}} Fecha: {{fecha}}</li>
+        {{/duelos}}
+
 </main>
 <footer>
     <div class="acomodarFooter">
@@ -66,24 +75,3 @@
 </footer>
 </body>
 </html>
-
-<style>
-    .puntosPartidas {
-        list-style-type: none;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: fit-content;
-        margin: 0 auto;
-        border: 2px solid white;
-        padding: 2em;
-        border-radius: 1em;
-        background-color: cadetblue;
-    }
-
-    .puntosPartidas li {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-</style>

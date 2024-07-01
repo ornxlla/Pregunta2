@@ -95,12 +95,13 @@ class LoginController
             }
 
             $data['partidas'] = $this->model->getPartidas($_SESSION["Session_id"]);
-
+            $data['duelos'] = $this->model->getDuelos($_SESSION["Session_id"]);
             $this->presenter->render("homeUserLogueado", $data);
         } else {
             $this->cerrarSesion();
         }
     }
+
 
     public function cerrarSesion()
     {
