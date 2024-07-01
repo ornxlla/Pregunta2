@@ -224,7 +224,7 @@ button:hover {
 
 
 .buttons-container button {
-    margin: 0 10px;
+    margin:2em;
 }
 
 
@@ -439,7 +439,7 @@ ul li {
 
 .buttons-container {
     text-align: center;
-    margin-top: 20px;
+    margin: 2em;
 }
 
 .buttons-container button {
@@ -455,7 +455,7 @@ ul li {
     color: white;
     font-size: 1.5em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    margin: 1em;
+    margin: 0.5em;
 }
 
 .btn-custom {
@@ -592,21 +592,20 @@ th, td {
     padding: 0.5rem;
     border-radius: 5px;
     border: 2px solid red;
-    background-color: white;
-    font-family: 'Pixelify Sans', sans-serif;
+    background-color: #fa9b9b;
     font-size: 0.7em;
-    color: #e22424;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 300px;
     width: 100%;
+    font-weight: bold;
 }
 
 
-.error-message h1{
-    font-size: 1.5em;
+.error-message h4{
+    font-size: 1em;
 }
 
 .form {
@@ -618,7 +617,7 @@ th, td {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    margin-top: 10em;
+    margin-top: 8em;
 }
 .title {
     text-align: center;
