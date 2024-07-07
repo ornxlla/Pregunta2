@@ -16,7 +16,7 @@ class PerfilUsuarioController
         if(isset($_SESSION["Session_id"])) {
             $data["datos_usuario"] = $this->obtenerDatosUsuario($_SESSION["Session_id"]);
             if($data["datos_usuario"] == false){
-                header("location:/");   //USUARIO NO EXISTE -> Llevar a HOME
+                Redirect::root();   //USUARIO NO EXISTE -> Llevar a HOME
             }
             $data["datos_usuario"]["boton-editar"] = "TRUE";
             $this->presenter->render("perfil-usuario", $data);

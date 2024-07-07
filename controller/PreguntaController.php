@@ -35,7 +35,7 @@ class PreguntaController
         // Llamar al método del modelo para reportar la pregunta
         $reporteExitoso = $this->model->reportarPregunta($idPregunta);
 
-        header('Location: /');
+        Redirect::root();
         exit;
     }
 
@@ -55,9 +55,7 @@ class PreguntaController
         }
 
         $this->model->aprobarPregunta($idPregunta);
-
-        header("Location: /Pregunta/getPreguntasReportadas");
-        exit;
+        Redirect::to("/Pregunta/getPreguntasReportadas");
     }
 
 
@@ -79,9 +77,7 @@ class PreguntaController
         $this->model->darDeBajaPregunta($idPregunta);
 
         // Redireccionar después de realizar las operaciones
-        header("Location: /Pregunta/getPreguntasReportadas");
-        exit;
-
+        Redirect::to("Location: /Pregunta/getPreguntasReportadas");
     }
 
     public function mostrarFormularioCrearPreguntaSugerida()
@@ -112,8 +108,7 @@ class PreguntaController
                     }
                 }
 
-                header('Location: /');
-                exit();
+                Redirect::root();
             } else {
                 echo "Error: No se pudo insertar la pregunta.";
             }
@@ -146,8 +141,7 @@ class PreguntaController
         $this->model->aprobarPreguntaSugerida($idPregunta);
 
         // Redireccionar después de realizar las operaciones
-        header("Location: /Pregunta/getPreguntasSugeridas");
-        exit;
+        Redirect::to("/Pregunta/getPreguntasSugeridas");
     }
 
     public function mostrarFormularioModificarPreguntaYRespuesta()
@@ -218,9 +212,7 @@ class PreguntaController
                         return;
                     }
                 }
-
-                header("Location: /Pregunta/listadoGeneralPreguntas");
-                exit;
+                Redirect::to("/Pregunta/listadoGeneralPreguntas");
             } else {
                 echo "Error al actualizar la pregunta.";
             }
@@ -243,8 +235,7 @@ class PreguntaController
         $this->model->darDeBajaPregunta($idPregunta);
 
         // Redireccionar después de realizar las operaciones
-        header("Location: /Pregunta/listadoGeneralPreguntas");
-        exit;
+        Redirect::to("/Pregunta/listadoGeneralPreguntas");
     }
 
 }

@@ -18,7 +18,7 @@ class PlayController
     public function get(){
         if(!isset($_SESSION["Session_id"])){
             //Error en el usuario de sesion - Directo al HOME
-            header("Location: /");
+            Redirect::root();
         }
 
         if(isset($_SESSION["proxima_pregunta"])){
@@ -170,7 +170,7 @@ class PlayController
     public function playDuelo(){
         if(!isset($_SESSION["Session_id"])){
             //Error en el usuario de sesion - Directo al HOME
-            header("Location: /");
+            Redirect::root();
         }
 
         if(isset($_SESSION["proxima_pregunta"])){

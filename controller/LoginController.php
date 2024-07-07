@@ -43,7 +43,6 @@ class LoginController
                                 $sesionIniciada = $this->iniciarSesion($id_usuario, $username, $correo, $rol);
                                 if ($sesionIniciada === PHP_SESSION_ACTIVE) {
                                     Redirect::root();
-                                    //$this->redireccionarPorRol($rol);
                                 } else {
                                     $data["error"] = "Error al iniciar sesión.";
                                     $this->presenter->render("LoginView", $data);
@@ -106,26 +105,7 @@ class LoginController
     public function cerrarSesion()
     {
         session_destroy();
-        header("location:/");
-    }
-
-    public function redireccionarPorRol($rol)
-    {
-        switch ($rol) {
-            case 1:
-                header("Location: /homeUserLogueado");
-                break;
-            case 2:
-                $this->presenter->render("homeEditor");
-                break;
-            case 3:
-                $this->presenter->render("homeAdmin");
-                break;
-            default:
-                header("Location: /LoginView");
-                break;
-        }
-        exit();
+        Redirect::root();
     }
 }
 

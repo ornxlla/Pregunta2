@@ -97,7 +97,7 @@ class RegistroController
                 $this->presenter->render("bienvenidaUserValidado");
             } else {
                 // o ponemos un error
-                header("Location:/");
+                Redirect::root();
             }
         }
     }
