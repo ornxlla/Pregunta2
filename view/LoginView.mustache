@@ -6,7 +6,6 @@
 </head>
 <body class="d-flex align-items-center bodyLogin" >
 
-
 <div class="container">
     {{#error}}
         <div class="error-messageLogin">
@@ -14,24 +13,19 @@
         </div>
     {{/error}}
     <div class="row justify-content-center">
-
         <form class="form" action="/Login/procesar" method="POST">
-            <span class=" text-center h1 py-2 iniciarSesion"  >INICIAR SESIÓN</span>
-
-            <label for="username" class="label" id="username"  name="username" required >Nombre de usuario</label>
-            <input type="text"  id="username" name="username" required="" class="inputLogin" placeholder="usuario123@gmail.com">
-            <label for="password" class="label" >Contraseña</label>
+            <span class="text-center h1 py-2 iniciarSesion">INICIAR SESIÓN</span>
+            <label for="username" class="label" id="username" name="username" required>Nombre de usuario</label>
+            <input type="text" id="username" name="username" required="" class="inputLogin" placeholder="usuario123@gmail.com">
+            <label for="password" class="label">Contraseña</label>
             <input type="password" id="password" name="password" required="" class="inputLogin" placeholder="*****">
             <input type="hidden" id="lat" name="lat">
             <input type="hidden" id="long" name="long">
-
             <input type="submit" class="btn btn-light btn-outline-secondary" name="enviar" id="enviar" value="Ingresar">
-            <p class="mt-3 text-center text-secondary" >¿No tenés una cuenta? <a href="/Registro" style="text-decoration:none;">Registrate</a></p>
+            <p class="mt-3 text-center text-secondary">¿No tenés una cuenta? <a href="/Registro" style="text-decoration:none;">Registrate</a></p>
         </form>
     </div>
 </div>
-</div>
-
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

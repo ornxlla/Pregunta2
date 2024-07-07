@@ -12,7 +12,7 @@ if(strtolower($module) != 'login' && strtolower($module) != 'registro' && !isset
     $module = 'login';
     $action = 'get';
 }
-if(strtolower($module) == 'pregunta' && $action != "mostrarFormularioCrearPreguntaSugerida" && $action != 'crearPreguntaSugerida' &&  $_SESSION["Session_rol"] != 2){    //No rol de editor
+if(strtolower($module) == 'pregunta' && $action != "mostrarFormularioCrearPreguntaSugerida" && $action != 'crearPreguntaSugerida' && $action != "reportarPregunta" &&  $_SESSION["Session_rol"] != 2){    //No rol de editor
     echo "<script>alert('Acceso denegado');</script>";
     $module = 'login';
     $action = 'get';
